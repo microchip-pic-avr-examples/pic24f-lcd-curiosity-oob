@@ -7,6 +7,7 @@
 #include "timer_1ms.h"
 #include "mcc_generated_files/uart1.h"
 #include "operational_mode.h"
+#include "rtcc.h"
 
 //------------------------------------------------------------------------------
 //Application related definitions
@@ -39,6 +40,7 @@ static uint16_t red = 64;
 static uint16_t green = 32;
 static uint16_t blue = 16;
 static double temperature = 22.3;
+static RTCC_DATETIME date_time;
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
     &Initialize,
@@ -121,6 +123,9 @@ void Tasks(void)
 
     if(updatePrintout == true)
     {
+        date_time.bcdFormat = false;
+        RTCC_TimeGet(&date_time);
+        
         updatePrintout = false;
         printf("\033[8;0f");    //move cursor to row 8, column 0
         printf("Potentiometer: %i/4095    \r\n", potentiometer);
@@ -146,6 +151,7 @@ void Tasks(void)
         }
 
         printf("Temperature: %.1f C     \r\n", temperature);
+        printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.year, date_time.month, date_time.day, date_time.hour, date_time.minute, date_time.second);
     }
 }
 

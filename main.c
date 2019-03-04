@@ -18,8 +18,7 @@ limitations under the License.
 
 #include "power.h"
 #include "usb_operational_mode.h"
-
-#include <xc.h>
+#include "rtcc.h"
 
 static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
 static const struct OPERATIONAL_MODE *operational_mode = NULL;
@@ -49,7 +48,11 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 int main(void)
 {
     enum POWER_SOURCE new_source = POWER_GetSource();
-    double vdd; 
+    RTCC_DATETIME build_time;
+    
+    build_time.bcdFormat = false;
+    RTCC_BuildTimeGet(&build_time);
+    RTCC_Initialize(&build_time);
     
     while(1)
     {
@@ -63,11 +66,6 @@ int main(void)
         {
             operational_mode->Tasks();
             new_source = POWER_GetSource();
-            vdd = POWER_GetVddVoltage();
-            
-            Nop();
-            Nop();
-            Nop();
             
         } while( current_source == new_source );
     }
