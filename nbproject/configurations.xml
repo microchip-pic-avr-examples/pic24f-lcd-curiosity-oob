@@ -12,6 +12,7 @@
       <itemPath>battery_powered_mode.h</itemPath>
       <itemPath>operational_mode.h</itemPath>
       <itemPath>usb_operational_mode.h</itemPath>
+      <itemPath>power.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -32,6 +33,7 @@
       <itemPath>bsp/timer_1ms.c</itemPath>
       <itemPath>battery_powered_mode.c</itemPath>
       <itemPath>usb_operational_mode.c</itemPath>
+      <itemPath>power.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -244,7 +246,6 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>

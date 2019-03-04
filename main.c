@@ -16,40 +16,27 @@ limitations under the License.
 
 #include <stddef.h>
 
+#include "power.h"
 #include "usb_operational_mode.h"
 
-enum POWER_SOURCE
-{
-    UNKNOWN = -1,
-    USB = 0,
-    BATTERY
-};
+#include <xc.h>
 
-static enum POWER_SOURCE current_source = UNKNOWN;
+static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
 static const struct OPERATIONAL_MODE *operational_mode = NULL;
 
 //------------------------------------------------------------------------------
 //Functions
 //------------------------------------------------------------------------------
 
-static enum POWER_SOURCE GetCurrentPowerSource(void){
-    if(PORTBbits.RB2 == 1)
-    {
-        return USB;
-    }
-    
-    return BATTERY;
-}
-
 static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 {
     switch(new_source)
     {
-        case USB:
+        case POWER_SOURCE_USB:
             operational_mode = &usb_operational_mode;
             break;
 
-        case BATTERY:
+        case POWER_SOURCE_BATTERY:
             break;
             
         default:
@@ -61,7 +48,8 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 
 int main(void)
 {
-    enum POWER_SOURCE new_source = GetCurrentPowerSource();
+    enum POWER_SOURCE new_source = POWER_GetSource();
+    double vdd; 
     
     while(1)
     {
@@ -74,7 +62,13 @@ int main(void)
         do
         {
             operational_mode->Tasks();
-            new_source = GetCurrentPowerSource();
+            new_source = POWER_GetSource();
+            vdd = POWER_GetVddVoltage();
+            
+            Nop();
+            Nop();
+            Nop();
+            
         } while( current_source == new_source );
     }
     

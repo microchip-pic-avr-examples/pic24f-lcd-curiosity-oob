@@ -25,7 +25,9 @@ limitations under the License.
 
 typedef enum
 {
-    ADC_CHANNEL_16 = 16
+    ADC_CHANNEL_16 = 16,
+    ADC_CHANNEL_BAND_GAP = 28,
+    ADC_CHANNEL_VDD = 30
 } ADC_CHANNEL;
 
 typedef enum

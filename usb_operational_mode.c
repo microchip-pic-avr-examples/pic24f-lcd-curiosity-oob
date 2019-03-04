@@ -39,7 +39,6 @@ static uint16_t red = 64;
 static uint16_t green = 32;
 static uint16_t blue = 16;
 static double temperature = 22.3;
-static double battery_voltage = 2.4;
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
     &Initialize,
@@ -147,7 +146,6 @@ void Tasks(void)
         }
 
         printf("Temperature: %.1f C     \r\n", temperature);
-        printf("Battery Voltage: %.1f V     \r\n", battery_voltage);
     }
 }
 

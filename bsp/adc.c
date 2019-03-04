@@ -50,7 +50,9 @@ uint8_t ADC_ReadPercentage
     switch (channel)
     {
         case ADC_CHANNEL_16:
-            break ;
+        case ADC_CHANNEL_BAND_GAP:
+        case ADC_CHANNEL_VDD:
+            break ;            
 
         default:
             return 0xFF ;
@@ -92,7 +94,9 @@ uint16_t ADC_Read10bit ( ADC_CHANNEL channel )
     switch (channel)
     {
         case ADC_CHANNEL_16:
-            break ;
+        case ADC_CHANNEL_BAND_GAP:
+        case ADC_CHANNEL_VDD:
+            break;
 
         default:
             return 0xFFFF ;
@@ -139,6 +143,8 @@ uint16_t ADC_Read12bit ( ADC_CHANNEL channel )
     switch (channel)
     {
         case ADC_CHANNEL_16:
+        case ADC_CHANNEL_BAND_GAP:
+        case ADC_CHANNEL_VDD:
             break ;
 
         default:
@@ -179,6 +185,13 @@ bool ADC_ChannelEnable ( ADC_CHANNEL channel )
         case ADC_CHANNEL_16:
             ANSAbits.ANSA0 = PIN_ANALOG ;
             return true ;
+            
+        case ADC_CHANNEL_BAND_GAP:
+            ANCFGbits.VBGEN3 = 1;
+            return true;
+            
+        case ADC_CHANNEL_VDD:
+            return true;
 
         default:
             return false ;
@@ -209,27 +222,8 @@ bool ADC_SetConfiguration ( ADC_CONFIGURATION configuration )
         AD1CON2bits.SMPI = 0x0 ;
         AD1CON1bits.MODE12 = 0 ;
         AD1CON1bits.ADON = 1 ;
+        AD1CON5bits.BGREQ = 1; //request band gap
 
-        return true ;
-    }
-
-    else if (configuration ==  ADC_CONFIGURATION_AUTO_SAMPLE_CONVERT)
-    {
-        AD1CON1bits.SSRC  = 0b111 ;
-        AD1CON1bits.ASAM  = 0x01 ;
-        AD1CON2bits.PVCFG = 0x00 ;
-        AD1CON2bits.NVCFG0 = 0x0 ;
-        AD1CON2bits.SMPI  = 0x0 ;
-        AD1CON2bits.CSCNA = 0x0 ;
-        AD1CON2bits.ALTS  = 0x0 ;
-        AD1CON3bits.ADCS  = 0x2F ;
-        AD1CON3bits.SAMC  = 0b00011 ;
-        IEC0bits.AD1IE    = 1 ;
-        AD1CON1bits.MODE12 = 0 ;
-        AD1CON1bits.ADON = 1 ;
-        AD1CHS = ADC_CHANNEL_16 ;
-        IFS0bits.AD1IF = 0 ;
-        AD1CSSL = 0x0000 ;
         return true ;
     }
 
