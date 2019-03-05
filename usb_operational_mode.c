@@ -6,6 +6,7 @@
 #include "leds_rgb.h"
 #include "timer_1ms.h"
 #include "mcc_generated_files/uart1.h"
+#include "segmented_lcd.h"
 #include "operational_mode.h"
 #include "rtcc.h"
 
@@ -21,6 +22,14 @@ typedef enum
     BUTTON_COLOR_BLUE = 2
 } BUTTON_COLOR;
 
+enum DISPLAY_MODE
+{
+    DISPLAY_POT,
+    DISPLAY_TEMPERATURE,
+    DISPLAY_TIME,
+    DISPLAY_PIC24
+};
+
 //------------------------------------------------------------------------------
 //Private prototypes
 //------------------------------------------------------------------------------
@@ -34,6 +43,7 @@ static void Tasks(void);
 //------------------------------------------------------------------------------
 static volatile BUTTON_COLOR buttonColor = BUTTON_COLOR_RED;
 static volatile bool updatePrintout = true;
+static volatile enum DISPLAY_MODE display_mode = DISPLAY_PIC24;
 
 static uint16_t potentiometer;
 static uint16_t red = 64;
@@ -90,6 +100,9 @@ static void Initialize(void)
     printf("S2 - controls LED2, cycle what is on LCD display\r\n");
     printf("Potentiometer - controls active RGB color intensity\r\n");
     printf("\r\n");
+    
+    SEG_LCD_Initialize();
+    SEG_LCD_LowPowerModeEnable(false);
 }
 
 void Tasks(void)
@@ -152,6 +165,31 @@ void Tasks(void)
 
         printf("Temperature: %.1f C     \r\n", temperature);
         printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.year, date_time.month, date_time.day, date_time.hour, date_time.minute, date_time.second);
+        
+        switch(display_mode)
+        {
+            case DISPLAY_PIC24:
+                SEG_LCD_PrintPIC24();
+                break;
+
+            case DISPLAY_POT:
+                SEG_LCD_PrintPot(potentiometer);
+                break;
+
+            case DISPLAY_TIME:
+                SEG_LCD_PrintTime(date_time.hour, date_time.minute);
+                break;
+
+            case DISPLAY_TEMPERATURE:
+                SEG_LCD_PrintTemperature(temperature);
+                break;
+
+            default:
+                SEG_LCD_PrintPIC24();
+                break;
+        }
+    
+        SEG_LCD_SetBatteryStatus(BATTERY_STATUS_FULL);
     }
 }
 
@@ -177,6 +215,32 @@ static void ChangeColor(void)
 
         default:
             buttonColor = BUTTON_COLOR_RED;
+            break;
+    }
+}
+
+static void ChangeDisplayMode(void)
+{
+    switch(display_mode)
+    {
+        case DISPLAY_PIC24:
+            display_mode = DISPLAY_POT;
+            break;
+
+        case DISPLAY_POT:
+            display_mode = DISPLAY_TIME;
+            break;
+
+        case DISPLAY_TIME:
+            display_mode = DISPLAY_TEMPERATURE;
+            break;
+            
+        case DISPLAY_TEMPERATURE:
+            display_mode = DISPLAY_PIC24;
+            break;
+
+        default:
+            display_mode = DISPLAY_PIC24;
             break;
     }
 }
@@ -231,7 +295,7 @@ static void ButtonDebounce(void)
         //advance the RGB color channel user control selector.
         if(debounceCounterS2 == 0)
         {
-            ChangeColor();   
+            ChangeDisplayMode();   
         }
         
         //Reset the debounce countdown timer, so a new color change operation

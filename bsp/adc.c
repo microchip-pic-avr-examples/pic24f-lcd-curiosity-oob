@@ -106,10 +106,10 @@ uint16_t ADC_Read10bit ( ADC_CHANNEL channel )
 
     // Get an ADC sample
     AD1CON1bits.SAMP = 1 ;           //Start sampling
-    for (i = 0 ; i < 1000 ; i++) ; //Sample delay, conversion start automatically
+    for (i = 0 ; i < 10000 ; i++) { Nop(); } //Sample delay, conversion start automatically
 
     AD1CON1bits.SAMP = 0 ;           //Start sampling
-    for (i = 0 ; i < 1000 ; i++) ; //Sample delay, conversion start automatically
+    for (i = 0 ; i < 10000 ; i++) { Nop(); } //Sample delay, conversion start automatically
 
     while (!AD1CON1bits.DONE) ;       //Wait for conversion to complete
 
@@ -155,10 +155,10 @@ uint16_t ADC_Read12bit ( ADC_CHANNEL channel )
 
     // Get an ADC sample
     AD1CON1bits.SAMP = 1 ;           //Start sampling
-    for (i = 0 ; i < 1000 ; i++) ; //Sample delay, conversion start automatically
+    for (i = 0 ; i < 10000 ; i++) { Nop(); } //Sample delay, conversion start automatically
 
     AD1CON1bits.SAMP = 0 ;           //Start sampling
-    for (i = 0 ; i < 1000 ; i++) ; //Sample delay, conversion start automatically
+    for (i = 0 ; i < 10000 ; i++) { Nop(); } //Sample delay, conversion start automatically
 
     while (!AD1CON1bits.DONE) ;       //Wait for conversion to complete
 
