@@ -20,6 +20,7 @@ limitations under the License.
 struct OPERATIONAL_MODE
 {
     void (*Initialize)(void);
+    void (*Deinitialize)(void);
     void (*Tasks)(void);
 };
 

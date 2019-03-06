@@ -26,10 +26,12 @@ static void Set16Seg5(uint16_t data);
  *          ----- -----
  *            5     4
  **********************************/
-#define SEG16_C 0b0000000011110011
-#define SEG16_F 0b0000001111000011
-#define SEG16_4 0b0000001110001100
+#define SEG16_C     0b0000000011110011
+#define SEG16_F     0b0000001111000011
+#define SEG16_4     0b0000001110001100
 #define SEG16_BLANK 0b0000000000000000
+#define SEG16_A     0b0000001111001111
+#define SEG16_P     0b0000001111000111
 
 /**********************************
  *  Bit mapping for 7-seg character
@@ -124,8 +126,8 @@ static void Set16Seg5(uint16_t data);
 #define    X5   LCDDATA1bits.S27C0
 #define    X6   LCDDATA5bits.S28C1
 
-#define    X3_2   LCDSDATA1bits.S28C0
-#define    COLON_2 LCDSDATA29bits.S19C7
+#define    X3_BLINK     LCDSDATA1bits.S28C0
+#define    COLON_BLINK  LCDSDATA29bits.S19C7
 
 void SEG_LCD_Initialize(void) {
     // Initialize LCD: no charge pump, 8 common drivers
@@ -136,18 +138,30 @@ void SEG_LCD_Initialize(void) {
     LCDREFbits.VLCD1PE = 0; // Enable internal bias
     LCDREFbits.VLCD2PE = 0;
     LCDREFbits.VLCD3PE = 0;
-    LCDREFbits.LRLAP = 0x03; // ladder in High-Power Interval A (transition)
-    LCDREFbits.LRLBP = 0x03; // ladder in High-Power Interval B (steady state, for higher contrast ratio))
+    LCDREFbits.LRLAP = 0x01; // ladder in High-Power Interval A (transition)
+    LCDREFbits.LRLBP = 0x01; // ladder in High-Power Interval B (steady state, for higher contrast ratio))
     LCDREFbits.LRLAT = 0x03; // Internal LCD reference ladder is in A Power mode for 3 clocks and B Power mode for 13 clocks
     LCDREFbits.LCDIRE = 1; // Internal Reference Enable
-    LCDREFbits.LCDCST = 2; // Contrast is 2/7ths of maximum
-    LCDCONbits.LCDEN = 1; // enable LCD module
+    LCDREFbits.LCDCST = 0; // Contrast 
+    LCDREFbits.LCDIRE = 1;
+    
+    LCDREGbits.CLKSEL = 0b01; //LPRC
+    LCDREGbits.CPEN = 1;  //enable charge pump
 
     LCDSE0 = 0b0000000000010000;
     LCDSE1 = 0b0001111000001100;
     LCDSE2 = 0b0000000000000000;
     LCDSE3 = 0b0000000000000000;
-
+       
+    _SMEMEN = 1;
+    LCDFC1 = 256;
+    _DMSEL = 0b10;
+    _BLINKFCS = 0b001;
+    _BLINKMODE = 0b01;
+    _ELCDEN = 1;
+    
+    LCDCONbits.LCDEN = 1; // enable LCD module
+    
     X1 = 1;
 }
 
@@ -184,7 +198,25 @@ void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {
 
     memset(print_buffer, ' ', sizeof (print_buffer));
 
-    sprintf(print_buffer, "%02i", hour);
+    if(hour > 12)
+    {
+        hour -= 12;
+        Set16Seg5(SEG16_P);
+    }
+    else if(hour == 0)
+    {
+        hour = 12;
+        Set16Seg5(SEG16_A);
+    }
+    else if(hour == 12)
+    {
+        Set16Seg5(SEG16_P);
+    }
+    else
+    {
+        Set16Seg5(SEG16_A);
+    }
+    sprintf(print_buffer, "%2i", hour);
 
     SEG_LCD_PrintChar(print_buffer[0], 1);
     SEG_LCD_PrintChar(print_buffer[1], 2);
@@ -195,42 +227,45 @@ void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {
 
     SEG_LCD_PrintChar(print_buffer[0], 3);
     SEG_LCD_PrintChar(print_buffer[1], 4);
-    Set16Seg5(SEG16_BLANK);
     
-    _DMSEL = 0b10;
-    _BLINKFCS = 0b100;
-    COLON_2 = 1;
-    _BLINKMODE = 0b01;
-    _ELCDEN = 1;
+    COLON_BLINK = 1;
 }
 
 void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status) {
     switch (status) {
+        case BATTERY_STATUS_UNKNOWN:
+            X3 = 0;
+            X4 = 0;
+            X5 = 0;
+            X3_BLINK = 0;
+            break;
+            
         case BATTERY_STATUS_FULL:
             X3 = 1;
             X4 = 1;
             X5 = 1;
+            X3_BLINK = 0;
             break;
 
         case BATTERY_STATUS_MEDIUM:
             X3 = 1;
             X4 = 1;
             X5 = 0;
+            X3_BLINK = 0;
             break;
 
         case BATTERY_STATUS_LOW:
             X3 = 1;
             X4 = 0;
             X5 = 0;
+            X3_BLINK = 0;
             break;
 
         case BATTERY_STATUS_CRITICAL:
             X3 = 1;
             X4 = 0;
             X5 = 0;
-            X3_2 = 1;
-            _BLINKMODE = 0b01;
-            _ELCDEN = 1;
+            X3_BLINK = 1;
             break;
     }
 }
@@ -330,13 +365,21 @@ static const uint8_t ascii_7seg_numbers_convert[10] = {
     0b01100111  //9
 };
 
-static void SEG_LCD_PrintChar(char c, uint8_t location) {
+static uint8_t CharTo7Seg(char c)
+{
     uint8_t data = 0x0;
-
+    
     if ((c >= 0x30) && (c <= 0x39)) {
         data = ascii_7seg_numbers_convert[c - 0x30];
     }
+    
+    return data;
+}
 
+static void SEG_LCD_PrintChar(char c, uint8_t location) 
+{
+    uint8_t data = CharTo7Seg(c);
+    
     switch (location) {
         case 1:
             Set7Seg1(data);

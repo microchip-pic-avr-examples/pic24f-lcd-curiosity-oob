@@ -26,5 +26,6 @@ double POWER_GetVddVoltage(void)
     vdd = ADC_Read12bit(ADC_CHANNEL_VDD);
     band_gap = ADC_Read12bit(ADC_CHANNEL_BAND_GAP); 
     
-    return ( (1.2 * vdd) / band_gap);
+    /* 1.2v typical band gap reference voltage. */
+    return ( ( (1.2 * vdd) / band_gap ) );
 }

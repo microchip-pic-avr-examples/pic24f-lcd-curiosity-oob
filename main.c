@@ -18,6 +18,7 @@ limitations under the License.
 
 #include "power.h"
 #include "usb_operational_mode.h"
+#include "battery_operational_mode.h"
 #include "rtcc.h"
 
 static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
@@ -29,6 +30,11 @@ static const struct OPERATIONAL_MODE *operational_mode = NULL;
 
 static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 {
+    if(operational_mode != NULL)
+    {
+        operational_mode->Deinitialize();
+    }
+    
     switch(new_source)
     {
         case POWER_SOURCE_USB:
@@ -36,6 +42,7 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
             break;
 
         case POWER_SOURCE_BATTERY:
+            operational_mode = &battery_operational_mode;
             break;
             
         default:

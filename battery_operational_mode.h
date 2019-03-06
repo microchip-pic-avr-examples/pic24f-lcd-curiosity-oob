@@ -13,12 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 *******************************************************************************/
-
 #ifndef BATTERY_POWERED_MODE_H
 #define	BATTERY_POWERED_MODE_H
 
-void USBPoweredMode_Initialize(void);
-void USBPoweredMode_Tasks(void);
+#include "operational_mode.h"
+
+extern const struct OPERATIONAL_MODE battery_operational_mode;
 
 #endif	/* BATTERY_POWERED_MODE_H */
 

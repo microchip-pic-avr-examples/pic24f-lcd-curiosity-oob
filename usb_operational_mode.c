@@ -36,6 +36,7 @@ enum DISPLAY_MODE
 static void ButtonDebounce(void);
 static void UpdatePrintout(void);
 static void Initialize(void);
+static void Deinitialize(void);
 static void Tasks(void);
 
 //------------------------------------------------------------------------------
@@ -54,6 +55,7 @@ static RTCC_DATETIME date_time;
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
     &Initialize,
+    &Deinitialize,
     &Tasks
 };
 
@@ -103,6 +105,12 @@ static void Initialize(void)
     
     SEG_LCD_Initialize();
     SEG_LCD_LowPowerModeEnable(false);
+    SEG_LCD_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
+}
+
+static void Deinitialize(void)
+{
+
 }
 
 void Tasks(void)
@@ -188,8 +196,6 @@ void Tasks(void)
                 SEG_LCD_PrintPIC24();
                 break;
         }
-    
-        SEG_LCD_SetBatteryStatus(BATTERY_STATUS_FULL);
     }
 }
 
