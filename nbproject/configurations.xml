@@ -16,6 +16,7 @@
       <itemPath>bsp/rtcc.h</itemPath>
       <itemPath>bsp/segmented_lcd.h</itemPath>
       <itemPath>mcc_generated_files/uart1.h</itemPath>
+      <itemPath>tc77.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -40,6 +41,7 @@
       <itemPath>bsp/segmented_lcd.c</itemPath>
       <itemPath>bsp/timer_1ms.c</itemPath>
       <itemPath>mcc_generated_files/spi1_driver.c</itemPath>
+      <itemPath>tc77.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

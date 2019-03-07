@@ -365,12 +365,22 @@ static const uint8_t ascii_7seg_numbers_convert[10] = {
     0b01100111  //9
 };
 
+#define SEG7_MINUS 0b01000000;
+
 static uint8_t CharTo7Seg(char c)
 {
     uint8_t data = 0x0;
     
-    if ((c >= 0x30) && (c <= 0x39)) {
-        data = ascii_7seg_numbers_convert[c - 0x30];
+    switch(c)
+    {
+        case '-':
+            data = SEG7_MINUS;
+            break;
+        default:
+            if ((c >= 0x30) && (c <= 0x39)) {
+                data = ascii_7seg_numbers_convert[c - 0x30];
+            }
+            break;
     }
     
     return data;

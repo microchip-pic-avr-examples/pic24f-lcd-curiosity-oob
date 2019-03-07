@@ -9,6 +9,7 @@
 #include "segmented_lcd.h"
 #include "operational_mode.h"
 #include "rtcc.h"
+#include "tc77.h"
 
 //------------------------------------------------------------------------------
 //Application related definitions
@@ -35,6 +36,8 @@ enum DISPLAY_MODE
 //------------------------------------------------------------------------------
 static void ButtonDebounce(void);
 static void UpdatePrintout(void);
+static void UpdateTemperature(void);
+
 static void Initialize(void);
 static void Deinitialize(void);
 static void Tasks(void);
@@ -44,13 +47,14 @@ static void Tasks(void);
 //------------------------------------------------------------------------------
 static volatile BUTTON_COLOR buttonColor = BUTTON_COLOR_RED;
 static volatile bool updatePrintout = true;
+static volatile bool update_temperature = true;
 static volatile enum DISPLAY_MODE display_mode = DISPLAY_PIC24;
 
 static uint16_t potentiometer;
 static uint16_t red = 64;
 static uint16_t green = 32;
 static uint16_t blue = 16;
-static double temperature = 22.3;
+static double temperature;
 static RTCC_DATETIME date_time;
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
@@ -85,7 +89,8 @@ static void Initialize(void)
     //when the timer interrupts occur (in this case at 1:1 rate, so ButtonDebounce()
     //executes once per 1ms).
     TIMER_RequestTick(&ButtonDebounce, 1);
-    TIMER_RequestTick(&UpdatePrintout, 2);
+    TIMER_RequestTick(&UpdatePrintout, 5);
+    TIMER_RequestTick(&UpdateTemperature, 1000);
     
     _RP16R = 3;  //RF3[RP16] = U1TX
     
@@ -115,6 +120,12 @@ static void Deinitialize(void)
 
 void Tasks(void)
 {
+    if(update_temperature == true)
+    {
+        update_temperature = false;
+        temperature = TC77_GetTemperatureCelsius();
+    }
+    
     //Fetch an ADC sample from the potentiometer
     potentiometer = ADC_Read12bit(ADC_CHANNEL_POTENTIOMETER);
 
@@ -326,4 +337,9 @@ static void ButtonDebounce(void)
 static void UpdatePrintout(void)
 {
     updatePrintout = true;
+}
+
+static void UpdateTemperature(void)
+{
+    update_temperature = true;
 }
