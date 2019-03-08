@@ -10,28 +10,11 @@ static void Set7Seg2(uint8_t data);
 static void Set7Seg3(uint8_t data);
 static void Set7Seg4(uint8_t data);
 static void Set16Seg5(uint16_t data);
-
-/**********************************
- *  Bit mapping for 16-seg character
- **********************************
- *            0     1
- *          ----- -----
- *         | \   |   / |
- *       7 |  10 11 12 | 2
- *         |   \ | /   |
- *          --8-- --9--
- *         |   / | \   |
- *       6 |  15 14 13 | 3
- *         | /   |   \ |
- *          ----- -----
- *            5     4
- **********************************/
-#define SEG16_C     0b0000000011110011
-#define SEG16_F     0b0000001111000011
-#define SEG16_4     0b0000001110001100
-#define SEG16_BLANK 0b0000000000000000
-#define SEG16_A     0b0000001111001111
-#define SEG16_P     0b0000001111000111
+static void Set7Seg1_Alternate(uint8_t data);
+static void Set7Seg2_Alternate(uint8_t data);
+static void Set7Seg3_Alternate(uint8_t data);
+static void Set7Seg4_Alternate(uint8_t data);
+static void Set16Seg5_Alternate(uint16_t data);
 
 /**********************************
  *  Bit mapping for 7-seg character
@@ -54,6 +37,14 @@ static void Set16Seg5(uint16_t data);
 #define    CHAR1_F  LCDDATA4bits.S04C1
 #define    CHAR1_G  LCDDATA5bits.S18C1
 
+#define    CHAR1_A_SDATA  LCDSDATA0bits.S04C0
+#define    CHAR1_B_SDATA  LCDSDATA1bits.S18C0
+#define    CHAR1_C_SDATA  LCDSDATA9bits.S18C2
+#define    CHAR1_D_SDATA  LCDSDATA12bits.S04C3
+#define    CHAR1_E_SDATA  LCDSDATA8bits.S04C2
+#define    CHAR1_F_SDATA  LCDSDATA4bits.S04C1
+#define    CHAR1_G_SDATA  LCDSDATA5bits.S18C1
+
 #define    CHAR2_A  LCDDATA16bits.S04C4
 #define    CHAR2_B  LCDDATA17bits.S18C4
 #define    CHAR2_C  LCDDATA25bits.S18C6
@@ -61,6 +52,14 @@ static void Set16Seg5(uint16_t data);
 #define    CHAR2_E  LCDDATA24bits.S04C6
 #define    CHAR2_F  LCDDATA20bits.S04C5
 #define    CHAR2_G  LCDDATA21bits.S18C5
+
+#define    CHAR2_A_SDATA  LCDSDATA16bits.S04C4
+#define    CHAR2_B_SDATA  LCDSDATA17bits.S18C4
+#define    CHAR2_C_SDATA  LCDSDATA25bits.S18C6
+#define    CHAR2_D_SDATA  LCDSDATA28bits.S04C7
+#define    CHAR2_E_SDATA  LCDSDATA24bits.S04C6
+#define    CHAR2_F_SDATA  LCDSDATA20bits.S04C5
+#define    CHAR2_G_SDATA  LCDSDATA21bits.S18C5
 
 #define    CHAR3_A  LCDDATA17bits.S19C4
 #define    CHAR3_B  LCDDATA17bits.S25C4
@@ -70,6 +69,14 @@ static void Set16Seg5(uint16_t data);
 #define    CHAR3_F  LCDDATA21bits.S19C5
 #define    CHAR3_G  LCDDATA21bits.S25C5
 
+#define    CHAR3_A_SDATA  LCDSDATA17bits.S19C4
+#define    CHAR3_B_SDATA  LCDSDATA17bits.S25C4
+#define    CHAR3_C_SDATA  LCDSDATA25bits.S25C6
+#define    CHAR3_D_SDATA  LCDSDATA29bits.S25C7
+#define    CHAR3_E_SDATA  LCDSDATA25bits.S19C6
+#define    CHAR3_F_SDATA  LCDSDATA21bits.S19C5
+#define    CHAR3_G_SDATA  LCDSDATA21bits.S25C5
+
 #define    CHAR4_A  LCDDATA1bits.S19C0
 #define    CHAR4_B  LCDDATA1bits.S25C0
 #define    CHAR4_C  LCDDATA9bits.S25C2
@@ -78,6 +85,47 @@ static void Set16Seg5(uint16_t data);
 #define    CHAR4_F  LCDDATA5bits.S19C1
 #define    CHAR4_G  LCDDATA5bits.S25C1
 
+#define    CHAR4_A_SDATA  LCDSDATA1bits.S19C0
+#define    CHAR4_B_SDATA  LCDSDATA1bits.S25C0
+#define    CHAR4_C_SDATA  LCDSDATA9bits.S25C2
+#define    CHAR4_D_SDATA  LCDSDATA13bits.S25C3
+#define    CHAR4_E_SDATA  LCDSDATA9bits.S19C2
+#define    CHAR4_F_SDATA  LCDSDATA5bits.S19C1
+#define    CHAR4_G_SDATA  LCDSDATA5bits.S25C1
+
+/**********************************
+ *  Bit mapping for 7-seg character
+ **********************************
+ *            0
+ *          -----
+ *         |     |
+ *       5 |  6  | 1
+ *          -----
+ *         |     | 
+ *       4 |  3  | 2
+ *          -----
+ **********************************/
+static const uint8_t ascii_7seg_numbers_convert[10] = {
+    0b00111111, //0
+    0b00000110, //1
+    0b01011011, //2
+    0b01001111, //3
+    0b01100110, //4
+    0b01101101, //5
+    0b01111101, //6
+    0b00000111, //7
+    0b01111111, //8
+    0b01100111  //9
+};
+
+#define SEG7_BLANK  0b00000000 //
+#define SEG7_MINUS  0b01000000 //-
+#define SEG7_P      0b01110011 //P
+#define SEG7_I      0b00110000 //I
+#define SEG7_C      0b00111001 //C
+#define SEG7_2      0b01011011 //2
+#define SEG7_L      0b00111000 //L
+    
 /**********************************
  *  Bit mapping for 16-seg character
  **********************************
@@ -111,6 +159,47 @@ static void Set16Seg5(uint16_t data);
 #define    CHAR5_O  LCDDATA21bits.S27C5
 #define    CHAR5_P  LCDDATA21bits.S26C5
 
+#define    CHAR5_A_SDATA  LCDSDATA5bits.S27C1
+#define    CHAR5_B_SDATA  LCDSDATA9bits.S28C2
+#define    CHAR5_C_SDATA  LCDSDATA17bits.S28C4
+#define    CHAR5_D_SDATA  LCDSDATA25bits.S28C6
+#define    CHAR5_E_SDATA  LCDSDATA29bits.S27C7
+#define    CHAR5_F_SDATA  LCDSDATA25bits.S26C6
+#define    CHAR5_G_SDATA  LCDSDATA17bits.S26C4
+#define    CHAR5_H_SDATA  LCDSDATA13bits.S26C3
+#define    CHAR5_I_SDATA  LCDSDATA17bits.S27C4
+#define    CHAR5_J_SDATA  LCDSDATA21bits.S28C5
+#define    CHAR5_K_SDATA  LCDSDATA9bits.S27C2
+#define    CHAR5_L_SDATA  LCDSDATA13bits.S27C3
+#define    CHAR5_M_SDATA  LCDSDATA13bits.S28C3
+#define    CHAR5_N_SDATA  LCDSDATA25bits.S27C6
+#define    CHAR5_O_SDATA  LCDSDATA21bits.S27C5
+#define    CHAR5_P_SDATA  LCDSDATA21bits.S26C5
+
+/**********************************
+ *  Bit mapping for 16-seg character
+ **********************************
+ *            0     1
+ *          ----- -----
+ *         | \   |   / |
+ *       7 |  10 11 12 | 2
+ *         |   \ | /   |
+ *          --8-- --9--
+ *         |   / | \   |
+ *       6 |  15 14 13 | 3
+ *         | /   |   \ |
+ *          ----- -----
+ *            5     4
+ **********************************/
+#define SEG16_C     0b0000000011110011
+#define SEG16_F     0b0000001111000011
+#define SEG16_4     0b0000001110001100
+#define SEG16_BLANK 0b0000000000000000
+#define SEG16_A     0b0000001111001111
+#define SEG16_P     0b0000001111000111
+#define SEG16_D     0b0100100000111111
+
+
 #define    DP1  LCDDATA13bits.S18C3
 #define    DP2  LCDDATA29bits.S18C7
 #define    DP3  LCDDATA13bits.S19C3
@@ -128,6 +217,7 @@ static void Set16Seg5(uint16_t data);
 
 #define    X3_BLINK     LCDSDATA1bits.S28C0
 #define    COLON_BLINK  LCDSDATA29bits.S19C7
+#define    X1_BLINK     LCDSDATA5bits.S26C1
 
 void SEG_LCD_Initialize(void) {
     // Initialize LCD: no charge pump, 8 common drivers
@@ -155,19 +245,50 @@ void SEG_LCD_Initialize(void) {
     
     _SMEMEN = 1;
     LCDFC1 = 256;
-    _DMSEL = 0b10;
-    _BLINKFCS = 0b001;
-    _BLINKMODE = 0b01;
-    _ELCDEN = 1;
     
     LCDCONbits.LCDEN = 1; // enable LCD module
     
     X1 = 1;
 }
 
+void SEG_LCD_PrintPIC24(void) {   
+    COLON_BLINK = 0;
+    COLON = 0;
+    DP1 = 0;
+    DP2 = 0;
+    DP3 = 0;
+    DP4 = 0;
+    DP5 = 0;
+    DP6 = 0;
+    X1_BLINK = 1;
+
+    Set7Seg1(SEG7_P);       //P
+    Set7Seg2(SEG7_I);       //I
+    Set7Seg3(SEG7_C);       //C
+    Set7Seg4(SEG7_2);       //2
+    Set16Seg5(SEG16_4);     //4
+    
+    Set7Seg1_Alternate(SEG7_BLANK);   // 
+    Set7Seg2_Alternate(SEG7_BLANK);   // 
+    Set7Seg3_Alternate(SEG7_L);       //L
+    Set7Seg4_Alternate(SEG7_C);       //C
+    Set16Seg5_Alternate(SEG16_D);     //D
+    
+    _SMEMEN = 1;
+    _PMEMDIS = 0;
+    _SMFCS = 1;
+    _DMSEL = 0b11;
+    _BLINKMODE = 0b00;
+    LCDFC0=0x1FF;
+    LCDACTRLbits.FCCS=00; // LCD clock source
+    _ELCDEN = 1;
+}
+
 static char print_buffer[10];
 
 void SEG_LCD_PrintPot(uint16_t value) {
+    _ELCDEN = 0;
+    
     memset(print_buffer, ' ', sizeof (print_buffer));
 
     sprintf(print_buffer, "%04i", value);
@@ -187,7 +308,15 @@ void SEG_LCD_PrintPot(uint16_t value) {
     Set16Seg5(SEG16_BLANK);
 }
 
-void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {
+void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {  
+    _BLINKMODE = 0b01;
+    _BLINKFCS = 0b001;
+    _DMSEL = 0b10;
+    _SMEMEN = 1;
+    LCDFC0 = 0;
+    LCDFC1 = 256;
+    _ELCDEN = 1;
+    
     COLON = 1;
     DP1 = 0;
     DP2 = 0;
@@ -195,7 +324,14 @@ void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {
     DP4 = 0;
     DP5 = 0;
     DP6 = 0;
+    X1_BLINK = 0;
 
+    Set7Seg1_Alternate(SEG7_BLANK);   // 
+    Set7Seg2_Alternate(SEG7_BLANK);   // 
+    Set7Seg3_Alternate(SEG7_BLANK);   // 
+    Set7Seg4_Alternate(SEG7_BLANK);   // 
+    Set16Seg5_Alternate(SEG16_BLANK); // 
+    
     memset(print_buffer, ' ', sizeof (print_buffer));
 
     if(hour > 12)
@@ -277,6 +413,8 @@ void SEG_LCD_LowPowerModeEnable(bool enabled) {
 void SEG_LCD_PrintTemperature(double temp) {
     unsigned int i;
     unsigned int character;
+    
+    _ELCDEN = 0;
 
     COLON = 0;
     DP5 = 1;
@@ -323,49 +461,6 @@ void SEG_LCD_PrintTemperature(double temp) {
     
     Set16Seg5(SEG16_C);
 }
-
-void SEG_LCD_PrintPIC24(void) {
-    COLON = 0;
-    DP1 = 0;
-    DP2 = 0;
-    DP3 = 0;
-    DP4 = 0;
-    DP5 = 0;
-    DP6 = 0;
-
-    Set7Seg1(0b01110011);   //P
-    Set7Seg2(0b00110000);   //I
-    Set7Seg3(0b00111001);   //C
-    Set7Seg4(0b01011011);   //2
-    Set16Seg5(SEG16_4);     //4
-}
-
-/**********************************
- *  Bit mapping for 7-seg character
- **********************************
- *            0
- *          -----
- *         |     |
- *       5 |  6  | 1
- *          -----
- *         |     | 
- *       4 |  3  | 2
- *          -----
- **********************************/
-static const uint8_t ascii_7seg_numbers_convert[10] = {
-    0b00111111, //0
-    0b00000110, //1
-    0b01011011, //2
-    0b01001111, //3
-    0b01100110, //4
-    0b01101101, //5
-    0b01111101, //6
-    0b00000111, //7
-    0b01111111, //8
-    0b01100111  //9
-};
-
-#define SEG7_MINUS 0b01000000;
 
 static uint8_t CharTo7Seg(char c)
 {
@@ -508,4 +603,102 @@ static void Set16Seg5(uint16_t data) {
     CHAR5_O = data & 0x01;
     data >>= 1;
     CHAR5_P = data & 0x01;
+}
+
+static void Set7Seg1_Alternate(uint8_t data) {
+    CHAR1_A_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_B_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_C_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_D_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_E_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_F_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR1_G_SDATA = data & 0x01;
+}
+
+static void Set7Seg2_Alternate(uint8_t data) {
+    CHAR2_A_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_B_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_C_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_D_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_E_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_F_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR2_G_SDATA = data & 0x01;
+}
+
+static void Set7Seg3_Alternate(uint8_t data) {
+    CHAR3_A_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_B_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_C_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_D_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_E_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_F_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR3_G_SDATA = data & 0x01;
+}
+
+static void Set7Seg4_Alternate(uint8_t data) {
+    CHAR4_A_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_B_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_C_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_D_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_E_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_F_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR4_G_SDATA = data & 0x01;
+}
+
+static void Set16Seg5_Alternate(uint16_t data) {
+    CHAR5_A_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_B_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_C_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_D_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_E_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_F_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_G_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_H_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_I_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_J_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_K_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_L_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_M_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_N_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_O_SDATA = data & 0x01;
+    data >>= 1;
+    CHAR5_P_SDATA = data & 0x01;
 }
