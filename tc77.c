@@ -1,13 +1,26 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <xc.h>
+
+#include "mcc_generated_files/spi1_types.h"
+#include "mcc_generated_files/spi1_driver.h"
 
 static bool running = false;
 
 #define DEGREES_PER_BIT 0.0625
 
+#define CHIP_SELECT_PIN     _RB11
+#define CHIP_SELECT_TRIS    _TRISB11
+
+#define CHIP_ENABLE 0
+#define CHIP_DISABLE 1
+
+#define INPUT 1
+#define OUTPUT 0
+
 void TC77_Initialize(void)
 {
-    
+    CHIP_SELECT_TRIS = OUTPUT;
 }
 
 void TC77_Shutdown(void)
@@ -43,12 +56,41 @@ static double convert(uint16_t data)
     }
 }
 
+inline static bool IsValid(uint16_t data)
+{
+    return ((data & 0x04) == 0x04);
+}
+
 double TC77_GetTemperatureCelsius(void)
 {    
+    uint8_t byte1, byte2, byte3, byte4;
+    uint16_t data;
+    
     if(running == false)
     {
         running = true;
     }
     
-    return convert(0xE487);
+    while(spi1_open(SPI1_DEFAULT) == false)
+    {
+    }
+    
+    do
+    {
+        CHIP_SELECT_PIN = CHIP_ENABLE;
+        byte1 = spi1_exchangeByte(0x00);
+        byte2 = spi1_exchangeByte(0x00);
+        byte3 = spi1_exchangeByte(0x00);    
+        byte4 = spi1_exchangeByte(0x00);
+        CHIP_SELECT_PIN = CHIP_DISABLE;   
+        
+        data = byte1;
+        data <<= 8;
+        data |= byte2;
+
+    } while ( IsValid(data) == false );
+    
+    spi1_close();
+    
+    return convert(data);
 }

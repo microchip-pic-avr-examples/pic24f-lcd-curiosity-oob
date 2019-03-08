@@ -46,7 +46,7 @@ bool spi1_open(spi1_modes spiUniqueConfiguration)
         SPI1CON1L = spi1_configuration[spiUniqueConfiguration].con1;
         SPI1BRGL = spi1_configuration[spiUniqueConfiguration].brg;
         
-        //No SCK Pin Selected = spi1_configuration[spiUniqueConfiguration].operation;
+        TRISDbits.TRISD4 = spi1_configuration[spiUniqueConfiguration].operation;
         SPI1CON1Lbits.SPIEN = 1;
         return true;
     }

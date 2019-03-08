@@ -45,8 +45,8 @@ static void Tasks(void);
 //------------------------------------------------------------------------------
 //Global variables
 //------------------------------------------------------------------------------
-static volatile BUTTON_COLOR buttonColor = BUTTON_COLOR_RED;
-static volatile bool updatePrintout = true;
+static volatile BUTTON_COLOR button_color = BUTTON_COLOR_RED;
+static volatile bool update_printout = true;
 static volatile bool update_temperature = true;
 static volatile enum DISPLAY_MODE display_mode = DISPLAY_PIC24;
 
@@ -92,7 +92,15 @@ static void Initialize(void)
     TIMER_RequestTick(&UpdatePrintout, 5);
     TIMER_RequestTick(&UpdateTemperature, 1000);
     
-    _RP16R = 3;  //RF3[RP16] = U1TX
+    //UART PPS
+    _RP16R = 3;     //RF3[RP16] = U1TX
+    
+    //SPI PPS
+    _RP22R = 7;     //MOSI
+    _RP25R = 8;     //SCK
+    _SDI1R = 23;    //MISO
+    
+    ANSELD &= 0b1111111111101111;
     
     UART1_Initialize();
     
@@ -111,6 +119,8 @@ static void Initialize(void)
     SEG_LCD_Initialize();
     SEG_LCD_LowPowerModeEnable(false);
     SEG_LCD_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
+    
+    TC77_Initialize();
 }
 
 static void Deinitialize(void)
@@ -119,20 +129,14 @@ static void Deinitialize(void)
 }
 
 void Tasks(void)
-{
-    if(update_temperature == true)
-    {
-        update_temperature = false;
-        temperature = TC77_GetTemperatureCelsius();
-    }
-    
+{   
     //Fetch an ADC sample from the potentiometer
     potentiometer = ADC_Read12bit(ADC_CHANNEL_POTENTIOMETER);
 
     //Use the potentiometer ADC value to set the brightness of the currently
     //selected color channel on the RGB LED.  The "currently selected channel"
     //is manually selected by the user at runtime by pressing the pushbuttons.
-    switch(buttonColor)
+    switch(button_color)
     {
         case BUTTON_COLOR_RED:
             red = (potentiometer>>2);
@@ -153,18 +157,18 @@ void Tasks(void)
     //Update the PWM values controlling the intensity of the RGB LED channels.
     LED_RGB_Set(LED_RGB_LED3, red, green, blue);
 
-    if(updatePrintout == true)
+    if(update_printout == true)
     {
         date_time.bcdFormat = false;
         RTCC_TimeGet(&date_time);
         
-        updatePrintout = false;
+        update_printout = false;
         printf("\033[8;0f");    //move cursor to row 8, column 0
         printf("Potentiometer: %i/4095    \r\n", potentiometer);
         printf("Current color (r,g,b): %i, %i, %i           \r\n", red, green, blue);
         printf("Active color: ");
 
-        switch(buttonColor)
+        switch(button_color)
         {
             case BUTTON_COLOR_RED:
                 printf("red      \r\n");
@@ -182,7 +186,7 @@ void Tasks(void)
                 break;
         }
 
-        printf("Temperature: %.1f C     \r\n", temperature);
+        printf("Temperature: %.2f C     \r\n", temperature);
         printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.year, date_time.month, date_time.day, date_time.hour, date_time.minute, date_time.second);
         
         switch(display_mode)
@@ -200,6 +204,11 @@ void Tasks(void)
                 break;
 
             case DISPLAY_TEMPERATURE:
+                if(update_temperature == true)
+                {
+                    update_temperature = false;
+                    temperature = TC77_GetTemperatureCelsius();
+                }
                 SEG_LCD_PrintTemperature(temperature);
                 break;
 
@@ -216,22 +225,22 @@ void Tasks(void)
 //press events.
 static void ChangeColor(void)
 {         
-    switch(buttonColor)
+    switch(button_color)
     {
         case BUTTON_COLOR_RED:
-            buttonColor = BUTTON_COLOR_GREEN;
+            button_color = BUTTON_COLOR_GREEN;
             break;
 
         case BUTTON_COLOR_GREEN:
-            buttonColor = BUTTON_COLOR_BLUE;
+            button_color = BUTTON_COLOR_BLUE;
             break;
 
         case BUTTON_COLOR_BLUE:
-            buttonColor = BUTTON_COLOR_RED;
+            button_color = BUTTON_COLOR_RED;
             break;
 
         default:
-            buttonColor = BUTTON_COLOR_RED;
+            button_color = BUTTON_COLOR_RED;
             break;
     }
 }
@@ -336,7 +345,7 @@ static void ButtonDebounce(void)
 
 static void UpdatePrintout(void)
 {
-    updatePrintout = true;
+    update_printout = true;
 }
 
 static void UpdateTemperature(void)

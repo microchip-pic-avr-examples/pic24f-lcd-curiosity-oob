@@ -152,7 +152,7 @@ void SEG_LCD_Initialize(void) {
     LCDSE1 = 0b0001111000001100;
     LCDSE2 = 0b0000000000000000;
     LCDSE3 = 0b0000000000000000;
-       
+    
     _SMEMEN = 1;
     LCDFC1 = 256;
     _DMSEL = 0b10;

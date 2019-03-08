@@ -17,6 +17,8 @@
       <itemPath>bsp/segmented_lcd.h</itemPath>
       <itemPath>mcc_generated_files/uart1.h</itemPath>
       <itemPath>tc77.h</itemPath>
+      <itemPath>mcc_generated_files/spi1_driver.h</itemPath>
+      <itemPath>mcc_generated_files/spi1_types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
