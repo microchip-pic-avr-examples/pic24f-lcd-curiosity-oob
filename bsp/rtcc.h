@@ -32,8 +32,26 @@ typedef struct
     uint8_t second;
 } RTCC_DATETIME;
 
+enum RTCC_ALARM_FREQUENCY
+{
+    RTCC_ALARM_FREQUENCY_HALF_SECOND    = 0b0000,
+    RTCC_ALARM_FREQUENCY_SECOND         = 0b0001,
+    RTCC_ALARM_FREQUENCY_10_SECONDS     = 0b0010,
+    RTCC_ALARM_FREQUENCY_MINUTE         = 0b0011,
+    RTCC_ALARM_FREQUENCY_10_MINUTES     = 0b0100,
+    RTCC_ALARM_FREQUENCY_HOUR           = 0b0101,
+    RTCC_ALARM_FREQUENCY_DAY            = 0b0110,
+    RTCC_ALARM_FREQUENCY_WEEK           = 0b0111,
+    RTCC_ALARM_FREQUENCY_MONTH          = 0b1000,
+    RTCC_ALARM_FREQUENCY_YEAR           = 0b1001
+};
+
 void RTCC_Initialize (RTCC_DATETIME * value);
 void RTCC_TimeGet (RTCC_DATETIME * value);
 void RTCC_BuildTimeGet( RTCC_DATETIME *dateTime);
+void RTCC_AlarmEnable(bool enable);
+void RTCC_ChimeEnable(bool enable);
+void RTCC_AlarmSet(RTCC_DATETIME * alarm, uint8_t count);
+void RTCC_AlarmFrequency(enum RTCC_ALARM_FREQUENCY frequency);
 
 #endif

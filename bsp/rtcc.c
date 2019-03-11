@@ -229,3 +229,51 @@ static uint8_t RTCC_BCDToDec (uint8_t value)
     return ((value >> 4) * 10) + (value & 0x0F);
 }
 
+void RTCC_ChimeEnable(bool enable)
+{
+    _CHIME = enable;
+}
+
+void RTCC_AlarmSet(RTCC_DATETIME * alarm, uint8_t count)
+{
+    bool alarm_enabled = _ALRMEN;
+    
+    _ALRMEN = 0;
+    
+   // Set it to the correct time
+   if (alarm->bcdFormat)
+   {
+       ALMDATEH = (alarm->year << 8) | ((uint16_t)(alarm->month));
+       ALMDATEL = (((uint16_t)(alarm->day)) << 8 ) | ((uint16_t)(alarm->weekday));
+       ALMTIMEH = (((uint16_t)(alarm->hour)) << 8 ) | ((uint16_t)(alarm->minute));
+       ALMTIMEL = (((uint16_t)(alarm->second)) << 8);
+   }
+   else
+   {
+       ALMDATEH = (((uint16_t)RTCC_DecToBCD(alarm->year)) << 8) | ((uint16_t)RTCC_DecToBCD(alarm->month));
+       ALMDATEL = (((uint16_t)RTCC_DecToBCD(alarm->day)) << 8) | ((uint16_t)RTCC_DecToBCD(alarm->weekday));
+       ALMTIMEH = (((uint16_t)RTCC_DecToBCD(alarm->hour)) << 8) | ((uint16_t)RTCC_DecToBCD(alarm->minute));
+       ALMTIMEL = (((uint16_t)RTCC_DecToBCD(alarm->second)) << 8);
+   }
+    
+    _ALMRPT = count;
+    
+    _ALRMEN = alarm_enabled;
+}
+
+void RTCC_AlarmFrequency(enum RTCC_ALARM_FREQUENCY frequency)
+{
+    _AMASK = frequency;
+}
+
+void RTCC_AlarmEnable(bool enable)
+{
+    _RTCIF = 0;
+    _ALRMEN = enable;
+    _RTCIE = enable;
+}
+
+void __attribute__ ( ( __interrupt__ , auto_psv ) ) _RTCCInterrupt ( void )
+{
+    _RTCIF = 0;
+}

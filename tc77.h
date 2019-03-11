@@ -3,5 +3,6 @@
 
 void TC77_Initialize(void);
 double TC77_GetTemperatureCelsius(void);
+void TC77_Shutdown(void);
 
 #endif

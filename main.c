@@ -38,7 +38,7 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
     switch(new_source)
     {
         case POWER_SOURCE_USB:
-            operational_mode = &usb_operational_mode;
+            operational_mode = &battery_operational_mode;
             break;
 
         case POWER_SOURCE_BATTERY:

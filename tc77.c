@@ -25,7 +25,18 @@ void TC77_Initialize(void)
 
 void TC77_Shutdown(void)
 {
+    while(spi1_open(SPI1_DEFAULT) == false)
+    {
+    }
     
+    CHIP_SELECT_PIN = CHIP_ENABLE;
+    (void)spi1_exchangeByte(0x00);
+    (void)spi1_exchangeByte(0x00);
+    (void)spi1_exchangeByte(0xFF);    
+    (void)spi1_exchangeByte(0xFF);    //Shutdown = 0xFF in control byte
+    CHIP_SELECT_PIN = CHIP_DISABLE;   
+    
+    spi1_close();
 }
 
 inline static bool isNegative(uint16_t data)

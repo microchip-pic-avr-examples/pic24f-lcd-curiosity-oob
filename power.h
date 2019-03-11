@@ -10,6 +10,7 @@ enum POWER_SOURCE
 
 enum POWER_SOURCE POWER_GetSource(void);
 double POWER_GetVddVoltage(void);
+double POWER_GetBatteryVoltage(void);
 
 #endif	/* POWER_H */
 

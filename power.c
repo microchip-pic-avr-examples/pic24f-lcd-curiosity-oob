@@ -2,6 +2,12 @@
 #include "adc.h"
 #include "power.h"
 
+#define BANDGAP_TYPICAL_VOLTAGE     1.2
+
+/* Datasheet of D1 claims 0.240v max. But doesn't specify a typical value.
+ * Using typical value measure on a few development boards during development */
+#define DIODE_D1_DROP               0.12
+
 enum POWER_SOURCE POWER_GetSource(void){
     ANSELBbits.ANSB2 = 0;   //Digital
     TRISBbits.TRISB2 = 1;   //Input
@@ -26,6 +32,10 @@ double POWER_GetVddVoltage(void)
     vdd = ADC_Read12bit(ADC_CHANNEL_VDD);
     band_gap = ADC_Read12bit(ADC_CHANNEL_BAND_GAP); 
     
-    /* 1.2v typical band gap reference voltage. */
-    return ( ( (1.2 * vdd) / band_gap ) );
+    return ( (BANDGAP_TYPICAL_VOLTAGE * vdd) / band_gap );
+}
+
+double POWER_GetBatteryVoltage(void)
+{
+    return (POWER_GetVddVoltage() + DIODE_D1_DROP);
 }

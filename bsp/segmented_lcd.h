@@ -20,5 +20,6 @@ void SEG_LCD_PrintTemperature(double temp);
 void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status);
 void SEG_LCD_LowPowerModeEnable(bool enabled);
 void SEG_LCD_PrintPIC24(void);
+void SEG_LCD_PrintVoltage(double voltage);
 
 #endif

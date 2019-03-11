@@ -37,7 +37,7 @@
 
 // FPOR
 #pragma config BOREN = OFF              // Brown Out Enable bit (Brown Out Enable Bit)
-#pragma config LPCFG = OFF              // Low power regulator control (No Retention Sleep)
+#pragma config LPCFG = ON               // Low power regulator control
 #pragma config DNVPEN = DISABLE          // Downside Voltage Protection Enable bit (Downside protection enabled using ZPBOR when BOR is inactive)
 
 // FICD

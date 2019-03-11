@@ -198,6 +198,7 @@ static const uint8_t ascii_7seg_numbers_convert[10] = {
 #define SEG16_A     0b0000001111001111
 #define SEG16_P     0b0000001111000111
 #define SEG16_D     0b0100100000111111
+#define SEG16_V     0b1000100011000000
 
 
 #define    DP1  LCDDATA13bits.S18C3
@@ -365,6 +366,29 @@ void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {
     SEG_LCD_PrintChar(print_buffer[1], 4);
     
     COLON_BLINK = 1;
+}
+
+void SEG_LCD_PrintVoltage(double voltage) {
+    _ELCDEN = 0;
+    
+    memset(print_buffer, ' ', sizeof (print_buffer));
+
+    sprintf(print_buffer, "%.3f", voltage);
+
+    COLON = 0;
+    DP1 = 0;
+    DP2 = 0;
+    DP3 = 0;
+    DP4 = 0;
+    DP5 = 0;
+    DP6 = 0;
+
+    SEG_LCD_PrintChar(print_buffer[0], 1);
+    DP1 = 1;
+    SEG_LCD_PrintChar(print_buffer[2], 2);
+    SEG_LCD_PrintChar(print_buffer[3], 3);
+    SEG_LCD_PrintChar(print_buffer[4], 4);
+    Set16Seg5(SEG16_V);
 }
 
 void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status) {
