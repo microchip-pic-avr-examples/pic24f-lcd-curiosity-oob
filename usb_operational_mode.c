@@ -91,17 +91,7 @@ static void Initialize(void)
     TIMER_RequestTick(&ButtonDebounce, 1);
     TIMER_RequestTick(&UpdatePrintout, 5);
     TIMER_RequestTick(&UpdateTemperature, 1000);
-    
-    //UART PPS
-    _RP16R = 3;     //RF3[RP16] = U1TX
-    
-    //SPI PPS
-    _RP22R = 7;     //MOSI
-    _RP25R = 8;     //SCK
-    _SDI1R = 23;    //MISO
-    
-    ANSELD &= 0b1111111111101111;
-    
+       
     UART1_Initialize();
     
     printf("\033[2J");      //Clear screen

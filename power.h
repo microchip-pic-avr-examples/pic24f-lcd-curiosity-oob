@@ -8,6 +8,7 @@ enum POWER_SOURCE
     POWER_SOURCE_BATTERY
 };
 
+void POWER_Initialize(void);
 enum POWER_SOURCE POWER_GetSource(void);
 double POWER_GetVddVoltage(void);
 double POWER_GetBatteryVoltage(void);

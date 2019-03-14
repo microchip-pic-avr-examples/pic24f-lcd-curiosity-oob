@@ -20,7 +20,7 @@ static bool running = false;
 
 void TC77_Initialize(void)
 {
-    CHIP_SELECT_TRIS = OUTPUT;
+
 }
 
 void TC77_Shutdown(void)

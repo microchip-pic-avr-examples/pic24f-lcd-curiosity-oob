@@ -6,6 +6,8 @@
 #include "timer_1ms.h"
 #include "tc77.h"
 #include "leds.h"
+#include "io_pins.h"
+
 #include <xc.h>
 
 static void Initialize(void);
@@ -23,10 +25,6 @@ const struct OPERATIONAL_MODE battery_operational_mode = {
 static void Initialize(void)
 {
     RTCC_DATETIME alarm_time;
-   
-    //Enable and configure the ADC so it can sample the potentiometer.
-    ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
-    ADC_ChannelEnable(ADC_CHANNEL_BAND_GAP);
     
     SEG_LCD_Initialize();
     SEG_LCD_LowPowerModeEnable(true);
@@ -35,6 +33,7 @@ static void Initialize(void)
     
     /* Enter low powered mode */
     TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
+    
     TC77_Shutdown();
 
     LED_Enable(LED_LED1);
@@ -60,17 +59,14 @@ static void Initialize(void)
     
     PMD1 = 0xFFFF;
     PMD2 = 0xFFFF;
-    PMD3 = (0xFFFF | (~_PMD3_RTCCMD_MASK));
-    PMD4 = 0xFFFF;
+    PMD3 = (0xFFFF & (~_PMD3_RTCCMD_MASK));
+    PMD4 = (0xFFFF & (~_PMD4_LVDMD_MASK));
     PMD5 = 0xFFFF;
-    PMD6 = (0xFFFF | (~_PMD6_LCDMD_MASK));
+    PMD6 = (0xFFFF & (~_PMD6_LCDMD_MASK));
     PMD7 = 0xFFFF;
-    PMD8 = 0xFFFF;
+    PMD8 = 0xFFFF;  
     
-    Nop();
-    Nop();
-    Nop();
-    Nop();
+    IO_PINS_HandleUnusedPins();
 }
 
 static void Deinitialize(void)
@@ -116,18 +112,21 @@ static void UpdateBatteryStatusIcon(void)
 static void Tasks(void)
 {
     LED_On(LED_LED1);
+    
     PMD1bits.AD1MD = 0; //Enable ADC peripheral
+    PMD4bits.LVDMD = 0; //Enable LVD module
     
     RTCC_TimeGet(&date_time);
     SEG_LCD_PrintTime(date_time.hour, date_time.minute);
 
-    //Enable and configure the ADC so it can sample the potentiometer.
+    //Enable and configure the ADC so it can sample the battery voltage.
     ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
     ADC_ChannelEnable(ADC_CHANNEL_BAND_GAP);
     
     UpdateBatteryStatusIcon();
     
     PMD1bits.AD1MD = 1; //Disable ADC while in sleep
+    PMD4bits.LVDMD = 1; //Disable LVD module
     
     LED_Off(LED_LED1);
     
