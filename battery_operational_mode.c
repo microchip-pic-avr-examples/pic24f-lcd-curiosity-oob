@@ -18,7 +18,7 @@ limitations under the License.
 #include "power.h"
 #include "segmented_lcd.h"
 #include "adc.h"
-#include "rtcc.h"
+#include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
 #include "leds.h"
 
@@ -28,7 +28,8 @@ static void Initialize(void);
 static void Deinitialize(void);
 static void Tasks(void);
 
-static RTCC_DATETIME date_time;
+static struct tm date_time;
+//static RTCC_DATETIME date_time;
 
 const struct OPERATIONAL_MODE battery_operational_mode = {
     &Initialize,
@@ -41,15 +42,6 @@ static void Initialize(void)
     SEG_LCD_LowPowerModeEnable(true);
     
     TC77_Shutdown();
-   
-    RTCC_ChimeEnable(true);
-    RTCC_AlarmFrequency(RTCC_ALARM_FREQUENCY_MINUTE);
-    
-    date_time.bcdFormat = false;
-    
-    RTCC_TimeGet(&date_time);
-    RTCC_AlarmSet(&date_time, 1);
-    RTCC_AlarmEnable(true);
     
     LED_Enable(LED_LED1);
     LED_Enable(LED_LED2);
@@ -62,14 +54,10 @@ static void Initialize(void)
     LED_Off(LED_LED3_RED);
     LED_Off(LED_LED3_GREEN);
     LED_Off(LED_LED3_BLUE);
-    
-    POWER_SetMode(POWER_MODE_LOW);
 }
 
 static void Deinitialize(void)
-{
-    RTCC_AlarmEnable(false);
-    
+{    
     POWER_SetMode(POWER_MODE_FULL);
 }
 
@@ -105,7 +93,7 @@ static void Tasks(void)
     POWER_SetMode(POWER_MODE_LOW);
     
     RTCC_TimeGet(&date_time);
-    SEG_LCD_PrintTime(date_time.hour, date_time.minute);
+    SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
 
     //Enable and configure the ADC so it can sample the battery voltage.
     ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);

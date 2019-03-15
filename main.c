@@ -19,7 +19,7 @@ limitations under the License.
 #include "power.h"
 #include "usb_operational_mode.h"
 #include "battery_operational_mode.h"
-#include "rtcc.h"
+#include "mcc_generated_files/rtcc.h"
 #include "io_pins.h"
 #include "segmented_lcd.h"
 
@@ -56,16 +56,15 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 
 int main(void)
 {
+    struct tm build_time;
+    
     enum POWER_SOURCE new_source;
-    RTCC_DATETIME build_time;
     
     POWER_Initialize();
     IO_PINS_Initialize();
     SEG_LCD_Initialize();
-    
-    build_time.bcdFormat = false;
-    RTCC_BuildTimeGet(&build_time);
-    RTCC_Initialize(&build_time);
+
+    RTCC_Initialize();
     
     new_source = POWER_GetSource();
     

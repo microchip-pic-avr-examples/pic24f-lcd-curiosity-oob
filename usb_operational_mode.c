@@ -24,7 +24,7 @@ limitations under the License.
 #include "mcc_generated_files/uart1.h"
 #include "segmented_lcd.h"
 #include "operational_mode.h"
-#include "rtcc.h"
+#include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
 
 //------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ static uint16_t red = 64;
 static uint16_t green = 32;
 static uint16_t blue = 16;
 static double temperature;
-static RTCC_DATETIME date_time;
+static struct tm date_time;
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
     &Initialize,
@@ -167,7 +167,6 @@ void Tasks(void)
 
     if(update_printout == true)
     {
-        date_time.bcdFormat = false;
         RTCC_TimeGet(&date_time);
         
         update_printout = false;
@@ -197,7 +196,7 @@ void Tasks(void)
         }
 
         printf("Temperature: %.2f C                                               \r\n", temperature);
-        printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.year, date_time.month, date_time.day, date_time.hour, date_time.minute, date_time.second);
+        printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
         
         if(update_temperature == true)
         {
@@ -216,7 +215,7 @@ void Tasks(void)
                 break;
 
             case DISPLAY_TIME:
-                SEG_LCD_PrintTime(date_time.hour, date_time.minute);
+                SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
                 break;
 
             case DISPLAY_TEMPERATURE:
