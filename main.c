@@ -55,7 +55,7 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 
 int main(void)
 {
-    enum POWER_SOURCE new_source = POWER_GetSource();
+    enum POWER_SOURCE new_source;
     RTCC_DATETIME build_time;
     
     POWER_Initialize();
@@ -64,6 +64,8 @@ int main(void)
     build_time.bcdFormat = false;
     RTCC_BuildTimeGet(&build_time);
     RTCC_Initialize(&build_time);
+    
+    new_source = POWER_GetSource();
     
     while(1)
     {

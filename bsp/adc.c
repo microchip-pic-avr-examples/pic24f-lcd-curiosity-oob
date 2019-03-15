@@ -50,9 +50,14 @@ uint8_t ADC_ReadPercentage
     switch (channel)
     {
         case ADC_CHANNEL_16:
-        case ADC_CHANNEL_BAND_GAP:
         case ADC_CHANNEL_VDD:
-            break ;            
+            break;
+
+        case ADC_CHANNEL_BAND_GAP:
+            while(HLVDCONbits.BGVST == 0)
+            {
+            }
+            break;          
 
         default:
             return 0xFF ;
@@ -94,8 +99,13 @@ uint16_t ADC_Read10bit ( ADC_CHANNEL channel )
     switch (channel)
     {
         case ADC_CHANNEL_16:
-        case ADC_CHANNEL_BAND_GAP:
         case ADC_CHANNEL_VDD:
+            break;
+
+        case ADC_CHANNEL_BAND_GAP:
+            while(HLVDCONbits.BGVST == 0)
+            {
+            }
             break;
 
         default:
@@ -143,9 +153,14 @@ uint16_t ADC_Read12bit ( ADC_CHANNEL channel )
     switch (channel)
     {
         case ADC_CHANNEL_16:
-        case ADC_CHANNEL_BAND_GAP:
         case ADC_CHANNEL_VDD:
-            break ;
+            break;
+
+        case ADC_CHANNEL_BAND_GAP:
+            while(HLVDCONbits.BGVST == 0)
+            {
+            }
+            break;
 
         default:
             return 0xFFFF ;

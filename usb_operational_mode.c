@@ -1,3 +1,19 @@
+/*******************************************************************************
+Copyright 2019 Microchip Technology Inc. (www.microchip.com)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*******************************************************************************/
+
 #include <stdio.h>
 
 #include "leds.h"
@@ -34,7 +50,8 @@ enum DISPLAY_MODE
 //------------------------------------------------------------------------------
 //Private prototypes
 //------------------------------------------------------------------------------
-static void ButtonDebounce(void);
+static void ButtonS1Debounce(void);
+static void ButtonS2Debounce(void);
 static void UpdatePrintout(void);
 static void UpdateTemperature(void);
 
@@ -88,7 +105,8 @@ static void Initialize(void)
     //Register the ButtonDebounce() callback function, so it gets called periodically
     //when the timer interrupts occur (in this case at 1:1 rate, so ButtonDebounce()
     //executes once per 1ms).
-    TIMER_RequestTick(&ButtonDebounce, 1);
+    TIMER_RequestTick(&ButtonS1Debounce, 1);
+    TIMER_RequestTick(&ButtonS2Debounce, 1);
     TIMER_RequestTick(&UpdatePrintout, 5);
     TIMER_RequestTick(&UpdateTemperature, 1000);
        
@@ -115,7 +133,7 @@ static void Initialize(void)
 
 static void Deinitialize(void)
 {
-
+    TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
 }
 
 void Tasks(void)
@@ -263,12 +281,11 @@ static void ChangeDisplayMode(void)
 
 
 //This callback function gets called periodically (1/1ms) by the timer interrupt event
-//handler.  This function is used to periodically sample the pushbuttons and implement
-//a debounce algorithm to reject spurious chatter that can occur during press events.
-static void ButtonDebounce(void)
+//handler.  This function is used to periodically sample the pushbutton and implements
+//a de-bounce algorithm to reject spurious chatter that can occur during press events.
+static void ButtonS1Debounce(void)
 {
-    static uint16_t debounceCounterS1 = 0;
-    static uint16_t debounceCounterS2 = 0;
+    static uint16_t debounceCounter = 0;
     
     //Sample the button S1 to see if it is currently pressed or not.
     if(BUTTON_IsPressed(BUTTON_S1))
@@ -276,30 +293,38 @@ static void ButtonDebounce(void)
         //The button is currently pressed.  Turn on the general purpose LED.
         LED_On(LED_LED1);
         
-        //Check if the debounce blanking interval has been satisfied.  If so,
+        //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
-        if(debounceCounterS1 == 0)
+        if(debounceCounter == 0)
         {
             ChangeColor();   
         }
         
-        //Reset the debounce countdown timer, so a new color change operation
+        //Reset the de-bounce countdown timer, so a new color change operation
         //won't occur until the button is released and remains continuously released 
         //for at least BUTTON_DEBOUCE_TIME_MS.
-        debounceCounterS1 = BUTTON_DEBOUCE_TIME_MS;
+        debounceCounter = BUTTON_DEBOUCE_TIME_MS;
     }
     else
     {
         //The button is not currently pressed.  Turn off the LED.
         LED_Off(LED_LED1);  
         
-        //Allow the debounce interval timer to count down, until it reaches 0.
+        //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".
-        if(debounceCounterS1 != 0)
+        if(debounceCounter != 0)
         {
-            debounceCounterS1--;
+            debounceCounter--;
         }
-    }
+    }  
+}
+
+//This callback function gets called periodically (1/1ms) by the timer interrupt event
+//handler.  This function is used to periodically sample the pushbutton and implements
+//a de-bounce algorithm to reject spurious chatter that can occur during press events.
+static void ButtonS2Debounce(void)
+{
+    static uint16_t debounceCounter = 0;
 
     //Sample the button S2 to see if it is currently pressed or not.
     if(BUTTON_IsPressed(BUTTON_S2))
@@ -307,28 +332,28 @@ static void ButtonDebounce(void)
         //The button is currently pressed.  Turn on the general purpose LED.
         LED_On(LED_LED2);
         
-        //Check if the debounce blanking interval has been satisfied.  If so,
+        //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
-        if(debounceCounterS2 == 0)
+        if(debounceCounter == 0)
         {
             ChangeDisplayMode();   
         }
         
-        //Reset the debounce countdown timer, so a new color change operation
+        //Reset the de-bounce countdown timer, so a new color change operation
         //won't occur until the button is released and remains continuously released 
         //for at least BUTTON_DEBOUCE_TIME_MS.
-        debounceCounterS2 = BUTTON_DEBOUCE_TIME_MS;
+        debounceCounter = BUTTON_DEBOUCE_TIME_MS;
     }
     else
     {
         //The button is not currently pressed.  Turn off the LED.
         LED_Off(LED_LED2); 
         
-        //Allow the debounce interval timer to count down, until it reaches 0.
+        //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".
-        if(debounceCounterS2 != 0)
+        if(debounceCounter != 0)
         {
-            debounceCounterS2--;
+            debounceCounter--;
         }
     }    
 }

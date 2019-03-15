@@ -1,11 +1,25 @@
+/*******************************************************************************
+Copyright 2019 Microchip Technology Inc. (www.microchip.com)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*******************************************************************************/
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <xc.h>
 
 #include "mcc_generated_files/spi1_types.h"
 #include "mcc_generated_files/spi1_driver.h"
-
-static bool running = false;
 
 #define DEGREES_PER_BIT 0.0625
 
@@ -49,6 +63,8 @@ inline static uint16_t twosCompliment(uint16_t data)
     return (data ^ 0xFFFF);
 }
 
+/* Converts the native TC77 temperature to a float standard Celsius temperature.
+ */
 static double convert(uint16_t data)
 {        
     if( isNegative(data) )
@@ -67,6 +83,8 @@ static double convert(uint16_t data)
     }
 }
 
+/* The temperature data is only valid if Bit2 is set.  Otherwise the first
+ * sample hasn't completed yet. */
 inline static bool IsValid(uint16_t data)
 {
     return ((data & 0x04) == 0x04);
@@ -76,11 +94,6 @@ double TC77_GetTemperatureCelsius(void)
 {    
     uint8_t byte1, byte2, byte3, byte4;
     uint16_t data;
-    
-    if(running == false)
-    {
-        running = true;
-    }
     
     while(spi1_open(SPI1_DEFAULT) == false)
     {

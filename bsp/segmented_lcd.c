@@ -1,10 +1,27 @@
-#include "segmented_lcd.h"
+/*******************************************************************************
+Copyright 2019 Microchip Technology Inc. (www.microchip.com)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*******************************************************************************/
 
 #include <xc.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "segmented_lcd.h"
+
 static void SEG_LCD_PrintChar(char c, uint8_t location);
+static void SEG_LCD_PrintCharAlternate(char c, uint8_t location);
 static void Set7Seg1(uint8_t data);
 static void Set7Seg2(uint8_t data);
 static void Set7Seg3(uint8_t data);
@@ -191,8 +208,8 @@ static const uint8_t ascii_7seg_numbers_convert[10] = {
  *          ----- -----
  *            5     4
  **********************************/
-#define SEG16_C     0b0000000011110011
-#define SEG16_F     0b0000001111000011
+#define SEG16_C     0b0100100000010010
+#define SEG16_F     0b0100101000000010
 #define SEG16_4     0b0000001110001100
 #define SEG16_BLANK 0b0000000000000000
 #define SEG16_A     0b0000001111001111
@@ -215,6 +232,13 @@ static const uint8_t ascii_7seg_numbers_convert[10] = {
 #define    X4   LCDDATA1bits.S26C0
 #define    X5   LCDDATA1bits.S27C0
 #define    X6   LCDDATA5bits.S28C1
+
+#define    DP1_BLINK  LCDSDATA13bits.S18C3
+#define    DP2_BLINK  LCDSDATA29bits.S18C7
+#define    DP3_BLINK  LCDSDATA13bits.S19C3
+#define    DP4_BLINK  LCDSDATA29bits.S26C7
+#define    DP5_BLINK  LCDSDATA9bits.S26C2
+#define    DP6_BLINK  LCDSDATA29bits.S28C7
 
 #define    X3_BLINK     LCDSDATA1bits.S28C0
 #define    COLON_BLINK  LCDSDATA29bits.S19C7
@@ -261,6 +285,12 @@ void SEG_LCD_PrintPIC24(void) {
     DP4 = 0;
     DP5 = 0;
     DP6 = 0;
+    DP1_BLINK = 0;
+    DP2_BLINK = 0;
+    DP3_BLINK = 0;
+    DP4_BLINK = 0;
+    DP5_BLINK = 0;
+    DP6_BLINK = 0;
     X1_BLINK = 1;
 
     Set7Seg1(SEG7_P);       //P
@@ -275,14 +305,14 @@ void SEG_LCD_PrintPIC24(void) {
     Set7Seg4_Alternate(SEG7_C);       //C
     Set16Seg5_Alternate(SEG16_D);     //D
     
+    _ELCDEN = 1;
     _SMEMEN = 1;
     _PMEMDIS = 0;
     _SMFCS = 1;
     _DMSEL = 0b11;
     _BLINKMODE = 0b00;
-    LCDFC0=0x1FF;
+    LCDFC0=0x3FF;
     LCDACTRLbits.FCCS=00; // LCD clock source
-    _ELCDEN = 1;
 }
 
 static char print_buffer[10];
@@ -312,7 +342,8 @@ void SEG_LCD_PrintPot(uint16_t value) {
 void SEG_LCD_PrintTime(uint8_t hour, uint8_t minute) {  
     _BLINKMODE = 0b01;
     _BLINKFCS = 0b001;
-    _DMSEL = 0b10;
+    _DMSEL = 0b00;
+    //_DMSEL = 0b10;
     _SMEMEN = 1;
     LCDFC0 = 0;
     LCDFC1 = 256;
@@ -437,13 +468,13 @@ void SEG_LCD_LowPowerModeEnable(bool enabled) {
 void SEG_LCD_PrintTemperature(double temp) {
     unsigned int i;
     unsigned int character;
-    
-    _ELCDEN = 0;
 
+    /* Print the Celsius temperature */
     COLON = 0;
     DP5 = 1;
     DP6 = 0;
-
+    X1 = 1;
+    
     memset(print_buffer, ' ', sizeof (print_buffer));
 
     sprintf(print_buffer, "%.3f", temp);
@@ -484,6 +515,65 @@ void SEG_LCD_PrintTemperature(double temp) {
     }
     
     Set16Seg5(SEG16_C);
+    
+    /* Print the Fahrenheit temperature */
+    COLON_BLINK = 0;
+    DP5_BLINK = 1;
+    DP6_BLINK = 0;
+    X1_BLINK = 1;
+    
+    /* convert C to F */
+    temp = ((temp * 9/5) + 32);
+            
+    memset(print_buffer, ' ', sizeof (print_buffer));
+
+    sprintf(print_buffer, "%.3f", temp);
+
+    character = 0;
+    for (i = 0; i<sizeof (print_buffer); i++) {
+        if (print_buffer[i] == '.') {
+            switch (character) {
+                case 1:
+                    DP1_BLINK = 1;
+                    DP2_BLINK = 0;
+                    DP3_BLINK = 0;
+                    DP4_BLINK = 0;
+                    break;
+                case 2:
+                    DP1_BLINK = 0;
+                    DP2_BLINK = 1;
+                    DP3_BLINK = 0;
+                    DP4_BLINK = 0;
+                    break;
+                case 3:
+                    DP1_BLINK = 0;
+                    DP2_BLINK = 0;
+                    DP3_BLINK = 1;
+                    DP4_BLINK = 0;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            SEG_LCD_PrintCharAlternate(print_buffer[i], (character + 1));
+            character++;
+        }
+
+        if (character >= 4) {
+            break;
+        }
+    }
+    
+    Set16Seg5_Alternate(SEG16_F);
+    
+    _SMEMEN = 1;
+    _PMEMDIS = 0;
+    _SMFCS = 1;
+    _DMSEL = 0b11;
+    _BLINKMODE = 0b00;
+    LCDFC0=0x3FF;
+    LCDACTRLbits.FCCS=00; // LCD clock source
+    _ELCDEN = 1;
 }
 
 static uint8_t CharTo7Seg(char c)
@@ -524,6 +614,32 @@ static void SEG_LCD_PrintChar(char c, uint8_t location)
 
         case 4:
             Set7Seg4(data);
+            break;
+
+        default:
+            break;
+    }
+}
+
+static void SEG_LCD_PrintCharAlternate(char c, uint8_t location) 
+{
+    uint8_t data = CharTo7Seg(c);
+    
+    switch (location) {
+        case 1:
+            Set7Seg1_Alternate(data);
+            break;
+
+        case 2:
+            Set7Seg2_Alternate(data);
+            break;
+
+        case 3:
+            Set7Seg3_Alternate(data);
+            break;
+
+        case 4:
+            Set7Seg4_Alternate(data);
             break;
 
         default:
