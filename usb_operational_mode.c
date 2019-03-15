@@ -162,7 +162,6 @@ void Tasks(void)
             break;
     }
 
-    //Update the PWM values controlling the intensity of the RGB LED channels.
     LED_RGB_Set(LED_RGB_LED3, red, green, blue);
 
     if(update_printout == true)

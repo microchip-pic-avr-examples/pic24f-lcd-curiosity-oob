@@ -29,7 +29,6 @@ static void Deinitialize(void);
 static void Tasks(void);
 
 static struct tm date_time;
-//static RTCC_DATETIME date_time;
 
 const struct OPERATIONAL_MODE battery_operational_mode = {
     &Initialize,
