@@ -22,6 +22,7 @@ limitations under the License.
 #include "mcc_generated_files/rtcc.h"
 #include "io_pins.h"
 #include "segmented_lcd.h"
+#include "build_time.h"
 
 static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
 static const struct OPERATIONAL_MODE *operational_mode = NULL;
@@ -56,7 +57,7 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 
 int main(void)
 {
-    struct tm build_time;
+    struct tm initial_time;
     
     enum POWER_SOURCE new_source;
     
@@ -65,6 +66,9 @@ int main(void)
     SEG_LCD_Initialize();
 
     RTCC_Initialize();
+    
+    BUILDTIME_Get(&initial_time);
+    RTCC_TimeSet(&initial_time);
     
     new_source = POWER_GetSource();
     

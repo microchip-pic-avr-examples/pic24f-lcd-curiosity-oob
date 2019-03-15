@@ -22,6 +22,7 @@
       <itemPath>tc77.h</itemPath>
       <itemPath>io_pins.h</itemPath>
       <itemPath>battery_operational_mode.h</itemPath>
+      <itemPath>build_time.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -48,6 +49,7 @@
       <itemPath>tc77.c</itemPath>
       <itemPath>io_pins.c</itemPath>
       <itemPath>battery_operational_mode.c</itemPath>
+      <itemPath>build_time.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
