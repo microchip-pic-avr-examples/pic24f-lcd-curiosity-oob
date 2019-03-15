@@ -35,9 +35,7 @@
 INLINE void spi1_close(void);
 
 bool spi1_open(spi1_modes spiUniqueConfiguration);
-/* SPI native data exchange function */
 uint8_t spi1_exchangeByte(uint8_t b);
-/* SPI Block move functions }(future DMA support will be here) */
 void spi1_exchangeBlock(void *block, size_t blockSize);
 void spi1_writeBlock(void *block, size_t blockSize);
 void spi1_readBlock(void *block, size_t blockSize);

@@ -37,25 +37,18 @@ const struct OPERATIONAL_MODE battery_operational_mode = {
 };
 
 static void Initialize(void)
-{
-    RTCC_DATETIME alarm_time;
-    
-    SEG_LCD_Initialize();
+{        
     SEG_LCD_LowPowerModeEnable(true);
-    
-    SEG_LCD_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
     
     TC77_Shutdown();
    
     RTCC_ChimeEnable(true);
-    
     RTCC_AlarmFrequency(RTCC_ALARM_FREQUENCY_MINUTE);
     
-    alarm_time.bcdFormat = true;
+    date_time.bcdFormat = false;
     
-    RTCC_TimeGet(&alarm_time);
-    RTCC_AlarmSet(&alarm_time, 1);
-    
+    RTCC_TimeGet(&date_time);
+    RTCC_AlarmSet(&date_time, 1);
     RTCC_AlarmEnable(true);
     
     LED_Enable(LED_LED1);
@@ -69,8 +62,6 @@ static void Initialize(void)
     LED_Off(LED_LED3_RED);
     LED_Off(LED_LED3_GREEN);
     LED_Off(LED_LED3_BLUE);
-    
-    date_time.bcdFormat = false;
     
     POWER_SetMode(POWER_MODE_LOW);
 }
@@ -126,5 +117,9 @@ static void Tasks(void)
     
     LED_Off(LED_LED1);
        
+    /* We will be woken up by one of the interrupts that are enabled:
+     *  - RTCC (1 time per minute)
+     *  - Interrupt on pin change for the USB power detection.
+     */
     Sleep();   
 }

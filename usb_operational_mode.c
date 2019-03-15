@@ -107,7 +107,7 @@ static void Initialize(void)
     //executes once per 1ms).
     TIMER_RequestTick(&ButtonS1Debounce, 1);
     TIMER_RequestTick(&ButtonS2Debounce, 1);
-    TIMER_RequestTick(&UpdatePrintout, 5);
+    TIMER_RequestTick(&UpdatePrintout, 10);
     TIMER_RequestTick(&UpdateTemperature, 1000);
        
     UART1_Initialize();
@@ -115,9 +115,9 @@ static void Initialize(void)
     printf("\033[2J");      //Clear screen
     printf("\033[0;0f");    //return cursor to 0,0
     printf("\033[?25l");    //disable cursor
-    
+        
     printf("------------------------------------------------------------------\r\n");
-    printf("PIC24F LCD Curiosity Development Board Demo\r\n");
+    printf("PIC24F LCD Curiosity Development Board Demo                       \r\n");
     printf("------------------------------------------------------------------\r\n");
     printf("S1 - controls LED1, changes active RGB color\r\n");
     printf("S2 - controls LED2, cycle what is on LCD display\r\n");
@@ -171,31 +171,39 @@ void Tasks(void)
         RTCC_TimeGet(&date_time);
         
         update_printout = false;
-        printf("\033[8;0f");    //move cursor to row 8, column 0
+        
+        printf("\033[8;0f");    //move cursor to row 0, column 0
+
         printf("Potentiometer: %i/4095    \r\n", potentiometer);
-        printf("Current color (r,g,b): %i, %i, %i           \r\n", red, green, blue);
+        printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
         printf("Active color: ");
 
         switch(button_color)
         {
             case BUTTON_COLOR_RED:
-                printf("red      \r\n");
+                printf("red  \r\n");
                 break;
 
             case BUTTON_COLOR_GREEN:
-                printf("green    \r\n");
+                printf("green\r\n");
                 break;
 
             case BUTTON_COLOR_BLUE:
-                printf("blue     \r\n");
+                printf("blue \r\n");
                 break;
 
             default:
                 break;
         }
 
-        printf("Temperature: %.2f C     \r\n", temperature);
+        printf("Temperature: %.2f C                                               \r\n", temperature);
         printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.year, date_time.month, date_time.day, date_time.hour, date_time.minute, date_time.second);
+        
+        if(update_temperature == true)
+        {
+            update_temperature = false;
+            temperature = TC77_GetTemperatureCelsius();
+        }
         
         switch(display_mode)
         {
@@ -212,11 +220,6 @@ void Tasks(void)
                 break;
 
             case DISPLAY_TEMPERATURE:
-                if(update_temperature == true)
-                {
-                    update_temperature = false;
-                    temperature = TC77_GetTemperatureCelsius();
-                }
                 SEG_LCD_PrintTemperature(temperature);
                 break;
 

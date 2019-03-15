@@ -21,6 +21,7 @@ limitations under the License.
 #include "battery_operational_mode.h"
 #include "rtcc.h"
 #include "io_pins.h"
+#include "segmented_lcd.h"
 
 static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
 static const struct OPERATIONAL_MODE *operational_mode = NULL;
@@ -60,6 +61,7 @@ int main(void)
     
     POWER_Initialize();
     IO_PINS_Initialize();
+    SEG_LCD_Initialize();
     
     build_time.bcdFormat = false;
     RTCC_BuildTimeGet(&build_time);
