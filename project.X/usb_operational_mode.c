@@ -16,10 +16,11 @@ limitations under the License.
 
 #include <stdio.h>
 
-#include "leds.h"
+#include "led1.h"
+#include "led2.h"
 #include "buttons.h"
 #include "adc.h"
-#include "leds_rgb.h"
+#include "rgb_led3.h"
 #include "timer_1ms.h"
 #include "mcc_generated_files/uart1.h"
 #include "segmented_lcd.h"
@@ -88,12 +89,11 @@ static void Initialize(void)
     //Configure the pushbutton pins as digital inputs.
     BUTTON_Enable(BUTTON_S1);
     BUTTON_Enable(BUTTON_S2);
-
-    //Configure and enable the I/O pins controlling the general purpose LEDs, and 
-    //the PWM outputs controlling the RGB LED.
-    LED_Enable(LED_LED1);
-    LED_Enable(LED_LED2);
-    LED_RGB_Enable(LED_RGB_LED3);
+   
+    LED1_Off();
+    LED2_Off();
+    
+    RGB_LED3_On();
     
     //Enable and configure the ADC so it can sample the potentiometer.
     ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
@@ -134,6 +134,7 @@ static void Initialize(void)
 static void Deinitialize(void)
 {
     TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
+    RGB_LED3_Off();
 }
 
 void Tasks(void)
@@ -162,7 +163,7 @@ void Tasks(void)
             break;
     }
 
-    LED_RGB_Set(LED_RGB_LED3, red, green, blue);
+    RGB_LED3_SetColor(red, green, blue);
 
     if(update_printout == true)
     {
@@ -292,7 +293,7 @@ static void ButtonS1Debounce(void)
     if(BUTTON_IsPressed(BUTTON_S1))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_On(LED_LED1);
+        LED1_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -309,7 +310,7 @@ static void ButtonS1Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_Off(LED_LED1);  
+        LED1_Off();  
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".
@@ -331,7 +332,7 @@ static void ButtonS2Debounce(void)
     if(BUTTON_IsPressed(BUTTON_S2))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_On(LED_LED2);
+        LED2_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -348,7 +349,7 @@ static void ButtonS2Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_Off(LED_LED2); 
+        LED2_Off(); 
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".

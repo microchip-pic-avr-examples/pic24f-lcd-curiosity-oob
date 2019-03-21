@@ -16,8 +16,6 @@
       </logicalFolder>
       <itemPath>bsp/adc.h</itemPath>
       <itemPath>bsp/buttons.h</itemPath>
-      <itemPath>bsp/leds.h</itemPath>
-      <itemPath>bsp/leds_rgb.h</itemPath>
       <itemPath>bsp/timer_1ms.h</itemPath>
       <itemPath>operational_mode.h</itemPath>
       <itemPath>usb_operational_mode.h</itemPath>
@@ -27,6 +25,12 @@
       <itemPath>io_pins.h</itemPath>
       <itemPath>battery_operational_mode.h</itemPath>
       <itemPath>build_time.h</itemPath>
+      <itemPath>bsp/rgb_led3.h</itemPath>
+      <itemPath>bsp/led1.h</itemPath>
+      <itemPath>bsp/led2.h</itemPath>
+      <itemPath>bsp/led3_blue.h</itemPath>
+      <itemPath>bsp/led3_green.h</itemPath>
+      <itemPath>bsp/led3_red.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -46,14 +50,13 @@
       <itemPath>power.c</itemPath>
       <itemPath>bsp/adc.c</itemPath>
       <itemPath>bsp/buttons.c</itemPath>
-      <itemPath>bsp/leds.c</itemPath>
-      <itemPath>bsp/leds_rgb.c</itemPath>
       <itemPath>bsp/segmented_lcd.c</itemPath>
       <itemPath>bsp/timer_1ms.c</itemPath>
       <itemPath>tc77.c</itemPath>
       <itemPath>io_pins.c</itemPath>
       <itemPath>battery_operational_mode.c</itemPath>
       <itemPath>build_time.c</itemPath>
+      <itemPath>bsp/rgb_led3.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

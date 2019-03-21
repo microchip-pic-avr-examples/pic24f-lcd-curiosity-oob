@@ -20,7 +20,9 @@ limitations under the License.
 #include "adc.h"
 #include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
-#include "leds.h"
+#include "led1.h"
+#include "led2.h"
+#include "rgb_led3.h"
 
 #include <xc.h>
 
@@ -42,17 +44,10 @@ static void Initialize(void)
     
     TC77_Shutdown();
     
-    LED_Enable(LED_LED1);
-    LED_Enable(LED_LED2);
-    LED_Enable(LED_LED3_RED);
-    LED_Enable(LED_LED3_GREEN);
-    LED_Enable(LED_LED3_BLUE);
+    LED1_Off();
+    LED2_Off();
     
-    LED_Off(LED_LED1);
-    LED_Off(LED_LED2);
-    LED_Off(LED_LED3_RED);
-    LED_Off(LED_LED3_GREEN);
-    LED_Off(LED_LED3_BLUE);
+    RGB_LED3_Off();
 }
 
 static void Deinitialize(void)
@@ -87,7 +82,7 @@ static void UpdateBatteryStatusIcon(void)
 
 static void Tasks(void)
 {
-    LED_On(LED_LED1);
+    LED1_On();
     
     POWER_SetMode(POWER_MODE_LOW);
     
@@ -102,7 +97,7 @@ static void Tasks(void)
     
     POWER_SetMode(POWER_MODE_SLEEP);
     
-    LED_Off(LED_LED1);
+    LED1_Off();
        
     /* We will be woken up by one of the interrupts that are enabled:
      *  - RTCC (1 time per minute)
