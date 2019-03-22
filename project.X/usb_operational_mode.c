@@ -55,6 +55,10 @@ static void ButtonS1Debounce(void);
 static void ButtonS2Debounce(void);
 static void UpdatePrintout(void);
 static void UpdateTemperature(void);
+static void UpdatePotentiometer(void);
+static void UpdateRGB(void);
+static void UpdateUARTPrintout(void);
+static void UpdateSegmentedLCD(void);
 
 static void Initialize(void);
 static void Deinitialize(void);
@@ -131,17 +135,43 @@ static void Initialize(void)
     TC77_Initialize();
 }
 
+void Tasks(void)
+{   
+    if(update_temperature == true)
+    {
+        update_temperature = false;
+        temperature = TC77_GetTemperatureCelsius();
+    }
+
+    UpdatePotentiometer();
+
+    UpdateRGB();
+
+    if(update_printout == true)
+    {
+        update_printout = false;
+        
+        RTCC_TimeGet(&date_time);
+                
+        UpdateUARTPrintout();
+        UpdateSegmentedLCD();
+    }
+}
+
 static void Deinitialize(void)
 {
     TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
     RGB_LED3_Off();
 }
 
-void Tasks(void)
-{   
+static void UpdatePotentiometer(void)
+{
     //Fetch an ADC sample from the potentiometer
     potentiometer = ADC_Read12bit(ADC_CHANNEL_POTENTIOMETER);
+}
 
+static void UpdateRGB(void)
+{
     //Use the potentiometer ADC value to set the brightness of the currently
     //selected color channel on the RGB LED.  The "currently selected channel"
     //is manually selected by the user at runtime by pressing the pushbuttons.
@@ -164,71 +194,63 @@ void Tasks(void)
     }
 
     RGB_LED3_SetColor(red, green, blue);
-
-    if(update_printout == true)
-    {
-        RTCC_TimeGet(&date_time);
-        
-        update_printout = false;
-        
-        printf("\033[8;0f");    //move cursor to row 0, column 0
-
-        printf("Potentiometer: %i/4095    \r\n", potentiometer);
-        printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
-        printf("Active color: ");
-
-        switch(button_color)
-        {
-            case BUTTON_COLOR_RED:
-                printf("red  \r\n");
-                break;
-
-            case BUTTON_COLOR_GREEN:
-                printf("green\r\n");
-                break;
-
-            case BUTTON_COLOR_BLUE:
-                printf("blue \r\n");
-                break;
-
-            default:
-                break;
-        }
-
-        printf("Temperature: %.2f C                                               \r\n", temperature);
-        printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
-        
-        if(update_temperature == true)
-        {
-            update_temperature = false;
-            temperature = TC77_GetTemperatureCelsius();
-        }
-        
-        switch(display_mode)
-        {
-            case DISPLAY_PIC24:
-                SEG_LCD_PrintPIC24();
-                break;
-
-            case DISPLAY_POT:
-                SEG_LCD_PrintPot(potentiometer);
-                break;
-
-            case DISPLAY_TIME:
-                SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
-                break;
-
-            case DISPLAY_TEMPERATURE:
-                SEG_LCD_PrintTemperature(temperature);
-                break;
-
-            default:
-                SEG_LCD_PrintPIC24();
-                break;
-        }
-    }
 }
 
+static void UpdateUARTPrintout(void)
+{
+    printf("\033[8;0f");    //move cursor to row 0, column 0
+
+    printf("Potentiometer: %i/4095    \r\n", potentiometer);
+    printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
+    printf("Active color: ");
+
+    switch(button_color)
+    {
+        case BUTTON_COLOR_RED:
+            printf("red  \r\n");
+            break;
+
+        case BUTTON_COLOR_GREEN:
+            printf("green\r\n");
+            break;
+
+        case BUTTON_COLOR_BLUE:
+            printf("blue \r\n");
+            break;
+
+        default:
+            break;
+    }
+
+    printf("Temperature: %.2f C                                               \r\n", temperature);
+    printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);              
+}
+
+static void UpdateSegmentedLCD(void)
+{
+    switch(display_mode)
+    {
+        case DISPLAY_PIC24:
+            SEG_LCD_PrintPIC24();
+            break;
+
+        case DISPLAY_POT:
+            SEG_LCD_PrintPot(potentiometer);
+            break;
+
+        case DISPLAY_TIME:
+            SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
+            break;
+
+        case DISPLAY_TEMPERATURE:
+            SEG_LCD_PrintTemperature(temperature);
+            break;
+
+        default:
+            SEG_LCD_PrintPIC24();
+            break;
+    }
+}
 
 //Helper function that advances the currently selected RGB color channel that
 //is to be adjusted next.  This function is called in response to user pushbutton
