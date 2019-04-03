@@ -73,9 +73,9 @@ static volatile bool update_temperature = true;
 static volatile enum DISPLAY_MODE display_mode = DISPLAY_PIC24;
 
 static uint16_t potentiometer;
-static uint16_t red = 64;
-static uint16_t green = 32;
-static uint16_t blue = 16;
+static uint16_t red = 600;
+static uint16_t green = 300;
+static uint16_t blue = 150;
 static double temperature;
 static struct tm date_time;
 
@@ -97,6 +97,7 @@ static void Initialize(void)
     LED1_Off();
     LED2_Off();
     
+    RGB_LED3_SetColor(red, green, blue);
     RGB_LED3_On();
     
     //Enable and configure the ADC so it can sample the potentiometer.
@@ -167,7 +168,7 @@ static void Deinitialize(void)
 static void UpdatePotentiometer(void)
 {
     //Fetch an ADC sample from the potentiometer
-    potentiometer = ADC_Read12bit(ADC_CHANNEL_POTENTIOMETER);
+    potentiometer = ADC_Read16bit(ADC_CHANNEL_POTENTIOMETER);
 }
 
 static void UpdateRGB(void)
@@ -178,15 +179,15 @@ static void UpdateRGB(void)
     switch(button_color)
     {
         case BUTTON_COLOR_RED:
-            red = (potentiometer>>2);
+            red = (potentiometer);
             break;
 
         case BUTTON_COLOR_GREEN:
-            green = (potentiometer>>2);
+            green = (potentiometer);
             break;
 
         case BUTTON_COLOR_BLUE:
-            blue = (potentiometer>>2);
+            blue = (potentiometer);
             break;
 
         default:
@@ -200,7 +201,7 @@ static void UpdateUARTPrintout(void)
 {
     printf("\033[8;0f");    //move cursor to row 0, column 0
 
-    printf("Potentiometer: %i/4095    \r\n", potentiometer);
+    printf("Potentiometer: %i/4095    \r\n", potentiometer>>4);
     printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
     printf("Active color: ");
 
@@ -235,7 +236,7 @@ static void UpdateSegmentedLCD(void)
             break;
 
         case DISPLAY_POT:
-            SEG_LCD_PrintPot(potentiometer);
+            SEG_LCD_PrintPot(potentiometer>>4);
             break;
 
         case DISPLAY_TIME:

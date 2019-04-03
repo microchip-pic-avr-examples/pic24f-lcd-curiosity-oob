@@ -20,7 +20,11 @@ limitations under the License.
 #include <stdbool.h>
 
 void IO_PINS_Initialize(void);
+
+/* Drive all unused pins to output low for lower current. */
 void IO_PINS_HandleUnusedPins(void);
+
+/* Tests to see if USB power is present. */
 bool IO_PINS_USBPowerSense(void);
 
 #endif	/* IO_PINS_H */

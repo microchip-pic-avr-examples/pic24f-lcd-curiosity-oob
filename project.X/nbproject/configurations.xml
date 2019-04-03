@@ -57,6 +57,9 @@
       <itemPath>battery_operational_mode.c</itemPath>
       <itemPath>build_time.c</itemPath>
       <itemPath>bsp/rgb_led3.c</itemPath>
+      <itemPath>bsp/led3_blue.c</itemPath>
+      <itemPath>bsp/led3_green.c</itemPath>
+      <itemPath>bsp/led3_red.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

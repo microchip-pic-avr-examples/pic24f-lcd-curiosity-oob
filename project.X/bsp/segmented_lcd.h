@@ -35,7 +35,9 @@ void SEG_LCD_PrintTime(uint8_t hour, uint8_t min);
 void SEG_LCD_PrintTemperature(double temp);
 void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status);
 void SEG_LCD_LowPowerModeEnable(bool enabled);
-void SEG_LCD_PrintPIC24(void);
 void SEG_LCD_PrintVoltage(double voltage);
+
+/* Prints "PIC24" and then "LCD" on the screen alternating */
+void SEG_LCD_PrintPIC24(void);
 
 #endif

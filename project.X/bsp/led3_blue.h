@@ -17,27 +17,9 @@ limitations under the License.
 #ifndef LED3_BLUE_H
 #define LED3_BLUE_H
 
-#include <xc.h>
-
-#define LED3_BLUE_LAT     LATBbits.LATB7
-#define LED3_BLUE_TRIS    TRISBbits.TRISB7
-
-inline static void LED3_BLUE_On(void)
-{
-	LED3_BLUE_TRIS = 0;
-	LED3_BLUE_LAT = 1;
-}
-
-inline static void LED3_BLUE_Off(void)
-{
-	LED3_BLUE_TRIS = 0;
-	LED3_BLUE_LAT = 0;
-}
-
-inline static void LED3_BLUE_Toggle(void)
-{
-	LED3_BLUE_TRIS = 0;
-	LED3_BLUE_LAT ^= 1;
-}
+void LED3_BLUE_On(void);
+void LED3_BLUE_Off(void);
+void LED3_BLUE_Toggle(void);
+void LED3_BLUE_SetIntensity(uint16_t intensity);
 
 #endif

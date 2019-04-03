@@ -17,33 +17,9 @@ limitations under the License.
 #ifndef LED3_RED_H
 #define LED3_RED_H
 
-#include <xc.h>
-
-#define LED_LED3_RED_LAT     LATGbits.LATG9
-#define LED_LED3_RED_TRIS    TRISGbits.TRISG9
-
-#define LED_ON  1
-#define LED_OFF 0
-
-#define INPUT  1
-#define OUTPUT 0
-
-inline static void LED3_RED_On(void)
-{
-	LED_LED3_RED_TRIS = OUTPUT;
-	LED_LED3_RED_LAT = LED_ON;
-}
-
-inline static void LED3_RED_Off(void)
-{
-	LED_LED3_RED_TRIS = OUTPUT;
-	LED_LED3_RED_LAT = LED_OFF;
-}
-
-inline static void LED3_RED_Toggle(void)
-{
-	LED_LED3_RED_TRIS = OUTPUT;
-	LED_LED3_RED_LAT ^= 1;
-}
+void LED3_RED_On(void);
+void LED3_RED_Off(void);
+void LED3_RED_Toggle(void);
+void LED3_RED_SetIntensity(uint16_t intensity);
 
 #endif

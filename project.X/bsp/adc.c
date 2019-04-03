@@ -181,6 +181,39 @@ uint16_t ADC_Read12bit ( ADC_CHANNEL channel )
 }
 
 /*********************************************************************
+ * Function: ADC_Read16bit(ADC_CHANNEL channel);
+ *
+ * Overview: Reads the requested ADC channel and returns the 16-bit
+ *           representation of this data.  NOTE: this device does not support
+ *           16-bit ADC operation so the 12-bit data is shifted to form a 
+ *           16-bit value and thus not full scale.
+ *
+ * PreCondition: channel is configured via the ADCConfigure() function
+ *
+ * Input: ADC_CHANNEL channel - enumeration of the ADC channels
+ *        available in this demo.  They should be meaningful names and
+ *        not the names of the ADC pins on the device (as the demo code
+ *        may be ported to other boards).
+ *         i.e. - ADCReadPercentage(ADC_CHANNEL_POTENTIOMETER);
+ *
+ * Output: uint16_t the 16-bit representation of the ADC value.
+ *
+ ********************************************************************/
+uint16_t ADC_Read16bit ( ADC_CHANNEL channel )
+{
+    uint16_t result;
+    
+    result = ADC_Read12bit(channel);
+    
+    if(result != 0xFFFF)
+    {
+        result <<= 4;
+    }
+    
+    return result;
+}
+
+/*********************************************************************
  * Function: bool ADC_ChannelEnable(ADC_CHANNEL channel, ADC_CONFIGURATION configuration);
  *
  * Overview: Configures the ADC module to specified setting

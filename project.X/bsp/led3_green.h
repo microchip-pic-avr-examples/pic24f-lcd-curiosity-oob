@@ -17,33 +17,9 @@ limitations under the License.
 #ifndef LED3_GREEN_H
 #define LED3_GREEN_H
 
-#include <xc.h>
-
-#define LED_LED3_GREEN_LAT     LATBbits.LATB4
-#define LED_LED3_GREEN_TRIS    TRISBbits.TRISB4
-
-#define LED_ON  1
-#define LED_OFF 0
-
-#define INPUT  1
-#define OUTPUT 0
-
-inline static void LED3_GREEN_On(void)
-{
-	LED_LED3_GREEN_TRIS = OUTPUT;
-	LED_LED3_GREEN_LAT = LED_ON;
-}
-
-inline static void LED3_GREEN_Off(void)
-{
-	LED_LED3_GREEN_TRIS = OUTPUT;
-	LED_LED3_GREEN_LAT = LED_OFF;
-}
-
-inline static void LED3_GREEN_Toggle(void)
-{
-	LED_LED3_GREEN_TRIS = OUTPUT;
-	LED_LED3_GREEN_LAT ^= 1;
-}
+void LED3_GREEN_On(void);
+void LED3_GREEN_Off(void);
+void LED3_GREEN_Toggle(void);
+void LED3_GREEN_SetIntensity(uint16_t intensity);
 
 #endif
