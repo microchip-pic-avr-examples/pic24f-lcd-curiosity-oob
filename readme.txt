@@ -18,7 +18,6 @@ Folder Structure
 /read_me.txt
   This document.
 
-
 Demo Overview
 --------------------------------------------------------------------------------
 This demo has two main modes of operation, USB powered and battery powered.
@@ -35,7 +34,7 @@ mode of the module.  The core sets up the LCD module with the "PIC24" text in
 the main display memory and the "LCD" text in the alternate display memory and
 the LCD automatically toggles between the two texts.
 
-The second display the 12-bit value of the potentiometer.  
+The second display the 12-bit value of the potentiometer.
 
 The third display is the build time of the project.  Note that this is the build
 time of the build_time.c file.  If you don't clean/build the project then
@@ -48,7 +47,7 @@ automatically toggles between the two.
 
 The potentiometer will change the intensity of the RGB LED channel that is
 currently active.  Switch S1 will change which of the three colors is currently
-active (red, green, or blue).  
+active (red, green, or blue).
 
 A COM port can be opened to view the data through the USB->UART bridge.  All
 of the above data is displayed on the screen (time, temperature, potentiometer,
