@@ -253,8 +253,8 @@ void SEG_LCD_Initialize(void) {
     LCDREFbits.VLCD1PE = 0; // Enable internal bias
     LCDREFbits.VLCD2PE = 0;
     LCDREFbits.VLCD3PE = 0;
-    LCDREFbits.LRLAP = 0x01; // ladder in High-Power Interval A (transition)
-    LCDREFbits.LRLBP = 0x01; // ladder in High-Power Interval B (steady state, for higher contrast ratio))
+    LCDREFbits.LRLAP = 0x03; // ladder in High-Power Interval A (transition)
+    LCDREFbits.LRLBP = 0x03; // ladder in High-Power Interval B (steady state, for higher contrast ratio))
     LCDREFbits.LRLAT = 0x03; // Internal LCD reference ladder is in A Power mode for 3 clocks and B Power mode for 13 clocks
     LCDREFbits.LCDIRE = 1; // Internal Reference Enable
     LCDREFbits.LCDCST = 0; // Contrast 
@@ -461,8 +461,16 @@ void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status) {
     }
 }
 
-void SEG_LCD_LowPowerModeEnable(bool enabled) {
-    X6 = enabled;
+void SEG_LCD_LowPowerModeEnable(bool low_power_mode_enabled) {
+    X6 = low_power_mode_enabled;
+    
+    if (low_power_mode_enabled == true) {
+        LCDREFbits.LRLAP = 0x01; // ladder in Low-Power Interval A (transition)
+        LCDREFbits.LRLBP = 0x01; // ladder in low-Power Interval B (steady state, for higher contrast ratio))
+    } else {
+        LCDREFbits.LRLAP = 0x03; // ladder in High-Power Interval A (transition)
+        LCDREFbits.LRLBP = 0x03; // ladder in High-Power Interval B (steady state, for higher contrast ratio))
+    }
 }
 
 void SEG_LCD_PrintTemperature(double temp) {
@@ -647,6 +655,19 @@ static void SEG_LCD_PrintCharAlternate(char c, uint8_t location)
     }
 }
 
+/**********************************
+ *  Bit mapping for 7-seg character
+ **********************************
+ *            A
+ *          -----
+ *         |     |
+ *       F |  G  | B
+ *          -----
+ *         |     | 
+ *       E |  D  | C
+ *          -----
+ **********************************/
+
 static void Set7Seg1(uint8_t data) {
     CHAR1_A = data & 0x01;
     data >>= 1;
@@ -711,6 +732,22 @@ static void Set7Seg4(uint8_t data) {
     CHAR4_G = data & 0x01;
 }
 
+/**********************************
+ *  Bit mapping for 16-seg character
+ **********************************
+ *            A     B
+ *          ----- -----
+ *         | \   |   / |
+ *       H |  K  L  M  | C
+ *         |   \ | /   |
+ *          --I-- --J--
+ *         |   / | \   |
+ *       G |  P  O  N  | D
+ *         | /   |   \ |
+ *          ----- -----
+ *            F     E
+ **********************************/
+
 static void Set16Seg5(uint16_t data) {
     CHAR5_A = data & 0x01;
     data >>= 1;
@@ -745,6 +782,18 @@ static void Set16Seg5(uint16_t data) {
     CHAR5_P = data & 0x01;
 }
 
+/**********************************
+ *  Bit mapping for 7-seg character
+ **********************************
+ *            A
+ *          -----
+ *         |     |
+ *       F |  G  | B
+ *          -----
+ *         |     | 
+ *       E |  D  | C
+ *          -----
+ **********************************/
 static void Set7Seg1_Alternate(uint8_t data) {
     CHAR1_A_SDATA = data & 0x01;
     data >>= 1;
@@ -808,6 +857,22 @@ static void Set7Seg4_Alternate(uint8_t data) {
     data >>= 1;
     CHAR4_G_SDATA = data & 0x01;
 }
+
+/**********************************
+ *  Bit mapping for 16-seg character
+ **********************************
+ *            A     B
+ *          ----- -----
+ *         | \   |   / |
+ *       H |  K  L  M  | C
+ *         |   \ | /   |
+ *          --I-- --J--
+ *         |   / | \   |
+ *       G |  P  O  N  | D
+ *         | /   |   \ |
+ *          ----- -----
+ *            F     E
+ **********************************/
 
 static void Set16Seg5_Alternate(uint16_t data) {
     CHAR5_A_SDATA = data & 0x01;
