@@ -1,5 +1,5 @@
 ================================================================================
-PIC24F LCD Curiosity Board - Out of box demo 
+PIC24F LCD Curiosity Board - Out of box demo
 ================================================================================
 
 For more information about this board, please visit:
@@ -68,7 +68,7 @@ battery mode.  The battery status icon indicates the current battery status.
 
 The time will be displayed on the screen in this mode.  The ":" blinks using 
 the LCD modules blink feature.  The CPU does not need to wake up to update
-the screen for the ":".  
+the screen for the ":".
 
 The CPU wakes up once a minute in this mode to update the time on the screen.
 LED LED1 will blink while the CPU is awake.  The CPU will also wake up when
