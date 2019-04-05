@@ -67,7 +67,7 @@ void POWER_SetMode(enum POWER_MODE mode)
             PMD1 = (0xFFFF & (~_PMD1_AD1MD_MASK));
             PMD2 = 0xFFFF;
             PMD3 = (0xFFFF & (~_PMD3_RTCCMD_MASK));
-            PMD4 = (0xFFFF & (~_PMD4_LVDMD_MASK));
+            PMD4 = (0xFFFF & (~_PMD4_HLVDMD_MASK));
             PMD5 = 0xFFFF;
             PMD6 = (0xFFFF & (~_PMD6_LCDMD_MASK));
             PMD7 = 0xFFFF;

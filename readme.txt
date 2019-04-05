@@ -78,7 +78,7 @@ All of the other functionality from the USB mode is disabled.
 To measure the power consumption of the board, a meter can be placed between
 the pins 2 and 3 of jumper J9 (that goes to the battery housing.  To measure
 the current of the CPU, cut the trace on the bottom of the board under jumper
-J1 and place a meter between the two pins.
+J1 and place a meter between the two pins. 
 
 
 
