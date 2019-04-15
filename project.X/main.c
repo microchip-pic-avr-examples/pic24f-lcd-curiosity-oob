@@ -24,12 +24,68 @@ limitations under the License.
 #include "segmented_lcd.h"
 #include "build_time.h"
 
-static enum POWER_SOURCE current_source = POWER_SOURCE_UNKNOWN;
-static const struct OPERATIONAL_MODE *operational_mode = NULL;
+static void SwitchOperatoinalMode(enum POWER_SOURCE new_source);
 
-//------------------------------------------------------------------------------
-//Functions
-//------------------------------------------------------------------------------
+static enum POWER_SOURCE current_source;
+static const struct OPERATIONAL_MODE *operational_mode;
+
+/*******************************************************************************
+  GETTING STARTED
+  -----------------------------------------------------------------------------
+  To run this demo, please refer to the readme.txt file that is provided with
+  this project.  You can find this file attached to the project in the 
+  "Documentation" logical folder in the project view in the IDE.
+  
+  You can also locate the readme.txt file on next to the project folder where
+  this demo was extracted.  
+  
+  The readme.txt contains the details of how to run the demo.
+  
+  There is an additional hardware.txt file also in the "Documentation" logical
+  folder in the project that summarizes the hardware connections of the board.
+  For a more detailed hardware description, please refer to the boards user's 
+  guide for a full schematic at the board website:
+  www.microchip.com/pic24flcdcuriosity 
+ ******************************************************************************/
+
+int main(void)
+{
+    struct tm build_time;
+    
+    enum POWER_SOURCE new_source;
+    
+    POWER_Initialize();
+    IO_PINS_Initialize();
+    SEG_LCD_Initialize();
+
+    RTCC_Initialize();
+    
+    BUILDTIME_Get(&build_time);
+    RTCC_TimeSet(&build_time);
+    
+    operational_mode = NULL;
+    current_source = POWER_SOURCE_UNKNOWN;
+    
+    new_source = POWER_GetSource();
+    
+    while(1)
+    {
+        if(new_source != current_source)
+        {
+            current_source = new_source;
+            SwitchOperatoinalMode(new_source);
+        }
+        
+        do
+        {
+            operational_mode->Tasks();
+            new_source = POWER_GetSource();
+            
+        } while( current_source == new_source );
+    }
+    
+    return 0;
+}
 
 static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
 {
@@ -52,41 +108,8 @@ static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
             break;
     }
     
-    operational_mode->Initialize();
-}
-
-int main(void)
-{
-    struct tm initial_time;
-    
-    enum POWER_SOURCE new_source;
-    
-    POWER_Initialize();
-    IO_PINS_Initialize();
-    SEG_LCD_Initialize();
-
-    RTCC_Initialize();
-    
-    BUILDTIME_Get(&initial_time);
-    RTCC_TimeSet(&initial_time);
-    
-    new_source = POWER_GetSource();
-    
-    while(1)
+    if(operational_mode != NULL)
     {
-        if(new_source != current_source)
-        {
-            current_source = new_source;
-            SwitchOperatoinalMode(new_source);
-        }
-        
-        do
-        {
-            operational_mode->Tasks();
-            new_source = POWER_GetSource();
-            
-        } while( current_source == new_source );
+        operational_mode->Initialize();
     }
-    
-    return 0;
 }

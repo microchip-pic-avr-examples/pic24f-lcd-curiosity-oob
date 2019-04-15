@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright 2019 Microchip Technology Inc. (www.microchip.com)
+Copyright 2016 Microchip Technology Inc. (www.microchip.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,18 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *******************************************************************************/
 
-#ifndef IO_PINS_H
-#define	IO_PINS_H
+#ifndef RGB_LED3_H
+#define RGB_LED3_H
 
-#include <stdbool.h>
+void RGB_LED3_SetColor(uint16_t red, uint16_t green, uint16_t blue);
 
-void IO_PINS_Initialize(void);
+void RGB_LED3_On(void);
 
-/* Drive all unused pins to output low for lower current. */
-void IO_PINS_HandleUnusedPins(void);
+void RGB_LED3_Off(void);
 
-/* Tests to see if USB power is present. */
-bool IO_PINS_USBPowerSense(void);
+void RGB_LED3_Toggle(void);
 
-#endif	/* IO_PINS_H */
-
+#endif

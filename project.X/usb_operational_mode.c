@@ -16,10 +16,11 @@ limitations under the License.
 
 #include <stdio.h>
 
-#include "leds.h"
+#include "led1.h"
+#include "led2.h"
 #include "buttons.h"
 #include "adc.h"
-#include "leds_rgb.h"
+#include "rgb_led3.h"
 #include "timer_1ms.h"
 #include "mcc_generated_files/uart1.h"
 #include "segmented_lcd.h"
@@ -54,6 +55,10 @@ static void ButtonS1Debounce(void);
 static void ButtonS2Debounce(void);
 static void UpdatePrintout(void);
 static void UpdateTemperature(void);
+static void UpdatePotentiometer(void);
+static void UpdateRGB(void);
+static void UpdateUARTPrintout(void);
+static void UpdateSegmentedLCD(void);
 
 static void Initialize(void);
 static void Deinitialize(void);
@@ -68,9 +73,9 @@ static volatile bool update_temperature = true;
 static volatile enum DISPLAY_MODE display_mode = DISPLAY_PIC24;
 
 static uint16_t potentiometer;
-static uint16_t red = 64;
-static uint16_t green = 32;
-static uint16_t blue = 16;
+static uint16_t red = 600;
+static uint16_t green = 300;
+static uint16_t blue = 150;
 static double temperature;
 static struct tm date_time;
 
@@ -88,12 +93,12 @@ static void Initialize(void)
     //Configure the pushbutton pins as digital inputs.
     BUTTON_Enable(BUTTON_S1);
     BUTTON_Enable(BUTTON_S2);
-
-    //Configure and enable the I/O pins controlling the general purpose LEDs, and 
-    //the PWM outputs controlling the RGB LED.
-    LED_Enable(LED_LED1);
-    LED_Enable(LED_LED2);
-    LED_RGB_Enable(LED_RGB_LED3);
+   
+    LED1_Off();
+    LED2_Off();
+    
+    RGB_LED3_SetColor(red, green, blue);
+    RGB_LED3_On();
     
     //Enable and configure the ADC so it can sample the potentiometer.
     ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
@@ -131,103 +136,122 @@ static void Initialize(void)
     TC77_Initialize();
 }
 
+void Tasks(void)
+{   
+    if(update_temperature == true)
+    {
+        update_temperature = false;
+        temperature = TC77_GetTemperatureCelsius();
+    }
+
+    UpdatePotentiometer();
+
+    UpdateRGB();
+
+    if(update_printout == true)
+    {
+        update_printout = false;
+        
+        RTCC_TimeGet(&date_time);
+                
+        UpdateUARTPrintout();
+        UpdateSegmentedLCD();
+    }
+}
+
 static void Deinitialize(void)
 {
     TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
+    RGB_LED3_Off();
 }
 
-void Tasks(void)
-{   
+static void UpdatePotentiometer(void)
+{
     //Fetch an ADC sample from the potentiometer
-    potentiometer = ADC_Read12bit(ADC_CHANNEL_POTENTIOMETER);
+    potentiometer = ADC_Read16bit(ADC_CHANNEL_POTENTIOMETER);
+}
 
+static void UpdateRGB(void)
+{
     //Use the potentiometer ADC value to set the brightness of the currently
     //selected color channel on the RGB LED.  The "currently selected channel"
     //is manually selected by the user at runtime by pressing the pushbuttons.
     switch(button_color)
     {
         case BUTTON_COLOR_RED:
-            red = (potentiometer>>2);
+            red = (potentiometer);
             break;
 
         case BUTTON_COLOR_GREEN:
-            green = (potentiometer>>2);
+            green = (potentiometer);
             break;
 
         case BUTTON_COLOR_BLUE:
-            blue = (potentiometer>>2);
+            blue = (potentiometer);
             break;
 
         default:
             break;
     }
 
-    LED_RGB_Set(LED_RGB_LED3, red, green, blue);
-
-    if(update_printout == true)
-    {
-        RTCC_TimeGet(&date_time);
-        
-        update_printout = false;
-        
-        printf("\033[8;0f");    //move cursor to row 0, column 0
-
-        printf("Potentiometer: %i/4095    \r\n", potentiometer);
-        printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
-        printf("Active color: ");
-
-        switch(button_color)
-        {
-            case BUTTON_COLOR_RED:
-                printf("red  \r\n");
-                break;
-
-            case BUTTON_COLOR_GREEN:
-                printf("green\r\n");
-                break;
-
-            case BUTTON_COLOR_BLUE:
-                printf("blue \r\n");
-                break;
-
-            default:
-                break;
-        }
-
-        printf("Temperature: %.2f C                                               \r\n", temperature);
-        printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
-        
-        if(update_temperature == true)
-        {
-            update_temperature = false;
-            temperature = TC77_GetTemperatureCelsius();
-        }
-        
-        switch(display_mode)
-        {
-            case DISPLAY_PIC24:
-                SEG_LCD_PrintPIC24();
-                break;
-
-            case DISPLAY_POT:
-                SEG_LCD_PrintPot(potentiometer);
-                break;
-
-            case DISPLAY_TIME:
-                SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
-                break;
-
-            case DISPLAY_TEMPERATURE:
-                SEG_LCD_PrintTemperature(temperature);
-                break;
-
-            default:
-                SEG_LCD_PrintPIC24();
-                break;
-        }
-    }
+    RGB_LED3_SetColor(red, green, blue);
 }
 
+static void UpdateUARTPrintout(void)
+{
+    printf("\033[8;0f");    //move cursor to row 0, column 0
+
+    printf("Potentiometer: %i/4095    \r\n", potentiometer>>4);
+    printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
+    printf("Active color: ");
+
+    switch(button_color)
+    {
+        case BUTTON_COLOR_RED:
+            printf("red  \r\n");
+            break;
+
+        case BUTTON_COLOR_GREEN:
+            printf("green\r\n");
+            break;
+
+        case BUTTON_COLOR_BLUE:
+            printf("blue \r\n");
+            break;
+
+        default:
+            break;
+    }
+
+    printf("Temperature: %.2f C                                               \r\n", temperature);
+    printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);              
+}
+
+static void UpdateSegmentedLCD(void)
+{
+    switch(display_mode)
+    {
+        case DISPLAY_PIC24:
+            SEG_LCD_PrintPIC24();
+            break;
+
+        case DISPLAY_POT:
+            SEG_LCD_PrintPot(potentiometer>>4);
+            break;
+
+        case DISPLAY_TIME:
+            SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
+            break;
+
+        case DISPLAY_TEMPERATURE:
+            SEG_LCD_PrintTemperature(temperature);
+            break;
+
+        default:
+            SEG_LCD_PrintPIC24();
+            break;
+    }
+}
 
 //Helper function that advances the currently selected RGB color channel that
 //is to be adjusted next.  This function is called in response to user pushbutton
@@ -292,7 +316,7 @@ static void ButtonS1Debounce(void)
     if(BUTTON_IsPressed(BUTTON_S1))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_On(LED_LED1);
+        LED1_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -309,7 +333,7 @@ static void ButtonS1Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_Off(LED_LED1);  
+        LED1_Off();  
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".
@@ -331,7 +355,7 @@ static void ButtonS2Debounce(void)
     if(BUTTON_IsPressed(BUTTON_S2))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_On(LED_LED2);
+        LED2_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -348,7 +372,7 @@ static void ButtonS2Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_Off(LED_LED2); 
+        LED2_Off(); 
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".

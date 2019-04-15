@@ -20,6 +20,10 @@ limitations under the License.
 
 #include "io_pins.h"
 
+/* This sets all the unused pins on the board as an output and drives them low.
+ * This will help lower the sleep current since the pins will not be floating
+ * possibly causing input toggling. 
+ */
 void IO_PINS_HandleUnusedPins()
 {
     /* mikroBus(tm) slot A */
@@ -101,6 +105,7 @@ void IO_PINS_Initialize()
     IO_PINS_HandleUnusedPins();
 }
 
+/* Tests to see if USB power is present. */
 bool IO_PINS_USBPowerSense(void)
 {
     return PORTBbits.RB2;

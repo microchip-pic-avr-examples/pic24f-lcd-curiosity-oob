@@ -1,5 +1,5 @@
 ================================================================================
-PIC24F LCD Curiosity Board - Out of box demo 
+PIC24F LCD Curiosity Board - Out of box demo
 ================================================================================
 
 For more information about this board, please visit:
@@ -18,7 +18,6 @@ Folder Structure
 /read_me.txt
   This document.
 
-
 Demo Overview
 --------------------------------------------------------------------------------
 This demo has two main modes of operation, USB powered and battery powered.
@@ -35,7 +34,7 @@ mode of the module.  The core sets up the LCD module with the "PIC24" text in
 the main display memory and the "LCD" text in the alternate display memory and
 the LCD automatically toggles between the two texts.
 
-The second display the 12-bit value of the potentiometer.  
+The second display the 12-bit value of the potentiometer.
 
 The third display is the build time of the project.  Note that this is the build
 time of the build_time.c file.  If you don't clean/build the project then
@@ -48,7 +47,7 @@ automatically toggles between the two.
 
 The potentiometer will change the intensity of the RGB LED channel that is
 currently active.  Switch S1 will change which of the three colors is currently
-active (red, green, or blue).  
+active (red, green, or blue).
 
 A COM port can be opened to view the data through the USB->UART bridge.  All
 of the above data is displayed on the screen (time, temperature, potentiometer,
@@ -68,7 +67,7 @@ battery mode.  The battery status icon indicates the current battery status.
 
 The time will be displayed on the screen in this mode.  The ":" blinks using 
 the LCD modules blink feature.  The CPU does not need to wake up to update
-the screen for the ":".  
+the screen for the ":".
 
 The CPU wakes up once a minute in this mode to update the time on the screen.
 LED LED1 will blink while the CPU is awake.  The CPU will also wake up when
@@ -79,7 +78,7 @@ All of the other functionality from the USB mode is disabled.
 To measure the power consumption of the board, a meter can be placed between
 the pins 2 and 3 of jumper J9 (that goes to the battery housing.  To measure
 the current of the CPU, cut the trace on the bottom of the board under jumper
-J1 and place a meter between the two pins.
+J1 and place a meter between the two pins. 
 
 
 

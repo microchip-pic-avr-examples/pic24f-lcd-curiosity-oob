@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright 2019 Microchip Technology Inc. (www.microchip.com)
+Copyright 2016 Microchip Technology Inc. (www.microchip.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,18 +14,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *******************************************************************************/
 
-#ifndef IO_PINS_H
-#define	IO_PINS_H
+#ifndef LED2_H
+#define LED2_H
 
-#include <stdbool.h>
+#include <xc.h>
 
-void IO_PINS_Initialize(void);
+#define LED2_LAT     LATCbits.LATC15
+#define LED2_TRIS    TRISCbits.TRISC15
 
-/* Drive all unused pins to output low for lower current. */
-void IO_PINS_HandleUnusedPins(void);
+inline static void LED2_On(void)
+{
+	LED2_TRIS = 0;
+	LED2_LAT = 1;
+}
 
-/* Tests to see if USB power is present. */
-bool IO_PINS_USBPowerSense(void);
+inline static void LED2_Off(void)
+{
+	LED2_TRIS = 0;
+	LED2_LAT = 0;
+}
 
-#endif	/* IO_PINS_H */
+inline static void LED2_Toggle(void)
+{
+	LED2_TRIS = 0;
+	LED2_LAT ^= 1;
+}
 
+#endif

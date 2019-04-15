@@ -20,13 +20,16 @@ limitations under the License.
 #include "adc.h"
 #include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
-#include "leds.h"
+#include "led1.h"
+#include "led2.h"
+#include "rgb_led3.h"
 
 #include <xc.h>
 
 static void Initialize(void);
 static void Deinitialize(void);
 static void Tasks(void);
+static void UpdateBatteryStatusIcon(void);
 
 static struct tm date_time;
 
@@ -42,17 +45,36 @@ static void Initialize(void)
     
     TC77_Shutdown();
     
-    LED_Enable(LED_LED1);
-    LED_Enable(LED_LED2);
-    LED_Enable(LED_LED3_RED);
-    LED_Enable(LED_LED3_GREEN);
-    LED_Enable(LED_LED3_BLUE);
+    LED1_Off();
+    LED2_Off();
     
-    LED_Off(LED_LED1);
-    LED_Off(LED_LED2);
-    LED_Off(LED_LED3_RED);
-    LED_Off(LED_LED3_GREEN);
-    LED_Off(LED_LED3_BLUE);
+    RGB_LED3_Off();
+}
+
+static void Tasks(void)
+{
+    LED1_On();
+    
+    POWER_SetMode(POWER_MODE_LOW);
+    
+    RTCC_TimeGet(&date_time);
+    SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
+
+    //Enable and configure the ADC so it can sample the battery voltage.
+    ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
+    ADC_ChannelEnable(ADC_CHANNEL_BAND_GAP);
+    
+    UpdateBatteryStatusIcon();
+    
+    POWER_SetMode(POWER_MODE_SLEEP);
+    
+    LED1_Off();
+       
+    /* We will be woken up by one of the interrupts that are enabled:
+     *  - RTCC (1 time per minute)
+     *  - Interrupt on pin change for the USB power detection.
+     */
+    Sleep();   
 }
 
 static void Deinitialize(void)
@@ -83,30 +105,4 @@ static void UpdateBatteryStatusIcon(void)
     }
     
     SEG_LCD_SetBatteryStatus(battery_status);
-}
-
-static void Tasks(void)
-{
-    LED_On(LED_LED1);
-    
-    POWER_SetMode(POWER_MODE_LOW);
-    
-    RTCC_TimeGet(&date_time);
-    SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
-
-    //Enable and configure the ADC so it can sample the battery voltage.
-    ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
-    ADC_ChannelEnable(ADC_CHANNEL_BAND_GAP);
-    
-    UpdateBatteryStatusIcon();
-    
-    POWER_SetMode(POWER_MODE_SLEEP);
-    
-    LED_Off(LED_LED1);
-       
-    /* We will be woken up by one of the interrupts that are enabled:
-     *  - RTCC (1 time per minute)
-     *  - Interrupt on pin change for the USB power detection.
-     */
-    Sleep();   
 }
