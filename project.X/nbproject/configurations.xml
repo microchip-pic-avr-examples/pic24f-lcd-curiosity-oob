@@ -8,29 +8,33 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f2"
+                     displayName="Board Support Package (BSP)"
+                     projectFiles="true">
+        <itemPath ex="false">bsp/adc.h</itemPath>
+        <itemPath ex="false">bsp/buttons.h</itemPath>
+        <itemPath ex="false">io_pins.h</itemPath>
+        <itemPath ex="false">bsp/led1.h</itemPath>
+        <itemPath ex="false">bsp/led2.h</itemPath>
+        <itemPath ex="false">bsp/led3_blue.h</itemPath>
+        <itemPath ex="false">bsp/led3_green.h</itemPath>
+        <itemPath ex="false">bsp/led3_red.h</itemPath>
+        <itemPath ex="false">bsp/rgb_led3.h</itemPath>
+        <itemPath ex="false">bsp/timer_1ms.h</itemPath>
+        <itemPath ex="false">bsp/segmented_lcd.h</itemPath>
+        <itemPath ex="false">power.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
         <itemPath ex="false">mcc_generated_files/spi1_driver.h</itemPath>
         <itemPath ex="false">mcc_generated_files/spi1_types.h</itemPath>
         <itemPath ex="false">mcc_generated_files/uart1.h</itemPath>
         <itemPath ex="false">mcc_generated_files/rtcc.h</itemPath>
       </logicalFolder>
-      <itemPath ex="false">bsp/adc.h</itemPath>
-      <itemPath ex="false">bsp/buttons.h</itemPath>
-      <itemPath ex="false">bsp/timer_1ms.h</itemPath>
       <itemPath ex="false">operational_mode.h</itemPath>
       <itemPath ex="false">usb_operational_mode.h</itemPath>
-      <itemPath ex="false">power.h</itemPath>
-      <itemPath ex="false">bsp/segmented_lcd.h</itemPath>
       <itemPath ex="false">tc77.h</itemPath>
-      <itemPath ex="false">io_pins.h</itemPath>
       <itemPath ex="false">battery_operational_mode.h</itemPath>
       <itemPath ex="false">build_time.h</itemPath>
-      <itemPath ex="false">bsp/rgb_led3.h</itemPath>
-      <itemPath ex="false">bsp/led1.h</itemPath>
-      <itemPath ex="false">bsp/led2.h</itemPath>
-      <itemPath ex="false">bsp/led3_blue.h</itemPath>
-      <itemPath ex="false">bsp/led3_green.h</itemPath>
-      <itemPath ex="false">bsp/led3_red.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -39,27 +43,31 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f2"
+                     displayName="Board Support Package (BSP)"
+                     projectFiles="true">
+        <itemPath ex="false">bsp/adc.c</itemPath>
+        <itemPath ex="false">bsp/buttons.c</itemPath>
+        <itemPath ex="false">io_pins.c</itemPath>
+        <itemPath ex="false">bsp/led3_blue.c</itemPath>
+        <itemPath ex="false">bsp/led3_green.c</itemPath>
+        <itemPath ex="false">bsp/led3_red.c</itemPath>
+        <itemPath ex="false">power.c</itemPath>
+        <itemPath ex="false">bsp/rgb_led3.c</itemPath>
+        <itemPath ex="false">bsp/segmented_lcd.c</itemPath>
+        <itemPath ex="false">bsp/timer_1ms.c</itemPath>
+        <itemPath ex="false">system.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
         <itemPath ex="false">mcc_generated_files/uart1.c</itemPath>
         <itemPath ex="false">mcc_generated_files/spi1_driver.c</itemPath>
         <itemPath ex="false">mcc_generated_files/rtcc.c</itemPath>
       </logicalFolder>
       <itemPath ex="false">main.c</itemPath>
-      <itemPath ex="false">system.c</itemPath>
       <itemPath ex="false">usb_operational_mode.c</itemPath>
-      <itemPath ex="false">power.c</itemPath>
-      <itemPath ex="false">bsp/adc.c</itemPath>
-      <itemPath ex="false">bsp/buttons.c</itemPath>
-      <itemPath ex="false">bsp/segmented_lcd.c</itemPath>
-      <itemPath ex="false">bsp/timer_1ms.c</itemPath>
       <itemPath ex="false">tc77.c</itemPath>
-      <itemPath ex="false">io_pins.c</itemPath>
       <itemPath ex="false">battery_operational_mode.c</itemPath>
       <itemPath ex="false">build_time.c</itemPath>
-      <itemPath ex="false">bsp/rgb_led3.c</itemPath>
-      <itemPath ex="false">bsp/led3_blue.c</itemPath>
-      <itemPath ex="false">bsp/led3_green.c</itemPath>
-      <itemPath ex="false">bsp/led3_red.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -272,6 +280,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
