@@ -58,8 +58,8 @@ bool BUTTON_IsPressed ( BUTTON button )
         case BUTTON_S2:
             return ( ( S2_PORT == BUTTON_PRESSED ) ? true : false ) ;
 
-        case BUTTON_NONE:
-            return false ;
+        default:
+            break;
     }
 
     return false ;
@@ -92,7 +92,7 @@ void BUTTON_Enable ( BUTTON button )
             S2_TRIS = PIN_INPUT ;
             break ;
 
-        case BUTTON_NONE:
+        default:
             break ;
     }
 }

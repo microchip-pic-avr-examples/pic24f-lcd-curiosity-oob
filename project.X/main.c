@@ -21,7 +21,7 @@ limitations under the License.
 #include "battery_operational_mode.h"
 #include "mcc_generated_files/rtcc.h"
 #include "io_pins.h"
-#include "segmented_lcd.h"
+#include "lcd1.h"
 #include "build_time.h"
 
 static void SwitchOperatoinalMode(enum POWER_SOURCE new_source);
@@ -56,7 +56,7 @@ int main(void)
     
     POWER_Initialize();
     IO_PINS_Initialize();
-    SEG_LCD_Initialize();
+    LCD1_Initialize();
 
     RTCC_Initialize();
     

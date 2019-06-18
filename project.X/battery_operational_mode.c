@@ -16,13 +16,14 @@ limitations under the License.
 
 #include "operational_mode.h"
 #include "power.h"
-#include "segmented_lcd.h"
+#include "lcd1.h"
 #include "adc.h"
 #include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
 #include "led1.h"
 #include "led2.h"
 #include "rgb_led3.h"
+#include "lcd_demo.h"
 
 #include <xc.h>
 
@@ -41,7 +42,7 @@ const struct OPERATIONAL_MODE battery_operational_mode = {
 
 static void Initialize(void)
 {        
-    SEG_LCD_LowPowerModeEnable(true);
+    LCD_DEMO_LowPowerModeEnable(true);
     
     TC77_Shutdown();
     
@@ -58,7 +59,7 @@ static void Tasks(void)
     POWER_SetMode(POWER_MODE_LOW);
     
     RTCC_TimeGet(&date_time);
-    SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
+    LCD_DEMO_PrintTime(date_time.tm_hour, date_time.tm_min);
 
     //Enable and configure the ADC so it can sample the battery voltage.
     ADC_SetConfiguration(ADC_CONFIGURATION_DEFAULT);
@@ -104,5 +105,5 @@ static void UpdateBatteryStatusIcon(void)
         battery_status = BATTERY_STATUS_FULL;
     }
     
-    SEG_LCD_SetBatteryStatus(battery_status);
+    LCD_DEMO_SetBatteryStatus(battery_status);
 }

@@ -39,7 +39,7 @@ void LED3_GREEN_On(void)
 
     _RP28R = 18; //18 = OCM3A -> RB4[RP28] (green)
     
-    //Green
+    //Green - uses CCP3-PWM
     CCP3RAL = 0;
     CCP3RBL = current_intensity;
     CCP3PRL = MAXIMUM_INTENSITY;

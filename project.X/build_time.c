@@ -53,6 +53,8 @@ void BUILDTIME_GetBCD(struct tm *dateTime)
                             break;
                     }
                     break;
+                default:
+                    break;
             }
             break;
         case 'F':
@@ -70,6 +72,8 @@ void BUILDTIME_GetBCD(struct tm *dateTime)
                     //May
                     month = 0x05;
                     break;
+                default:
+                    break;
             }
             break;
         case 'A':
@@ -84,6 +88,8 @@ void BUILDTIME_GetBCD(struct tm *dateTime)
                     //August
                     month = 0x08;
                     break;
+                default:
+                    break;
             }
             break;
         case 'S':
@@ -97,6 +103,8 @@ void BUILDTIME_GetBCD(struct tm *dateTime)
             break;
         case 'D':
             month = 0x12;
+            break;
+        default:
             break;
     }
 

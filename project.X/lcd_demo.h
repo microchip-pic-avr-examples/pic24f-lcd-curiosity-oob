@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *******************************************************************************/
 
-#ifndef SEGMENTED_LCD_H
-#define SEGMENTED_LCD_H
+#ifndef LCD_DEMO_H
+#define LCD_DEMO_H
 
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 enum BATTERY_STATUS
 {
@@ -29,15 +29,12 @@ enum BATTERY_STATUS
     BATTERY_STATUS_UNKNOWN
 };
 
-void SEG_LCD_Initialize(void);
-void SEG_LCD_PrintPot(uint16_t value);
-void SEG_LCD_PrintTime(uint8_t hour, uint8_t min);
-void SEG_LCD_PrintTemperature(double temp);
-void SEG_LCD_SetBatteryStatus(enum BATTERY_STATUS status);
-void SEG_LCD_LowPowerModeEnable(bool enabled);
-void SEG_LCD_PrintVoltage(double voltage);
-
-/* Prints "PIC24" and then "LCD" on the screen alternating */
-void SEG_LCD_PrintPIC24(void);
+void LCD_DEMO_PrintPot(uint16_t value);
+void LCD_DEMO_PrintTime(uint8_t hour, uint8_t min);
+void LCD_DEMO_PrintTemperature(double temp);
+void LCD_DEMO_SetBatteryStatus(enum BATTERY_STATUS status);
+void LCD_DEMO_LowPowerModeEnable(bool enabled);
+void LCD_DEMO_PrintVoltage(double voltage);
+void LCD_DEMO_PrintPIC24(void); /* Prints "PIC24" and then "LCD" on the screen alternating */
 
 #endif

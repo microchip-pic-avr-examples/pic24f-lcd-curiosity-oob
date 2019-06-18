@@ -21,8 +21,11 @@
         <itemPath ex="false">bsp/led3_red.h</itemPath>
         <itemPath ex="false">bsp/rgb_led3.h</itemPath>
         <itemPath ex="false">bsp/timer_1ms.h</itemPath>
-        <itemPath ex="false">bsp/segmented_lcd.h</itemPath>
         <itemPath ex="false">power.h</itemPath>
+        <itemPath ex="false">bsp/lcd1.h</itemPath>
+        <itemPath ex="false">bsp/lcd1_16seg.h</itemPath>
+        <itemPath ex="false">bsp/lcd1_7seg.h</itemPath>
+        <itemPath ex="false">bsp/lcd1_segments.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
         <itemPath ex="false">mcc_generated_files/spi1_driver.h</itemPath>
@@ -35,6 +38,7 @@
       <itemPath ex="false">tc77.h</itemPath>
       <itemPath ex="false">battery_operational_mode.h</itemPath>
       <itemPath ex="false">build_time.h</itemPath>
+      <itemPath ex="false">lcd_demo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -54,9 +58,11 @@
         <itemPath ex="false">bsp/led3_red.c</itemPath>
         <itemPath ex="false">power.c</itemPath>
         <itemPath ex="false">bsp/rgb_led3.c</itemPath>
-        <itemPath ex="false">bsp/segmented_lcd.c</itemPath>
         <itemPath ex="false">bsp/timer_1ms.c</itemPath>
         <itemPath ex="false">system.c</itemPath>
+        <itemPath ex="false">bsp/lcd1.c</itemPath>
+        <itemPath ex="false">bsp/lcd1_16seg.c</itemPath>
+        <itemPath ex="false">bsp/lcd1_7seg.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
         <itemPath ex="false">mcc_generated_files/uart1.c</itemPath>
@@ -68,6 +74,7 @@
       <itemPath ex="false">tc77.c</itemPath>
       <itemPath ex="false">battery_operational_mode.c</itemPath>
       <itemPath ex="false">build_time.c</itemPath>
+      <itemPath ex="false">lcd_demo.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -92,7 +99,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC16bit-Development-Only_DFP" vendor="Microchip" version="0.1.56"/>
+        <pack name="PIC16bit-Development-Only_DFP" vendor="Microchip" version="0.1.64"/>
       </packs>
       <compileType>
         <linkerTool>
@@ -280,7 +287,6 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>

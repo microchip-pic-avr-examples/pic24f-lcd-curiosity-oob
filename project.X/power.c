@@ -22,7 +22,7 @@ limitations under the License.
 #define BANDGAP_TYPICAL_VOLTAGE     ((double)1.2)
 
 /* Datasheet of D1 claims 0.240v max. */
-#define DIODE_D1_DROP               ((double)0.22)
+#define DIODE_D1_DROP               ((double)0.24)
 
 void POWER_Initialize(void)
 {

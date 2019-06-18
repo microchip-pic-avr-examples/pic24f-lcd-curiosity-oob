@@ -192,6 +192,9 @@ bool TIMER_SetConfiguration ( TIMER_CONFIGURATIONS configuration )
             IEC0bits.T3IE = 0 ;
             configured = false;
             return true;
+            
+        default:
+            break;
     }
 
     return false;

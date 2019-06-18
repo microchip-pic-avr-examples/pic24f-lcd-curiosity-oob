@@ -39,7 +39,7 @@ void LED3_BLUE_On(void)
     
     _RP7R  = 20; //20 = OCM4A -> RB7[RP7]  (blue)
 
-    //Blue
+    //Blue - uses CCP4-PWM
     CCP4RAL = 0;
     CCP4RBL = current_intensity;
     CCP4PRL = MAXIMUM_INTENSITY;

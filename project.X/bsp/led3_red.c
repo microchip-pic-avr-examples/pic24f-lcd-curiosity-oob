@@ -39,7 +39,7 @@ void LED3_RED_On(void)
 
     _RP27R = 16; //16 = OCM2A -> RG9[RP27] (red)
     
-    //Red
+    //Red - uses CCP2-PWM
     CCP2RAL = 0;
     CCP2RBL = current_intensity;
     CCP2PRL = MAXIMUM_INTENSITY;

@@ -23,10 +23,11 @@ limitations under the License.
 #include "rgb_led3.h"
 #include "timer_1ms.h"
 #include "mcc_generated_files/uart1.h"
-#include "segmented_lcd.h"
+#include "lcd1.h"
 #include "operational_mode.h"
 #include "mcc_generated_files/rtcc.h"
 #include "tc77.h"
+#include "lcd_demo.h"
 
 //------------------------------------------------------------------------------
 //Application related definitions
@@ -129,9 +130,9 @@ static void Initialize(void)
     printf("Potentiometer - controls active RGB color intensity\r\n");
     printf("\r\n");
     
-    SEG_LCD_Initialize();
-    SEG_LCD_LowPowerModeEnable(false);
-    SEG_LCD_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
+    LCD1_Initialize();
+    LCD_DEMO_LowPowerModeEnable(false);
+    LCD_DEMO_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
     
     TC77_Initialize();
 }
@@ -232,23 +233,23 @@ static void UpdateSegmentedLCD(void)
     switch(display_mode)
     {
         case DISPLAY_PIC24:
-            SEG_LCD_PrintPIC24();
+            LCD_DEMO_PrintPIC24();
             break;
 
         case DISPLAY_POT:
-            SEG_LCD_PrintPot(potentiometer>>4);
+            LCD_DEMO_PrintPot(potentiometer>>4);
             break;
 
         case DISPLAY_TIME:
-            SEG_LCD_PrintTime(date_time.tm_hour, date_time.tm_min);
+            LCD_DEMO_PrintTime(date_time.tm_hour, date_time.tm_min);
             break;
 
         case DISPLAY_TEMPERATURE:
-            SEG_LCD_PrintTemperature(temperature);
+            LCD_DEMO_PrintTemperature(temperature);
             break;
 
         default:
-            SEG_LCD_PrintPIC24();
+            LCD_DEMO_PrintPIC24();
             break;
     }
 }
