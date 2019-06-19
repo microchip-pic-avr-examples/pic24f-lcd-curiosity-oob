@@ -61,9 +61,11 @@ void LCD1_ModeSet(enum LCD1_MODE mode)
     {
         case LCD1_MODE_NORMAL:
             _ELCDEN = 0;
+            LCDREFbits.LRLAP = 0x3;
+            LCDREFbits.LRLBP = 0x3;
             break;
             
-        case LCD1_MODE_BLINK:
+        case LCD1_MODE_BLINK_HIGH_POWER:
             _BLINKMODE = 0b01;
             _BLINKFCS = 0b001;
             _DMSEL = 0b00;
@@ -71,6 +73,20 @@ void LCD1_ModeSet(enum LCD1_MODE mode)
             LCDFC0 = 0;
             LCDFC1 = 0x100;
             _ELCDEN = 1;
+            LCDREFbits.LRLAP = 0x3;
+            LCDREFbits.LRLBP = 0x3;
+            break;
+            
+        case LCD1_MODE_BLINK_LOW_POWER:
+            _BLINKMODE = 0b01;
+            _BLINKFCS = 0b001;
+            _DMSEL = 0b00;
+            _SMEMEN = 1;
+            LCDFC0 = 0;
+            LCDFC1 = 0x100;
+            _ELCDEN = 1;
+            LCDREFbits.LRLAP = 0x1;
+            LCDREFbits.LRLBP = 0x1;
             break;
             
         case LCD1_MODE_ALTERNATE:
@@ -82,19 +98,11 @@ void LCD1_ModeSet(enum LCD1_MODE mode)
             _BLINKMODE = 0b00;
             LCDFC0=0x3FF;
             LCDACTRLbits.FCCS=00; // LCD clock source
+            LCDREFbits.LRLAP = 0x3;
+            LCDREFbits.LRLBP = 0x3;
             break;
             
         default:
             break;
     }
-}
-
-void LCD1_LadderAPowerLevelSet(enum LCD1_POWER_LEVEL power_level)
-{
-    LCDREFbits.LRLAP = power_level;
-}
-
-void LCD1_LadderBPowerLevelSet(enum LCD1_POWER_LEVEL power_level)
-{
-    LCDREFbits.LRLBP = power_level;
 }

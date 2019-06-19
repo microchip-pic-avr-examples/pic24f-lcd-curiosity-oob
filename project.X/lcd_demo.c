@@ -20,6 +20,7 @@ limitations under the License.
 #include "bsp/lcd1.h"
 
 static char print_buffer[10];
+static bool low_power = false;
 
 void LCD_DEMO_PrintPIC24(void) 
 {      
@@ -134,7 +135,14 @@ void LCD_DEMO_PrintTime(uint8_t hour, uint8_t minute)
     
     LCD1_Colon_AltOn();
     
-    LCD1_ModeSet(LCD1_MODE_BLINK);
+    if(low_power == true)
+    {
+        LCD1_ModeSet(LCD1_MODE_BLINK_LOW_POWER);
+    }
+    else
+    {
+        LCD1_ModeSet(LCD1_MODE_BLINK_HIGH_POWER);
+    }
 }
 
 void LCD_DEMO_PrintVoltage(double voltage) 
@@ -206,18 +214,7 @@ void LCD_DEMO_SetBatteryStatus(enum BATTERY_STATUS status)
 
 void LCD_DEMO_LowPowerModeEnable(bool low_power_mode_enabled) 
 {   
-    if (low_power_mode_enabled == true) 
-    {
-        LCD1_MoonIcon_On();
-        LCD1_LadderAPowerLevelSet(LCD1_POWER_LEVEL_LOW);
-        LCD1_LadderBPowerLevelSet(LCD1_POWER_LEVEL_LOW);
-    } 
-    else 
-    {
-        LCD1_MoonIcon_Off();
-        LCD1_LadderAPowerLevelSet(LCD1_POWER_LEVEL_HIGH);
-        LCD1_LadderBPowerLevelSet(LCD1_POWER_LEVEL_HIGH);
-    }
+    low_power = low_power_mode_enabled;
 }
 
 void LCD_DEMO_PrintTemperature(double temp) 
