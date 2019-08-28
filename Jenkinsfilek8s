@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
             label 'oob-pic24f-lcd-curiosity'
-			defaultContainer 'citd-xc8-mplabx'
+			defaultContainer 'oob-pic24f-lcd-curiosity'
             yamlFile 'cloudprovider.yml'
         }
     }
