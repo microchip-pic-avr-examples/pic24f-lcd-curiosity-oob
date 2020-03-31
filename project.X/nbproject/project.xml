@@ -3,8 +3,8 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>pic24f_lcd_curiosity_demo</name>
-            <creation-uuid>f872dd69-fd37-4e8d-8248-7ba8522a7ddd</creation-uuid>
+            <name>project</name>
+            <creation-uuid>9c3dadf2-45b9-4217-a433-884c1a80eb1e</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>

@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="66">
+<configurationDescriptor version="65">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="f1" displayName="Documentation" projectFiles="true">
-      <itemPath ex="false">bsp/hardware.txt</itemPath>
-      <itemPath ex="false">../readme.txt</itemPath>
+      <itemPath>bsp/hardware.txt</itemPath>
+      <itemPath>../readme.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <logicalFolder name="f2"
-                     displayName="Board Support Package (BSP)"
+      <logicalFolder name="f2" displayName="Application" projectFiles="true">
+        <itemPath>application/battery_operational_mode.h</itemPath>
+        <itemPath>application/lcd_demo.h</itemPath>
+        <itemPath>application/operational_mode.h</itemPath>
+        <itemPath>application/usb_operational_mode.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="BoardSupportPackage" projectFiles="true">
+        <itemPath>bsp/build_time.h</itemPath>
+        <itemPath>bsp/power.h</itemPath>
+        <itemPath>bsp/tc77.h</itemPath>
+        <itemPath>bsp/timer_1ms.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="MCC Generated Files"
+                     displayName="MCC Generated Files"
                      projectFiles="true">
-        <itemPath ex="false">bsp/adc.h</itemPath>
-        <itemPath ex="false">bsp/buttons.h</itemPath>
-        <itemPath ex="false">io_pins.h</itemPath>
-        <itemPath ex="false">bsp/led1.h</itemPath>
-        <itemPath ex="false">bsp/led2.h</itemPath>
-        <itemPath ex="false">bsp/led3_blue.h</itemPath>
-        <itemPath ex="false">bsp/led3_green.h</itemPath>
-        <itemPath ex="false">bsp/led3_red.h</itemPath>
-        <itemPath ex="false">bsp/rgb_led3.h</itemPath>
-        <itemPath ex="false">bsp/timer_1ms.h</itemPath>
-        <itemPath ex="false">power.h</itemPath>
-        <itemPath ex="false">bsp/lcd1.h</itemPath>
-        <itemPath ex="false">bsp/lcd1_16seg.h</itemPath>
-        <itemPath ex="false">bsp/lcd1_7seg.h</itemPath>
-        <itemPath ex="false">bsp/lcd1_segments.h</itemPath>
+        <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
+        <itemPath>mcc_generated_files/uart1.h</itemPath>
+        <itemPath>mcc_generated_files/clock.h</itemPath>
+        <itemPath>mcc_generated_files/mccp3_compare.h</itemPath>
+        <itemPath>mcc_generated_files/spi1.h</itemPath>
+        <itemPath>mcc_generated_files/adc1.h</itemPath>
+        <itemPath>mcc_generated_files/mcc.h</itemPath>
+        <itemPath>mcc_generated_files/rtcc.h</itemPath>
+        <itemPath>mcc_generated_files/pin_manager.h</itemPath>
+        <itemPath>mcc_generated_files/mccp2_compare.h</itemPath>
+        <itemPath>mcc_generated_files/mccp4_compare.h</itemPath>
+        <itemPath>mcc_generated_files/traps.h</itemPath>
+        <itemPath>mcc_generated_files/system.h</itemPath>
+        <itemPath>mcc_generated_files/lcd.h</itemPath>
+        <itemPath>mcc_generated_files/lcd_segments.h</itemPath>
+        <itemPath>mcc_generated_files/lcd_7seg.h</itemPath>
+        <itemPath>mcc_generated_files/lcd_16seg.h</itemPath>
+        <itemPath>mcc_generated_files/tmr3.h</itemPath>
+        <itemPath>mcc_generated_files/adc_module_features.h</itemPath>
+        <itemPath>mcc_generated_files/red_led.h</itemPath>
+        <itemPath>mcc_generated_files/led_d2.h</itemPath>
+        <itemPath>mcc_generated_files/blue_led.h</itemPath>
+        <itemPath>mcc_generated_files/switch_s2.h</itemPath>
+        <itemPath>mcc_generated_files/rgbled_d3.h</itemPath>
+        <itemPath>mcc_generated_files/potentiometer.h</itemPath>
+        <itemPath>mcc_generated_files/led_d1.h</itemPath>
+        <itemPath>mcc_generated_files/serial.h</itemPath>
+        <itemPath>mcc_generated_files/switch_s1.h</itemPath>
+        <itemPath>mcc_generated_files/green_led.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
-        <itemPath ex="false">mcc_generated_files/spi1_driver.h</itemPath>
-        <itemPath ex="false">mcc_generated_files/spi1_types.h</itemPath>
-        <itemPath ex="false">mcc_generated_files/uart1.h</itemPath>
-        <itemPath ex="false">mcc_generated_files/rtcc.h</itemPath>
-      </logicalFolder>
-      <itemPath ex="false">operational_mode.h</itemPath>
-      <itemPath ex="false">usb_operational_mode.h</itemPath>
-      <itemPath ex="false">tc77.h</itemPath>
-      <itemPath ex="false">battery_operational_mode.h</itemPath>
-      <itemPath ex="false">build_time.h</itemPath>
-      <itemPath ex="false">lcd_demo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -47,39 +61,51 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <logicalFolder name="f2"
-                     displayName="Board Support Package (BSP)"
+      <logicalFolder name="f2" displayName="Application" projectFiles="true">
+        <itemPath>application/battery_operational_mode.c</itemPath>
+        <itemPath>application/lcd_demo.c</itemPath>
+        <itemPath>application/usb_operational_mode.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="BoardSupportPackage" projectFiles="true">
+        <itemPath>bsp/build_time.c</itemPath>
+        <itemPath>bsp/power.c</itemPath>
+        <itemPath>bsp/tc77.c</itemPath>
+        <itemPath>bsp/timer_1ms.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="MCC Generated Files"
+                     displayName="MCC Generated Files"
                      projectFiles="true">
-        <itemPath ex="false">bsp/adc.c</itemPath>
-        <itemPath ex="false">bsp/buttons.c</itemPath>
-        <itemPath ex="false">io_pins.c</itemPath>
-        <itemPath ex="false">bsp/led3_blue.c</itemPath>
-        <itemPath ex="false">bsp/led3_green.c</itemPath>
-        <itemPath ex="false">bsp/led3_red.c</itemPath>
-        <itemPath ex="false">power.c</itemPath>
-        <itemPath ex="false">bsp/rgb_led3.c</itemPath>
-        <itemPath ex="false">bsp/timer_1ms.c</itemPath>
-        <itemPath ex="false">system.c</itemPath>
-        <itemPath ex="false">bsp/lcd1.c</itemPath>
-        <itemPath ex="false">bsp/lcd1_16seg.c</itemPath>
-        <itemPath ex="false">bsp/lcd1_7seg.c</itemPath>
+        <itemPath>mcc_generated_files/spi1.c</itemPath>
+        <itemPath>mcc_generated_files/system.c</itemPath>
+        <itemPath>mcc_generated_files/mccp3_compare.c</itemPath>
+        <itemPath>mcc_generated_files/clock.c</itemPath>
+        <itemPath>mcc_generated_files/adc1.c</itemPath>
+        <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
+        <itemPath>mcc_generated_files/mcc.c</itemPath>
+        <itemPath>mcc_generated_files/pin_manager.c</itemPath>
+        <itemPath>mcc_generated_files/mccp2_compare.c</itemPath>
+        <itemPath>mcc_generated_files/rtcc.c</itemPath>
+        <itemPath>mcc_generated_files/traps.c</itemPath>
+        <itemPath>mcc_generated_files/mccp4_compare.c</itemPath>
+        <itemPath>mcc_generated_files/uart1.c</itemPath>
+        <itemPath>mcc_generated_files/lcd.c</itemPath>
+        <itemPath>mcc_generated_files/lcd_7seg.c</itemPath>
+        <itemPath>mcc_generated_files/lcd_16seg.c</itemPath>
+        <itemPath>mcc_generated_files/tmr3.c</itemPath>
+        <itemPath>mcc_generated_files/red_led.c</itemPath>
+        <itemPath>mcc_generated_files/blue_led.c</itemPath>
+        <itemPath>mcc_generated_files/potentiometer.c</itemPath>
+        <itemPath>mcc_generated_files/rgbled_d3.c</itemPath>
+        <itemPath>mcc_generated_files/serial.c</itemPath>
+        <itemPath>mcc_generated_files/green_led.c</itemPath>
       </logicalFolder>
-      <logicalFolder name="f1" displayName="MCC Generated Files" projectFiles="true">
-        <itemPath ex="false">mcc_generated_files/uart1.c</itemPath>
-        <itemPath ex="false">mcc_generated_files/spi1_driver.c</itemPath>
-        <itemPath ex="false">mcc_generated_files/rtcc.c</itemPath>
-      </logicalFolder>
-      <itemPath ex="false">main.c</itemPath>
-      <itemPath ex="false">usb_operational_mode.c</itemPath>
-      <itemPath ex="false">tc77.c</itemPath>
-      <itemPath ex="false">battery_operational_mode.c</itemPath>
-      <itemPath ex="false">build_time.c</itemPath>
-      <itemPath ex="false">lcd_demo.c</itemPath>
+      <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
-      <itemPath ex="false">Makefile</itemPath>
+      <itemPath>Makefile</itemPath>
+      <itemPath>MyConfig.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -93,13 +119,13 @@
         <targetDevice>PIC24FJ128GL306</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>pkob4hybrid</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.36</languageToolchainVersion>
+        <languageToolchainVersion>1.41</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC16bit-Development-Only_DFP" vendor="Microchip" version="0.1.64"/>
+        <pack name="PIC24F-GL-GU_DFP" vendor="Microchip" version="1.2.16"/>
       </packs>
       <compileType>
         <linkerTool>
@@ -160,7 +186,7 @@
         <property key="optimization-level" value="0"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="SYSTEM_PERIPHERAL_CLOCK=4000000"/>
+        <property key="preprocessor-macros" value=""/>
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
@@ -187,6 +213,9 @@
         <property key="relax" value="false"/>
         <property key="warning-level" value="emit-warnings"/>
       </C30-AS>
+      <C30-CO>
+        <property key="coverage-enable" value=""/>
+      </C30-CO>
       <C30-LD>
         <property key="additional-options-use-response-files" value="false"/>
         <property key="boot-eeprom" value="no_eeprom"/>
@@ -247,7 +276,7 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
-      <ICD3PlatformTool>
+      <pkob4hybrid>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="CLC 1" value="true"/>
@@ -273,7 +302,6 @@
         <property key="RTCC" value="true"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>
-        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER 1" value="true"/>
         <property key="TIMER 2" value="true"/>
         <property key="TIMER 3" value="true"/>
@@ -281,31 +309,37 @@
         <property key="TIMER 5" value="true"/>
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
-        <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="ToolFirmwareOption.UpdateOptions"
+                  value="ToolFirmwareOption.UseLatest"/>
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
+        <property key="communication.interface"
+                  value="${communication.interface.default}"/>
+        <property key="communication.interface.jtag" value="2wire"/>
+        <property key="communication.speed" value="${communication.speed.default}"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="false"/>
+        <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.configurationmemory2" value="true"/>
         <property key="memories.dataflash" value="true"/>
         <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
         <property key="memories.flashdata" value="true"/>
         <property key="memories.id" value="true"/>
-        <property key="memories.instruction.ram" value="true"/>
         <property key="memories.instruction.ram.ranges"
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-15eff"/>
-        <property key="poweroptions.powerenable" value="false"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgmentry.voltage" value="low"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
         <property key="programoptions.preservedataflash" value="false"/>
-        <property key="programoptions.preservedataflash.ranges" value=""/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveeeprom.ranges" value=""/>
         <property key="programoptions.preserveprogram.ranges" value=""/>
@@ -314,10 +348,7 @@
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
-        <property key="programoptions.usehighvoltageonmclr" value="false"/>
-        <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
-      </ICD3PlatformTool>
+      </pkob4hybrid>
     </conf>
   </confs>
 </configurationDescriptor>
