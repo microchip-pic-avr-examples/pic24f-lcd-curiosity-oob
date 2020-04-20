@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>project</name>
+            <name>pic24f-lcd-curiosity-oob</name>
             <creation-uuid>9c3dadf2-45b9-4217-a433-884c1a80eb1e</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
