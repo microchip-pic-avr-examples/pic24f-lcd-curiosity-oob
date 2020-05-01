@@ -1,0 +1,64 @@
+{
+    "metaDataVersion": "1.0.0",
+    "category": "com.microchip.ide.project",
+    "content": {
+        "metaDataVersion": "1.0.0",
+         
+        "name": "com.microchip.mcu8.mplabx.project.myProject",
+        "version": "1.0.0",
+ 
+        "displayName": "PIC24F LCD Curiosity Development Board Out-of-Box Demo",
+        "projectName": "pic24f-lcd-curiosity-oob",
+         
+        "shortDescription": "This is the demo software which runs on PIC24F LCD Curiosity Development Board.",
+         
+        "ide": {
+            "name": "MPLABX",
+            "semverRange": ">=5.35.0"
+        },
+          
+       "compiler": {
+            "name": "XC16",
+            "semverRange": ">=1.50"
+        },
+         
+        "dfp": {
+            "name": "PIC24F_GL_GU_DFP",
+            "semverRange": "^1.3.38"
+        },
+         
+        "configurator": {
+            "name": "MCC",
+            "semverRange": ">=3.85"
+        },
+         
+        "device": {
+            "metaDataVersion": "1.0.0",
+            "category": "com.microchip.portal.contentRef",
+            "content": {
+                "metaDataVersion": "1.0.0",
+                "category": "com.microchip.device",
+                "name": "PIC24FJ128GL306,
+                "versionRange": "*"
+            }
+        },
+         
+        "author": "David Flowers",
+         
+        "subcategories": ["MCC", "LCD", "LED", "POT", "SWITCH", ["Peripherals", "ADC"], ["Peripherals", "MCCP"], ["Peripherals", "UART"]],
+        "peripherals": ["UART",  "CCP","ADCC"],
+        "keywords": ["LCD", "POTENTIOMETER", "LED", "SWITCH", "MCC", "PIC24" ,"CURISOITY"]
+    },
+ 
+    "additionalData": {
+        "longDescription": {
+            "metaDataVersion": "1.0.0",
+            "category": "com.microchip.portal.fileRef",
+            "content": {
+                "metaDataVersion": "1.0.0",
+                "fileName": "./README.md",
+                "mimeType": "text/markdown",
+            }
+        }
+    }
+}
