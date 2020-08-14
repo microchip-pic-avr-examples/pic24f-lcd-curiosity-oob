@@ -1,21 +1,15 @@
-<p align = "left">
-	<img src="images/MicrochipLogo.png" alt="MCHP" style="max-width:40%;">
-</p>
+![image](images/microchip.jpg) 
 
 # PIC24F LCD Curiosity Development Board Out-of-Box Demo
 
-<p align="center">
-   <img src="images/PIC24FLCDCuriosity.png"/>
-</p>
-
-## Introduction
+## Summary
 
 This is the demo software which runs on PIC24F LCD Curiosity Development Board. The PIC24F LCD Curiosity Development Board is a cost-effective, fully integrated 16-bit development platform targeted at first-time users, Makers, and those seeking a feature-rich rapid prototyping board. Refer to https://www.microchip.com/pic24flcdcuriosity for additional details about the board.
 
 
-## Useful Links
+## Related Documentation
 
-- https://www.microchip.com/PIC24FJ128GL306
+- PIC24FJ128GL306 microcontroller https://www.microchip.com/PIC24FJ128GL306
 
 
 ## Hardware Used 
@@ -27,7 +21,7 @@ This is the demo software which runs on PIC24F LCD Curiosity Development Board. 
 - MPLAB® X IDE v5.35 or newer (https://www.microchip.com/mplabx)
 - MPLAB® XC16 v1.50 or newer (https://www.microchip.com/xc)
 
-## Overview
+## Operation
 
 This example has two main modes of operation 
 1. USB powered mode
@@ -63,3 +57,5 @@ The CPU wakes up once a minute in this mode to update the time on the screen. LE
 All the other functionality from the USB mode is disabled.
 
 To measure the power consumption of the board, a meter can be placed between the pins 2 and 3 of jumper J9 (that goes to the battery housing.  To measure the current of the CPU, cut the trace on the bottom of the board under jumper J1 and place a meter between the two pins. 
+
+![image](images/PIC24FLCDCuriosity.jpg)

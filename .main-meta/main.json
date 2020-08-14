@@ -4,7 +4,7 @@
     "content": {
         "metaDataVersion": "1.0.0",
          
-        "name": "com.microchip.mcu8.mplabx.project.myProject",
+        "name": "com.microchip.mplabx.project.pic24f-lcd-curiosity-oob",
         "version": "1.0.0",
  
         "displayName": "PIC24F LCD Curiosity Development Board Out-of-Box Demo",
@@ -43,11 +43,8 @@
             }
         },
          
-        "author": "David Flowers",
-         
-        "subcategories": ["MCC", "LCD", "LED", "POT", "SWITCH", ["Peripherals", "ADC"], ["Peripherals", "MCCP"], ["Peripherals", "UART"]],
-        "peripherals": ["UART",  "CCP","ADCC"],
-        "keywords": ["LCD", "POTENTIOMETER", "LED", "SWITCH", "MCC", "PIC24" ,"CURISOITY"]
+        "peripherals": ["UART", "CCP", "ADCC"],
+        "keywords": ["LCD", "POTENTIOMETER", "LED", "SWITCH", "MCC", "PIC24", "CURISOITY"]
     },
  
     "additionalData": {
