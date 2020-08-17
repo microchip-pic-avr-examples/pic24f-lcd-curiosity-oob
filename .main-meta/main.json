@@ -43,8 +43,20 @@
             }
         },
          
-        "peripherals": ["UART", "CCP", "ADCC"],
-        "keywords": ["LCD", "POTENTIOMETER", "LED", "SWITCH", "MCC", "PIC24", "CURISOITY"]
+        "peripherals": [
+		    "UART",
+			"CCP",
+			"ADCC"
+		],
+        "keywords": [
+		    "LCD", 
+			"POTENTIOMETER", 
+			"LED", 
+			"SWITCH", 
+			"MCC", 
+			"PIC24", 
+			"CURISOITY"
+		]
     },
  
     "additionalData": {
