@@ -45,17 +45,13 @@
          
         "peripherals": [
 		    "UART",
-			"CCP",
-			"ADCC"
+			"MCCP",
+			"ADC",
+			"LCD"
 		],
         "keywords": [
-		    "LCD", 
-			"POTENTIOMETER", 
-			"LED", 
-			"SWITCH", 
-			"MCC", 
-			"PIC24", 
-			"CURISOITY"
+			"PIC24F",
+            "Segmented LCD"			
 		]
     },
  
