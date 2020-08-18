@@ -38,7 +38,7 @@
             "content": {
                 "metaDataVersion": "1.0.0",
                 "category": "com.microchip.device",
-                "name": "PIC24FJ128GL306,
+                "name": "PIC24FJ128GL306",
                 "versionRange": "*"
             }
         },
@@ -62,7 +62,7 @@
             "content": {
                 "metaDataVersion": "1.0.0",
                 "fileName": "./README.md",
-                "mimeType": "text/markdown",
+                "mimeType": "text/markdown"
             }
         }
     }
