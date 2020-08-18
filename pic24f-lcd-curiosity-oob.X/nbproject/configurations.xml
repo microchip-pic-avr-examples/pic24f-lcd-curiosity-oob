@@ -127,6 +127,8 @@
       <packs>
         <pack name="PIC24F-GL-GU_DFP" vendor="Microchip" version="1.2.16"/>
       </packs>
+      <ScriptingSettings>
+      </ScriptingSettings>
       <compileType>
         <linkerTool>
           <linkerLibItems>
