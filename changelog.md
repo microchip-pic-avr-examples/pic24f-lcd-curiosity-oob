@@ -8,4 +8,4 @@ This is the initial release of the out-of-the-box demo software which runs on PI
 * USB powered mode
 * Battery powered mode
 
-**Note:** Refer **readme** about detailed features.
+**Note:** Refer to **README.md** for more details.
