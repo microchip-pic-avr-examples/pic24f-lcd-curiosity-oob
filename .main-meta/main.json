@@ -42,7 +42,8 @@
       ],
       "keywords":[
          "PIC24F",
-         "segmented-lcd"
+         "Segmented LCD",
+		 "LCD"
       ]
    },
    "additionalData":{
