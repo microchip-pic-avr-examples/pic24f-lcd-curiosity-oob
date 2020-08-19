@@ -7,10 +7,10 @@
         "name": "com.microchip.mplabx.project.pic24f-lcd-curiosity-oob",
         "version": "1.0.0",
  
-        "displayName": "PIC24F LCD Curiosity Development Board Out-of-Box Demo",
+        "displayName": "PIC24F LCD Curiosity Development Board Out-of-the-Box Demo",
         "projectName": "pic24f-lcd-curiosity-oob",
          
-        "shortDescription": "This is the demo software which runs on PIC24F LCD Curiosity Development Board.",
+        "shortDescription": "This is the out-of-the-box demo software which runs on PIC24F LCD Curiosity Development Board.",
          
         "ide": {
             "name": "MPLABX",
