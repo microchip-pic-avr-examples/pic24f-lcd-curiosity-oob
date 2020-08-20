@@ -4,7 +4,7 @@
 
 ## Summary
 
-This is the demo software which runs on PIC24F LCD Curiosity Development Board(DM240017). The PIC24F LCD Curiosity Development Board is a cost-effective, fully integrated development platform targeted at first-time users, Makers, and those seeking a feature-rich rapid prototyping board. Refer to https://www.microchip.com/pic24flcdcuriosity for additional details about the board.
+This is the demo software which runs on PIC24F LCD Curiosity Development Board (DM240017). The PIC24F LCD Curiosity Development Board is a cost-effective, fully integrated development platform targeted at first-time users, Makers, and those seeking a feature-rich rapid prototyping board. Refer to https://www.microchip.com/pic24flcdcuriosity for additional details about the board.
 
 
 ## Related Documentation
@@ -21,7 +21,7 @@ This is the demo software which runs on PIC24F LCD Curiosity Development Board(D
 
 - MPLAB® X IDE v5.35 or newer (https://www.microchip.com/mplabx)
 - MPLAB® XC16 v1.50 or newer (https://www.microchip.com/xc)
-- MPLAB® Code Configurator(MCC) v3.95 (https://www.microchip.com/mplab/mplab-code-configurator)
+- MPLAB® Code Configurator(MCC) v3.95 (https://www.microchip.com/mcc)
 
 
 ## Operation
