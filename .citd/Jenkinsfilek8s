@@ -107,6 +107,7 @@ pipeline {
                     
                     String [] topics = jsonObj.content.keywords
                     def asString = topics.join(", ")
+					asString = asString.replace("\n", "").replace(" ", "-").replace("\t", "").replace("\r", "")
 					Boolean visibility =  true
 					if(env.GITHUB_URL == env.GITHUB_PRODUCTION_DEPLOY_URL)
 					{
