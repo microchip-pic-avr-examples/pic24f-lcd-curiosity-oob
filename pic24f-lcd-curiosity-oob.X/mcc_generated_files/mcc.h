@@ -13,11 +13,11 @@
   @Description:
     This file will be removed in future MCC releases. Use system.h instead.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.167.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.30
+        MPLAB             :  MPLAB X v5.40
 */
 
 /*
@@ -44,6 +44,24 @@
 
 #ifndef MCC_H
 #define	MCC_H
+#include <xc.h>
+#include "system.h"
+#include "clock.h"
+#include "pin_manager.h"
+#include <stdint.h>
+#include <stdbool.h>
+
+#include "mccp4_compare.h"
+#include "mccp2_compare.h"
+#include "mccp3_compare.h"
+#include "spi1.h"
+#include "uart1.h"
+#include "interrupt_manager.h"
+#include "traps.h"
+#include "rtcc.h"
+#include "tmr3.h"
+#include "adc1.h"
+#include "lcd.h"
 
 #warning "This file will be removed in future MCC releases. Use system.h instead."
 

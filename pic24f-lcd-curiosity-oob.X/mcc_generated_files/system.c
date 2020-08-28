@@ -13,11 +13,11 @@
   @Description:
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.167.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.30
+        MPLAB             :  MPLAB X v5.40
 */
 
 /*
@@ -67,7 +67,7 @@
 #pragma config OSCIOFCN = ON    //OSC2 Pin Function bit->OSC2 is general purpose digital I/O pin
 #pragma config SOSCSEL = OFF    //SOSC Power Selection Configuration bits->Digital (SCLKI) mode
 #pragma config PLLSS = PLL_PRI    //PLL Secondary Selection Configuration bit->PLL is fed by the Primary oscillator
-#pragma config IOL1WAY = OFF    //Peripheral pin select configuration bit->Allow multiple reconfigurations
+#pragma config IOL1WAY = ON    //Peripheral pin select configuration bit->Allow only one reconfiguration
 #pragma config FCKSM = CSDCMD    //Clock Switching Mode bits->Both Clock switching and Fail-safe Clock Monitor are disabled
 
 // FWDT
@@ -113,27 +113,27 @@
 #include "pin_manager.h"
 #include "clock.h"
 #include "system.h"
-#include "lcd.h"
-#include "uart1.h"
-#include "mccp3_compare.h"
-#include "rtcc.h"
 #include "mccp4_compare.h"
+#include "mccp2_compare.h"
+#include "mccp3_compare.h"
+#include "spi1.h"
+#include "uart1.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "spi1.h"
-#include "adc1.h"
+#include "rtcc.h"
 #include "tmr3.h"
-#include "mccp2_compare.h"
+#include "adc1.h"
+#include "lcd.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     INTERRUPT_Initialize();
     CLOCK_Initialize();
-    MCCP3_COMPARE_Initialize();
     MCCP4_COMPARE_Initialize();
-    LCD_Initialize();
+    MCCP3_COMPARE_Initialize();
     MCCP2_COMPARE_Initialize();
+    LCD_Initialize();
     SPI1_Initialize();
     UART1_Initialize();
     ADC1_Initialize();

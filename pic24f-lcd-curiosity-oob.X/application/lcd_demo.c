@@ -114,14 +114,14 @@ void LCD_DEMO_PrintTime(uint8_t hour, uint8_t minute)
     LCD_CHAR4_Print(print_buffer[1]);
     
     LCD_COLON1_AltOn();
-    LCD_ModeSet(LCD_SELECTED_PIXEL_BLINK);
+    LCD_ModeSet(LCD_COLON_BLINK);
     if(low_power == true)
     {
         LCD_SetPowerMode(LCD_POWER_MODE_LOW);
     }
     else
     {
-        LCD_SetPowerMode(LCD_SELECTED_PIXEL_BLINK);
+        LCD_SetPowerMode(LCD_COLON_BLINK);
     }
 }
 

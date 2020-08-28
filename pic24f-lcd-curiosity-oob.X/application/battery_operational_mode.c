@@ -21,9 +21,9 @@ limitations under the License.
 #include "lcd_demo.h"
 
 #include "tc77.h"
-#include "mcc_generated_files/rgbled_d3.h"
-#include "mcc_generated_files/led_d1.h"
-#include "mcc_generated_files/led_d2.h"
+#include "bsp/rgb_led3.h"
+#include "bsp/led1.h"
+#include "bsp/led2.h"
 #include "mcc_generated_files/rtcc.h"
 #include "mcc_generated_files/pin_manager.h"
 #include "mcc_generated_files/lcd.h"
@@ -47,14 +47,14 @@ static void BatteryModeTasks_Initialize(void)
 {        
     LCD_DEMO_LowPowerModeEnable(true);
     TC77_Shutdown();
-    LED_D1_Off();
-    LED_D2_Off();
-    RGBLED_D3_Off();
+    LED1_Off();
+    LED2_Off();
+    RGB_LED3_Off();
 }
 
 static void BatteryModeTasks(void)
 {
-    LED_D1_On();
+    LED1_On();
     
     POWER_SetMode(POWER_MODE_LOW);
     
@@ -62,13 +62,13 @@ static void BatteryModeTasks(void)
     ADC1_Initialize();
     ANCFGbits.VBGEN3 = 1;
     LCD_DEMO_PrintTime(date_time.tm_hour, date_time.tm_min);
-    LCD_ModeSet(LCD_SELECTED_PIXEL_BLINK);
+    LCD_ModeSet(LCD_COLON_BLINK);
 
     UpdateBatteryStatusIcon();
     
     POWER_SetMode(POWER_MODE_SLEEP);
     
-    LED_D1_Off();
+    LED1_Off();
        
     /* We will be woken up by one of the interrupts that are enabled:
      *  - RTCC (1 time per minute)

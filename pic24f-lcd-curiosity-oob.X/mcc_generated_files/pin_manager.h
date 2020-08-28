@@ -15,11 +15,11 @@
   @Description:
     This source file provides implementations for PIN MANAGER.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.167.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.50
-        MPLAB 	          :  MPLAB X v5.30
+        MPLAB 	          :  MPLAB X v5.40
 */
 
 /*
@@ -511,11 +511,11 @@
   @Example
     <code>
     // Set RC12 high (1)
-    LED_D1_SetHigh();
+    LED_1_SetHigh();
     </code>
 
 */
-#define LED_D1_SetHigh()          (_LATC12 = 1)
+#define LED_1_SetHigh()          (_LATC12 = 1)
 /**
   @Summary
     Sets the GPIO pin, RC12, low using LATC12.
@@ -535,11 +535,11 @@
   @Example
     <code>
     // Set RC12 low (0)
-    LED_D1_SetLow();
+    LED_1_SetLow();
     </code>
 
 */
-#define LED_D1_SetLow()           (_LATC12 = 0)
+#define LED_1_SetLow()           (_LATC12 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RC12, using LATC12.
@@ -559,11 +559,11 @@
   @Example
     <code>
     // Toggle RC12
-    LED_D1_Toggle();
+    LED_1_Toggle();
     </code>
 
 */
-#define LED_D1_Toggle()           (_LATC12 ^= 1)
+#define LED_1_Toggle()           (_LATC12 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RC12.
@@ -585,11 +585,11 @@
     uint16_t portValue;
 
     // Read RC12
-    postValue = LED_D1_GetValue();
+    postValue = LED_1_GetValue();
     </code>
 
 */
-#define LED_D1_GetValue()         _RC12
+#define LED_1_GetValue()         _RC12
 /**
   @Summary
     Configures the GPIO pin, RC12, as an input.
@@ -609,11 +609,11 @@
   @Example
     <code>
     // Sets the RC12 as an input
-    LED_D1_SetDigitalInput();
+    LED_1_SetDigitalInput();
     </code>
 
 */
-#define LED_D1_SetDigitalInput()  (_TRISC12 = 1)
+#define LED_1_SetDigitalInput()  (_TRISC12 = 1)
 /**
   @Summary
     Configures the GPIO pin, RC12, as an output.
@@ -633,11 +633,11 @@
   @Example
     <code>
     // Sets the RC12 as an output
-    LED_D1_SetDigitalOutput();
+    LED_1_SetDigitalOutput();
     </code>
 
 */
-#define LED_D1_SetDigitalOutput() (_TRISC12 = 0)
+#define LED_1_SetDigitalOutput() (_TRISC12 = 0)
 /**
   @Summary
     Sets the GPIO pin, RC15, high using LATC15.
@@ -657,11 +657,11 @@
   @Example
     <code>
     // Set RC15 high (1)
-    LED_D2_SetHigh();
+    LED_2_SetHigh();
     </code>
 
 */
-#define LED_D2_SetHigh()          (_LATC15 = 1)
+#define LED_2_SetHigh()          (_LATC15 = 1)
 /**
   @Summary
     Sets the GPIO pin, RC15, low using LATC15.
@@ -681,11 +681,11 @@
   @Example
     <code>
     // Set RC15 low (0)
-    LED_D2_SetLow();
+    LED_2_SetLow();
     </code>
 
 */
-#define LED_D2_SetLow()           (_LATC15 = 0)
+#define LED_2_SetLow()           (_LATC15 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RC15, using LATC15.
@@ -705,11 +705,11 @@
   @Example
     <code>
     // Toggle RC15
-    LED_D2_Toggle();
+    LED_2_Toggle();
     </code>
 
 */
-#define LED_D2_Toggle()           (_LATC15 ^= 1)
+#define LED_2_Toggle()           (_LATC15 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RC15.
@@ -731,11 +731,11 @@
     uint16_t portValue;
 
     // Read RC15
-    postValue = LED_D2_GetValue();
+    postValue = LED_2_GetValue();
     </code>
 
 */
-#define LED_D2_GetValue()         _RC15
+#define LED_2_GetValue()         _RC15
 /**
   @Summary
     Configures the GPIO pin, RC15, as an input.
@@ -755,11 +755,11 @@
   @Example
     <code>
     // Sets the RC15 as an input
-    LED_D2_SetDigitalInput();
+    LED_2_SetDigitalInput();
     </code>
 
 */
-#define LED_D2_SetDigitalInput()  (_TRISC15 = 1)
+#define LED_2_SetDigitalInput()  (_TRISC15 = 1)
 /**
   @Summary
     Configures the GPIO pin, RC15, as an output.
@@ -779,11 +779,11 @@
   @Example
     <code>
     // Sets the RC15 as an output
-    LED_D2_SetDigitalOutput();
+    LED_2_SetDigitalOutput();
     </code>
 
 */
-#define LED_D2_SetDigitalOutput() (_TRISC15 = 0)
+#define LED_2_SetDigitalOutput() (_TRISC15 = 0)
 /**
   @Summary
     Sets the GPIO pin, RD0, high using LATD0.
@@ -803,11 +803,11 @@
   @Example
     <code>
     // Set RD0 high (1)
-    Switch_S2_SetHigh();
+    SWITCH2_SetHigh();
     </code>
 
 */
-#define Switch_S2_SetHigh()          (_LATD0 = 1)
+#define SWITCH2_SetHigh()          (_LATD0 = 1)
 /**
   @Summary
     Sets the GPIO pin, RD0, low using LATD0.
@@ -827,11 +827,11 @@
   @Example
     <code>
     // Set RD0 low (0)
-    Switch_S2_SetLow();
+    SWITCH2_SetLow();
     </code>
 
 */
-#define Switch_S2_SetLow()           (_LATD0 = 0)
+#define SWITCH2_SetLow()           (_LATD0 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RD0, using LATD0.
@@ -851,11 +851,11 @@
   @Example
     <code>
     // Toggle RD0
-    Switch_S2_Toggle();
+    SWITCH2_Toggle();
     </code>
 
 */
-#define Switch_S2_Toggle()           (_LATD0 ^= 1)
+#define SWITCH2_Toggle()           (_LATD0 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RD0.
@@ -877,11 +877,11 @@
     uint16_t portValue;
 
     // Read RD0
-    postValue = Switch_S2_GetValue();
+    postValue = SWITCH2_GetValue();
     </code>
 
 */
-#define Switch_S2_GetValue()         _RD0
+#define SWITCH2_GetValue()         _RD0
 /**
   @Summary
     Configures the GPIO pin, RD0, as an input.
@@ -901,11 +901,11 @@
   @Example
     <code>
     // Sets the RD0 as an input
-    Switch_S2_SetDigitalInput();
+    SWITCH2_SetDigitalInput();
     </code>
 
 */
-#define Switch_S2_SetDigitalInput()  (_TRISD0 = 1)
+#define SWITCH2_SetDigitalInput()  (_TRISD0 = 1)
 /**
   @Summary
     Configures the GPIO pin, RD0, as an output.
@@ -925,11 +925,11 @@
   @Example
     <code>
     // Sets the RD0 as an output
-    Switch_S2_SetDigitalOutput();
+    SWITCH2_SetDigitalOutput();
     </code>
 
 */
-#define Switch_S2_SetDigitalOutput() (_TRISD0 = 0)
+#define SWITCH2_SetDigitalOutput() (_TRISD0 = 0)
 /**
   @Summary
     Sets the GPIO pin, RD1, high using LATD1.
@@ -949,11 +949,11 @@
   @Example
     <code>
     // Set RD1 high (1)
-    Switch_S1_SetHigh();
+    SWITCH1_SetHigh();
     </code>
 
 */
-#define Switch_S1_SetHigh()          (_LATD1 = 1)
+#define SWITCH1_SetHigh()          (_LATD1 = 1)
 /**
   @Summary
     Sets the GPIO pin, RD1, low using LATD1.
@@ -973,11 +973,11 @@
   @Example
     <code>
     // Set RD1 low (0)
-    Switch_S1_SetLow();
+    SWITCH1_SetLow();
     </code>
 
 */
-#define Switch_S1_SetLow()           (_LATD1 = 0)
+#define SWITCH1_SetLow()           (_LATD1 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RD1, using LATD1.
@@ -997,11 +997,11 @@
   @Example
     <code>
     // Toggle RD1
-    Switch_S1_Toggle();
+    SWITCH1_Toggle();
     </code>
 
 */
-#define Switch_S1_Toggle()           (_LATD1 ^= 1)
+#define SWITCH1_Toggle()           (_LATD1 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RD1.
@@ -1023,11 +1023,11 @@
     uint16_t portValue;
 
     // Read RD1
-    postValue = Switch_S1_GetValue();
+    postValue = SWITCH1_GetValue();
     </code>
 
 */
-#define Switch_S1_GetValue()         _RD1
+#define SWITCH1_GetValue()         _RD1
 /**
   @Summary
     Configures the GPIO pin, RD1, as an input.
@@ -1047,11 +1047,11 @@
   @Example
     <code>
     // Sets the RD1 as an input
-    Switch_S1_SetDigitalInput();
+    SWITCH1_SetDigitalInput();
     </code>
 
 */
-#define Switch_S1_SetDigitalInput()  (_TRISD1 = 1)
+#define SWITCH1_SetDigitalInput()  (_TRISD1 = 1)
 /**
   @Summary
     Configures the GPIO pin, RD1, as an output.
@@ -1071,11 +1071,11 @@
   @Example
     <code>
     // Sets the RD1 as an output
-    Switch_S1_SetDigitalOutput();
+    SWITCH1_SetDigitalOutput();
     </code>
 
 */
-#define Switch_S1_SetDigitalOutput() (_TRISD1 = 0)
+#define SWITCH1_SetDigitalOutput() (_TRISD1 = 0)
 /**
   @Summary
     Sets the GPIO pin, RD2, high using LATD2.

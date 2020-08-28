@@ -3,7 +3,6 @@
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="f1" displayName="Documentation" projectFiles="true">
       <itemPath>bsp/hardware.txt</itemPath>
-      <itemPath>../readme.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -19,6 +18,12 @@
         <itemPath>bsp/power.h</itemPath>
         <itemPath>bsp/tc77.h</itemPath>
         <itemPath>bsp/timer_1ms.h</itemPath>
+        <itemPath>bsp/led1.h</itemPath>
+        <itemPath>bsp/led2.h</itemPath>
+        <itemPath>bsp/led3_blue.h</itemPath>
+        <itemPath>bsp/led3_green.h</itemPath>
+        <itemPath>bsp/led3_red.h</itemPath>
+        <itemPath>bsp/rgb_led3.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -42,16 +47,6 @@
         <itemPath>mcc_generated_files/lcd_16seg.h</itemPath>
         <itemPath>mcc_generated_files/tmr3.h</itemPath>
         <itemPath>mcc_generated_files/adc_module_features.h</itemPath>
-        <itemPath>mcc_generated_files/red_led.h</itemPath>
-        <itemPath>mcc_generated_files/led_d2.h</itemPath>
-        <itemPath>mcc_generated_files/blue_led.h</itemPath>
-        <itemPath>mcc_generated_files/switch_s2.h</itemPath>
-        <itemPath>mcc_generated_files/rgbled_d3.h</itemPath>
-        <itemPath>mcc_generated_files/potentiometer.h</itemPath>
-        <itemPath>mcc_generated_files/led_d1.h</itemPath>
-        <itemPath>mcc_generated_files/serial.h</itemPath>
-        <itemPath>mcc_generated_files/switch_s1.h</itemPath>
-        <itemPath>mcc_generated_files/green_led.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -71,6 +66,11 @@
         <itemPath>bsp/power.c</itemPath>
         <itemPath>bsp/tc77.c</itemPath>
         <itemPath>bsp/timer_1ms.c</itemPath>
+        <itemPath>bsp/buttons.c</itemPath>
+        <itemPath>bsp/led3_blue.c</itemPath>
+        <itemPath>bsp/led3_green.c</itemPath>
+        <itemPath>bsp/led3_red.c</itemPath>
+        <itemPath>bsp/rgb_led3.c</itemPath>
       </logicalFolder>
       <logicalFolder name="MCC Generated Files"
                      displayName="MCC Generated Files"
@@ -92,12 +92,6 @@
         <itemPath>mcc_generated_files/lcd_7seg.c</itemPath>
         <itemPath>mcc_generated_files/lcd_16seg.c</itemPath>
         <itemPath>mcc_generated_files/tmr3.c</itemPath>
-        <itemPath>mcc_generated_files/red_led.c</itemPath>
-        <itemPath>mcc_generated_files/blue_led.c</itemPath>
-        <itemPath>mcc_generated_files/potentiometer.c</itemPath>
-        <itemPath>mcc_generated_files/rgbled_d3.c</itemPath>
-        <itemPath>mcc_generated_files/serial.c</itemPath>
-        <itemPath>mcc_generated_files/green_led.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>
@@ -119,9 +113,9 @@
         <targetDevice>PIC24FJ128GL306</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>noID</platformTool>
+        <platformTool></platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.50</languageToolchainVersion>
+        <languageToolchainVersion>1.41</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

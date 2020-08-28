@@ -19,12 +19,11 @@ limitations under the License.
 #include "timer_1ms.h"
 #include "lcd_demo.h"
 #include "operational_mode.h"
-#include "tc77.h"
-#include "mcc_generated_files/rgbled_d3.h"
-#include "mcc_generated_files/led_d1.h"
-#include "mcc_generated_files/led_d2.h"
-#include "mcc_generated_files/switch_s1.h"
-#include "mcc_generated_files/switch_s2.h"
+#include "bsp/buttons.h"
+#include "bsp/led1.h"
+#include "bsp/led2.h"
+#include "bsp/tc77.h"
+#include "bsp/rgb_led3.h"
 #include "mcc_generated_files/pin_manager.h"
 #include "mcc_generated_files/lcd.h"
 #include "mcc_generated_files/system.h"
@@ -38,10 +37,6 @@ limitations under the License.
 #include "mcc_generated_files/spi1.h"
 #include "mcc_generated_files/uart1.h"
 #include "mcc_generated_files/rtcc.h"
-#include "mcc_generated_files/red_led.h"
-#include "mcc_generated_files/green_led.h"
-#include "mcc_generated_files/blue_led.h"
-#include "mcc_generated_files/serial.h"
 
 //------------------------------------------------------------------------------
 //Application related definitions
@@ -119,11 +114,11 @@ static void USBPowerModeTask_Initialize(void)
     display_mode = DISPLAY_PIC24;
     button_color = BUTTON_COLOR_RED;
     //Configure the pushbutton pins as digital inputs.
-    LED_D1_Off();;
-    LED_D2_Off();
+    LED1_Off();
+    LED2_Off();
     // Set RGB Color
-    RGBLED_D3_ColorSet(red, green, blue);
-    RGBLED_D3_On();
+    RGB_LED3_SetColor(red, green, blue);
+    RGB_LED3_On();
     //Register Timer call back functions
     RegisterTimerCallBackFunctions();
     
@@ -145,10 +140,6 @@ static void USBPowerModeTask_Initialize(void)
 static void PeripheralModules_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    SERIAL_Initialize();
-    RED_LED_Initialize();
-    GREEN_LED_Initialize();
-    BLUE_LED_Initialize();
     CLOCK_Initialize();
     INTERRUPT_Initialize();
     MCCP3_COMPARE_Initialize();
@@ -197,7 +188,7 @@ void USBPowerModeTasks(void)
 static void USBPowerModeTask_Deinitialization(void)
 {
     TIMER_SetConfiguration(TIMER_CONFIGURATION_OFF);
-    RGBLED_D3_Off();
+    RGB_LED3_Off();
 }
 
 static void UpdatePotentiometer(void)
@@ -247,7 +238,7 @@ static void UpdateRGB(void)
             break;
     }
 
-    RGBLED_D3_ColorSet(red, green, blue);
+    RGB_LED3_SetColor(red, green, blue);
 }
 
 static void UpdateUARTPrintout(void)
@@ -359,10 +350,10 @@ static void ButtonS1Debounce(void)
     static uint16_t debounceCounter = 0;
     
     //Sample the button S1 to see if it is currently pressed or not.
-    if(SWITCH_S1_IsPressed())
+    if(!BUTTON_IsPressed(BUTTON_S1))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_D1_On();
+        LED1_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -379,7 +370,7 @@ static void ButtonS1Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_D1_Off();  
+        LED1_Off();  
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".
@@ -398,10 +389,10 @@ static void ButtonS2Debounce(void)
     static uint16_t debounceCounter = 0;
 
     //Sample the button S2 to see if it is currently pressed or not.
-    if(SWITCH_S2_IsPressed())
+    if(!BUTTON_IsPressed(BUTTON_S2))
     {
         //The button is currently pressed.  Turn on the general purpose LED.
-        LED_D2_On();
+        LED2_On();
         
         //Check if the de-bounce blanking interval has been satisfied.  If so,
         //advance the RGB color channel user control selector.
@@ -418,7 +409,7 @@ static void ButtonS2Debounce(void)
     else
     {
         //The button is not currently pressed.  Turn off the LED.
-        LED_D2_Off(); 
+        LED2_Off(); 
         
         //Allow the de-bounce interval timer to count down, until it reaches 0.
         //Once it reaches 0, the button is effectively "re-armed".

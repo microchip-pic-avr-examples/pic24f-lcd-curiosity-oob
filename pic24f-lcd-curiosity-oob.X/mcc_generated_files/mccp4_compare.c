@@ -13,11 +13,11 @@
   @Description
     This header file provides implementations for driver APIs for MCCP4. 
     Generation Information : 
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.167.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.30
+        MPLAB             :  MPLAB X v5.40
 */
 
 /*
@@ -73,8 +73,8 @@ void MCCP4_COMPARE_Initialize (void)
     CCP4CON1H = 0x00;
     //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
     CCP4CON2L = 0x00;
-    //ICGSM Level-Sensitive mode; ICSEL ICM4; AUXOUT Disabled; OCAEN disabled; OCBEN disabled; OENSYNC disabled; 
-    CCP4CON2H = 0x00;
+    //ICGSM Level-Sensitive mode; ICSEL ICM4; AUXOUT Disabled; OCAEN enabled; OCBEN disabled; OENSYNC disabled; 
+    CCP4CON2H = 0x100;
     //DT 0; 
     CCP4CON3L = 0x00;
     //OETRIG disabled; OSCNT None; POLACE disabled; POLBDF disabled; PSSBDF Tri-state; OUTM Steerable single output; PSSACE Tri-state; 
@@ -89,7 +89,7 @@ void MCCP4_COMPARE_Initialize (void)
     CCP4PRL = 0x3FFF;
     //PR 0; 
     CCP4PRH = 0x00;
-    //CMP 0000; 
+    //CMP 0; 
     CCP4RAL = 0x00;
     //CMP 8191; 
     CCP4RBL = 0x1FFF;

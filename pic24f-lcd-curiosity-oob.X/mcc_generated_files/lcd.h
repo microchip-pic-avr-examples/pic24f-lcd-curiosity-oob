@@ -13,11 +13,11 @@
   @Description
     This header file provides APIs for driver for LCD.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.167.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.50
-        MPLAB 	          :  MPLAB X v5.30
+        MPLAB 	          :  MPLAB X v5.40
 */
 
 /*
@@ -79,7 +79,7 @@ enum LCD_MODE
     LCD_BLINK_PRIMARY_MEMORY,
     LCD_BLINK_SECONDARY_MEMORY,
     LCD_MODE_ALTERNATE,
-    LCD_SELECTED_PIXEL_BLINK,
+    LCD_COLON_BLINK,
 };
 
 /** LCD Power Mode Definition
