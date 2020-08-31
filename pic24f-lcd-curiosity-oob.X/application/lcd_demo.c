@@ -121,7 +121,7 @@ void LCD_DEMO_PrintTime(uint8_t hour, uint8_t minute)
     }
     else
     {
-        LCD_SetPowerMode(LCD_COLON_BLINK);
+        LCD_SetPowerMode(LCD_POWER_MODE_HIGH);
     }
 }
 
