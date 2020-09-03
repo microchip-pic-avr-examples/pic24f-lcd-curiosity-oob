@@ -133,7 +133,7 @@ static void USBPowerModeTask_Initialize(void)
     printf("S2 - controls LED2, cycle what is on LCD display\r\n");
     printf("Potentiometer - controls active RGB color intensity\r\n");
     printf("\r\n");
-	LCD_DEMO_LowPowerModeEnable(false);
+	LCD_SetPowerMode(LCD_POWER_MODE_HIGH);
     LCD_DEMO_SetBatteryStatus(BATTERY_STATUS_UNKNOWN);
 }
 

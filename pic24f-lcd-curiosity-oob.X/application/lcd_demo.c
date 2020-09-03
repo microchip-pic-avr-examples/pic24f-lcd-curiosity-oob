@@ -39,7 +39,6 @@ static void LCD_PrintChar(char c, uint8_t location);
 static void LCD_PrintCharAlternate(char c, uint8_t location);
 
 static char print_buffer[10];
-static bool low_power = false;
 
 void LCD_DEMO_PrintPIC24(void) 
 {   
@@ -115,14 +114,6 @@ void LCD_DEMO_PrintTime(uint8_t hour, uint8_t minute)
     
     LCD_COLON1_AltOn();
     LCD_ModeSet(LCD_COLON_BLINK);
-    if(low_power == true)
-    {
-        LCD_SetPowerMode(LCD_POWER_MODE_LOW);
-    }
-    else
-    {
-        LCD_SetPowerMode(LCD_POWER_MODE_HIGH);
-    }
 }
 
 void LCD_DEMO_PrintVoltage(double voltage) 
@@ -195,11 +186,6 @@ void LCD_DEMO_SetBatteryStatus(enum BATTERY_STATUS status)
         default:
             break;
     }
-}
-
-void LCD_DEMO_LowPowerModeEnable(bool low_power_mode_enabled) 
-{
-    low_power = low_power_mode_enabled;
 }
 
 void LCD_DEMO_PrintTemperature(double temp) 

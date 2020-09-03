@@ -113,22 +113,7 @@ void LCD_DEMO_PrintTemperature(double temp);
     BATTERY_STATUS enum value
 */
 void LCD_DEMO_SetBatteryStatus(enum BATTERY_STATUS status);
-/**
-  @Summary
-    This Method sets the LCD in Lower power mode
 
-  @Description
-    This Method sets the LCD in Lower power mode
-
-  @Preconditions
-    None
-  @Returns
-    None
-
-  @Param
-    Boolean value to enable or disable the LCD lower power mode.
-*/
-void LCD_DEMO_LowPowerModeEnable(bool enabled);
 /**
   @Summary
     This method prints the Voltage value on the LCD screen
