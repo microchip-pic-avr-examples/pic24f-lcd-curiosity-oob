@@ -113,9 +113,9 @@
         <targetDevice>PIC24FJ128GL306</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool></platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.41</languageToolchainVersion>
+        <languageToolchainVersion>1.60</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
