@@ -4,7 +4,7 @@ PIC24F LCD Curiosity Development Board
 
 mikroBUS(tm) connections
 ----------------------------------------------------------------
-The PIC24F256GA7 Curiosity Development Board has two mikroBUS 
+The  PIC24F LCD  Curiosity Development Board has two mikroBUS 
 ports.  
 
   +- mikroBUS A pin
