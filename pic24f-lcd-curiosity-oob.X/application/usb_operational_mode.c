@@ -202,7 +202,7 @@ static void UpdatePotentiometer(void)
     //Start Sampling
     ADC1_SoftwareTriggerEnable();
     //ADC sampling delay
-    for(i=0;i<65535;i++)
+    for(i=0;i<10000;i++)
     {
         //Do Nothing
     }
