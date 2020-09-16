@@ -113,25 +113,25 @@
 #include "pin_manager.h"
 #include "clock.h"
 #include "system.h"
-#include "mccp3_compare.h"
-#include "mccp4_compare.h"
-#include "spi1.h"
-#include "rtcc.h"
-#include "tmr3.h"
-#include "mccp2_compare.h"
-#include "adc1.h"
-#include "lcd.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "adc1.h"
+#include "spi1.h"
+#include "mccp2_compare.h"
+#include "mccp4_compare.h"
+#include "mccp3_compare.h"
+#include "rtcc.h"
+#include "lcd.h"
+#include "tmr3.h"
 #include "uart1.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    CLOCK_Initialize();
     INTERRUPT_Initialize();
-    MCCP3_COMPARE_Initialize();
+    CLOCK_Initialize();
     MCCP4_COMPARE_Initialize();
+    MCCP3_COMPARE_Initialize();
     MCCP2_COMPARE_Initialize();
     LCD_Initialize();
     SPI1_Initialize();

@@ -51,16 +51,16 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include "mccp3_compare.h"
-#include "mccp4_compare.h"
-#include "spi1.h"
-#include "rtcc.h"
-#include "tmr3.h"
-#include "mccp2_compare.h"
-#include "adc1.h"
-#include "lcd.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "adc1.h"
+#include "spi1.h"
+#include "mccp2_compare.h"
+#include "mccp4_compare.h"
+#include "mccp3_compare.h"
+#include "rtcc.h"
+#include "lcd.h"
+#include "tmr3.h"
 #include "uart1.h"
 
 #warning "This file will be removed in future MCC releases. Use system.h instead."
