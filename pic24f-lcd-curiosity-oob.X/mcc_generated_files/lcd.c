@@ -108,7 +108,7 @@ void LCD_ModeSet(enum LCD_MODE mode)
                     LCDACTRLbits.BLINKMODE = 0x0000;//Disable Blink Mode
                     LCDASTATbits.DMSEL = 0x0003;//Continuous switch over between primary and secondary memory
                     LCDACTRLbits.SMFCS = 0x0001;
-                    LCDFC0 = 0x0b59;
+                    LCDFC0 = 0x0975;
                     LCDACTRLbits.ELCDEN = 1;//Enable LCD enhanced Mode
                     break;
 
