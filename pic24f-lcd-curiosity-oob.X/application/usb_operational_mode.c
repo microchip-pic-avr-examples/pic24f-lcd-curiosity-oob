@@ -44,7 +44,7 @@ limitations under the License.
 #define BUTTON_DEBOUCE_TIME_MS      20
 #define POTENTIOMETER_ADC_CHANNEL   16
 #define SWITCH_DEBOUNCE_RATE  (uint32_t)1
-#define INFO_PRINTOUT_UPDATE_RATE   (uint32_t)10
+#define INFO_PRINTOUT_UPDATE_RATE   (uint32_t)50
 #define TEMPERATURE_UPDATE_TIMER_RATE    (uint32_t)1000
 #define RED_COLOR_LED_INTENSITY     600
 #define GREEN_COLOR_LED_INTENSITY   300
@@ -96,6 +96,8 @@ static uint16_t green = GREEN_COLOR_LED_INTENSITY;
 static uint16_t blue = BLUE_COLOR_LED_INTENSITY;
 static double temperature;
 static struct tm date_time;
+static uint16_t adc_samples[16];
+static const uint16_t adc_sample_buffer_size = sizeof(adc_samples)/sizeof(uint16_t);
 
 const struct OPERATIONAL_MODE usb_operational_mode = {
     &USBPowerModeTask_Initialize,
@@ -172,17 +174,21 @@ void USBPowerModeTasks(void)
         update_temperature = false;
         temperature = TC77_GetTemperatureCelsius();
     }
+    
     //Update Potentiometer value
     UpdatePotentiometer();
+    
     //Update RGB LED value
     UpdateRGB();
+    
     if(update_printout == true)
     {
         update_printout = false;
         RTCC_TimeGet(&date_time);
         UpdateUARTPrintout();
-        UpdateSegmentedLCD();
     }
+    
+    UpdateSegmentedLCD();
 }
 
 static void USBPowerModeTask_Deinitialization(void)
@@ -193,7 +199,10 @@ static void USBPowerModeTask_Deinitialization(void)
 
 static void UpdatePotentiometer(void)
 {
+    static unsigned int current_sample = 0;
+    uint32_t average = 0;
     volatile uint16_t i=0;
+    
    //Enable ADC module
     ADC1_Enable();
     
@@ -212,8 +221,28 @@ static void UpdatePotentiometer(void)
     {
         //Do Nothing
     }
-    // Get the Potentiometer ADC values 
-    potentiometer = ADC1_ConversionResultGet(channel_AN16);
+    
+    //Fetch an ADC sample from the potentiometer
+    adc_samples[current_sample++] = ADC1_ConversionResultGet(channel_AN16);
+    
+    for(i=0; i<adc_sample_buffer_size; i++)
+    {
+        average += adc_samples[i];
+    }
+    
+    if(current_sample >= adc_sample_buffer_size)
+    {
+        current_sample = 0;
+    }
+    
+    potentiometer = average/adc_sample_buffer_size;
+}
+
+static void UpdatePotentiometerValue(void)
+{
+
+    
+
 }
 
 static void UpdateRGB(void)
@@ -243,29 +272,48 @@ static void UpdateRGB(void)
 
 static void UpdateUARTPrintout(void)
 {
-    printf("\033[8;0f");    //move cursor to row 0, column 0
-    printf("Potentiometer: %i/4095    \r\n", potentiometer>>4);
-    printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
-    printf("Active color: ");
-    switch(button_color)
-    {
-        case BUTTON_COLOR_RED:
-            printf("red  \r\n");
+    static int nextMessage = 0;
+    
+    switch(nextMessage){
+        case 0:
+            printf("\033[8;0f");    //move cursor to row 0, column 0
+            printf("Potentiometer: %i/4095    \r\n", potentiometer);
             break;
-
-        case BUTTON_COLOR_GREEN:
-            printf("green\r\n");
+        case 1:
+            printf("Current color (r,g,b): %i, %i, %i            \r\n", red, green, blue);
             break;
+        case 2:
+            printf("Active color: ");
+            switch(button_color)
+            {
+                case BUTTON_COLOR_RED:
+                    printf("red  \r\n");
+                    break;
 
-        case BUTTON_COLOR_BLUE:
-            printf("blue \r\n");
+                case BUTTON_COLOR_GREEN:
+                    printf("green\r\n");
+                    break;
+
+                case BUTTON_COLOR_BLUE:
+                    printf("blue \r\n");
+                    break;
+
+                default:
+                    break;
+            }
             break;
-
+        case 3:
+            printf("Temperature: %.2f C                                               \r\n", temperature);
+            break;
+        case 4:
+            printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);              
+            break;
         default:
+            nextMessage = -1;
             break;
     }
-    printf("Temperature: %.2f C                                               \r\n", temperature);
-    printf("Date/Time: %04i/%02i/%02i %02i:%02i:%02i", 2000+date_time.tm_year, date_time.tm_mon, date_time.tm_mday, date_time.tm_hour, date_time.tm_min, date_time.tm_sec);              
+
+    nextMessage++;    
 }
 
 static void UpdateSegmentedLCD(void)
