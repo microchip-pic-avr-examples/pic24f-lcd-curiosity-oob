@@ -238,13 +238,6 @@ static void UpdatePotentiometer(void)
     potentiometer = average/adc_sample_buffer_size;
 }
 
-static void UpdatePotentiometerValue(void)
-{
-
-    
-
-}
-
 static void UpdateRGB(void)
 {
     //Use the potentiometer ADC value to set the brightness of the currently
