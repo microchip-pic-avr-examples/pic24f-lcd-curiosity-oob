@@ -1,11 +1,6 @@
-# pic24f-lcd-curiosity-oob v1.0.0
+# pic24f-lcd-curiosity-oob v1.0.1
 ### Release Highlights
 
-This is the initial release of the out-of-the-box demo software which runs on PIC24F LCD Curiosity Development Board.
-
-### Features Added\Updated
-
-* USB powered mode
-* Battery powered mode
+Patch release to fix the issue with discover tool registration.
 
 **Note:** Refer to **README.md** for more details.
