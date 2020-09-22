@@ -9,19 +9,19 @@ This is the demo software which runs on PIC24F LCD Curiosity Development Board (
 
 ## Related Documentation
 
-- PIC24F GU/GL Low Power MCUs: https://www.microchip.com/PIC24F-GU-GL
-- PIC24FJ128GL306 microcontroller https://www.microchip.com/PIC24FJ128GL306
+- PIC24F GU/GL Low Power MCUs (https://www.microchip.com/PIC24F-GU-GL)
+- PIC24FJ128GL306 microcontroller (https://www.microchip.com/PIC24FJ128GL306)
 
 
 ## Hardware Used 
 
-- PIC24F LCD Curiosity Development Board www.microchip.com/pic24flcdcuriosity 
+- PIC24F LCD Curiosity Development Board (https://www.microchip.com/pic24flcdcuriosity) 
 
 ## Software Used 
 
-- MPLAB® X IDE v5.35 or newer https://www.microchip.com/mplabx
-- MPLAB® XC16 v1.50 or newer https://www.microchip.com/xc
-- MPLAB® Code Configurator(MCC) v4.0.1 https://www.microchip.com/mcc
+- MPLAB® X IDE v5.35 or newer (https://www.microchip.com/mplabx)
+- MPLAB® XC16 v1.50 or newer (https://www.microchip.com/xc)
+- MPLAB® Code Configurator(MCC) v4.0.1 (https://www.microchip.com/mcc)
 
 
 ## Operation
@@ -32,7 +32,7 @@ This example has two main modes of operation
 
 ## USB Powered Mode
 
-In USB powered mode, there are four different display modes. Pressing the **S2** button will switch between each of the display modes. To run in USB powered mode, set the jumper J9 position to 1 and 2.
+In USB powered mode, there are four different display modes. Pressing the S2 button will switch between each of the display modes. To run in USB powered mode, set the jumper J9 position to 1 and 2.
 
 In alternate LCD display just toggles between the text "PIC24" and "LCD". This toggling is done automatically by the LCD module using the alternate display mode of the module. LCD module setup with the "PIC24" text in the main display memory and the "LCD" text in the alternate display memory. LCD automatically toggles between the two texts.
 
