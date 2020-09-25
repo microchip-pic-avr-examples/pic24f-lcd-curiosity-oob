@@ -4,7 +4,7 @@
    "content":{
       "metaDataVersion":"1.0.0",
       "name":"com.microchip.mplabx.project.pic24f-lcd-curiosity-oob",
-      "version":"1.0.0",
+      "version":"1.0.1",
       "displayName":"PIC24F LCD Curiosity Development Board Out-of-the-Box Demo",
       "projectName":"pic24f-lcd-curiosity-oob",
       "shortDescription":"This is the out-of-the-box demo software which runs on PIC24F LCD Curiosity Development Board.",
@@ -45,16 +45,5 @@
          "Segmented LCD",
          "LCD"
       ]
-   },
-   "additionalData":{
-      "longDescription":{
-         "metaDataVersion":"1.0.0",
-         "category":"com.microchip.portal.fileRef",
-         "content":{
-            "metaDataVersion":"1.0.0",
-            "fileName":"./README.md",
-            "mimeType":"text/markdown"
-         }
-      }
    }
 }
