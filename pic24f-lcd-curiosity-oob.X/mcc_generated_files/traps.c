@@ -14,7 +14,7 @@
   @Description:
     This source file provides implementations for PIC24 / dsPIC33 / PIC32MM MCUs traps.
     Generation Information : 
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.1
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.70
@@ -129,6 +129,8 @@ void ERROR_HANDLER _NVMError(void)
 /** General Soft Trap Vector**/
 void ERROR_HANDLER _GeneralError(void)
 {
+#ifdef _DMT
     INTCON3bits.DMT = 0;  //Clear the trap flag
     TRAPS_halt_on_error(TRAPS_DMT_ERR);
+#endif
 }

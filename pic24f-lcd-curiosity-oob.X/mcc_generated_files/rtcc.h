@@ -13,7 +13,7 @@
   @Description
     This header file provides APIs for driver for RTCC.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.1
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.70
