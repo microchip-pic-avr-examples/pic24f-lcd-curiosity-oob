@@ -13,11 +13,11 @@
   @Description
     This header file provides implementations for driver APIs for MCCP3. 
     Generation Information : 
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
-        Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.40
+        Compiler          :  XC16 v1.70
+        MPLAB             :  MPLAB X v5.50
 */
 /*
     (c) 2020 Microchip Technology Inc. and its subsidiaries. You may use this

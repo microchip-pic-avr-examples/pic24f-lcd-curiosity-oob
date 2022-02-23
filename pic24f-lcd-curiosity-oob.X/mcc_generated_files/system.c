@@ -13,11 +13,11 @@
   @Description:
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
-        Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.40
+        Compiler          :  XC16 v1.70
+        MPLAB             :  MPLAB X v5.50
 */
 
 /*
@@ -113,17 +113,17 @@
 #include "pin_manager.h"
 #include "clock.h"
 #include "system.h"
-#include "lcd.h"
 #include "adc1.h"
-#include "spi1.h"
 #include "rtcc.h"
+#include "uart1.h"
+#include "interrupt_manager.h"
+#include "traps.h"
+#include "lcd.h"
 #include "tmr3.h"
 #include "mccp2_compare.h"
 #include "mccp3_compare.h"
 #include "mccp4_compare.h"
-#include "interrupt_manager.h"
-#include "traps.h"
-#include "uart1.h"
+#include "spi1.h"
 
 void SYSTEM_Initialize(void)
 {

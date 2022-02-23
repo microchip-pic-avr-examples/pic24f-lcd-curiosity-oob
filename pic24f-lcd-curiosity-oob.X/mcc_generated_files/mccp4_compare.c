@@ -13,11 +13,11 @@
   @Description
     This header file provides implementations for driver APIs for MCCP4. 
     Generation Information : 
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
-        Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.40
+        Compiler          :  XC16 v1.70
+        MPLAB             :  MPLAB X v5.50
 */
 
 /*
@@ -67,9 +67,9 @@ static uint16_t         gMCCP4Mode;
 
 void MCCP4_COMPARE_Initialize (void)
 {
-    // CCPON enabled; MOD Dual Edge Compare; CCSEL disabled; CCPSIDL disabled; TMR32 16 Bit; CCPSLP disabled; TMRPS 1:1; CLKSEL FOSC/2; TMRSYNC disabled; 
+    // CCPON enabled; MOD Dual Edge Compare; CCSEL disabled; CCPSIDL disabled; T32 16 Bit; CCPSLP disabled; TMRPS 1:1; CLKSEL FOSC/2; TMRSYNC disabled; 
     CCP4CON1L = (0x8004 & 0x7FFF); //Disabling CCPON bit
-    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN disabled; IOPS Each Time Base Period Match; SYNC MCCP4 Timer; OPSRC Timer Interrupt Event; 
+    //RTRGEN disabled; ALTSYNC disabled; ONESHOT disabled; TRIGEN disabled; OPS Each Time Base Period Match; SYNC MCCP4 Timer; OPSSRC Timer Interrupt Event; 
     CCP4CON1H = 0x00;
     //ASDGM disabled; SSDG disabled; ASDG 0; PWMRSEN disabled; 
     CCP4CON2L = 0x00;
@@ -79,7 +79,7 @@ void MCCP4_COMPARE_Initialize (void)
     CCP4CON3L = 0x00;
     //OETRIG disabled; OSCNT None; POLACE disabled; POLBDF disabled; PSSBDF Tri-state; OUTM Steerable single output; PSSACE Tri-state; 
     CCP4CON3H = 0x00;
-    //ICDIS disabled; SCEVT disabled; TRSET disabled; ICOV disabled; ASEVT disabled; TRIG disabled; ICGARM disabled; TRCLR disabled; 
+    //ICDIS disabled; SCEVT disabled; TRSET disabled; ICOV disabled; ASEVT disabled; ICGARM disabled; TRCLR disabled; 
     CCP4STATL = 0x00;
     //TMR 0; 
     CCP4TMRL = 0x00;
@@ -90,9 +90,9 @@ void MCCP4_COMPARE_Initialize (void)
     //PR 0; 
     CCP4PRH = 0x00;
     //CMP 0; 
-    CCP4RAL = 0x00;
+    CCP4RA = 0x00;
     //CMP 8191; 
-    CCP4RBL = 0x1FFF;
+    CCP4RB = 0x1FFF;
     //BUF 0; 
     CCP4BUFL = 0x00;
     //BUF 0; 
@@ -151,45 +151,45 @@ void MCCP4_COMPARE_Stop( void )
 
 void MCCP4_COMPARE_SingleCompare16ValueSet( uint16_t value )
 {   
-    CCP4RAL = value;
+    CCP4RA = value;
 }
 
 
 void MCCP4_COMPARE_DualCompareValueSet( uint16_t priVal, uint16_t secVal )
 {
 
-    CCP4RAL = priVal;
+    CCP4RA = priVal;
 
-    CCP4RBL = secVal;
+    CCP4RB = secVal;
 }
 
 void MCCP4_COMPARE_DualEdgeBufferedConfig( uint16_t priVal, uint16_t secVal )
 {
 
-    CCP4RAL = priVal;
+    CCP4RA = priVal;
 
-    CCP4RBL = secVal;
+    CCP4RB = secVal;
 }
 
 void MCCP4_COMPARE_CenterAlignedPWMConfig( uint16_t priVal, uint16_t secVal )
 {
 
-    CCP4RAL = priVal;
+    CCP4RA = priVal;
 
-    CCP4RBL = secVal;
+    CCP4RB = secVal;
 }
 
 void MCCP4_COMPARE_EdgeAlignedPWMConfig( uint16_t priVal, uint16_t secVal )
 {
 
-    CCP4RAL = priVal;
+    CCP4RA = priVal;
 
-    CCP4RBL = secVal;
+    CCP4RB = secVal;
 }
 
 void MCCP4_COMPARE_VariableFrequencyPulseConfig( uint16_t priVal )
 {
-    CCP4RAL = priVal;
+    CCP4RA = priVal;
 }
 
 bool MCCP4_COMPARE_IsCompareCycleComplete( void )
@@ -211,7 +211,7 @@ void MCCP4_COMPARE_TriggerStatusSet( void )
 void MCCP4_COMPARE_TriggerStatusClear( void )
 {
     /* Clears the trigger status */
-    CCP4STATLbits.TRCLR = 0;
+    CCP4STATLbits.TRCLR = 1;
 }
 
 bool MCCP4_COMPARE_SingleCompareStatusGet( void )

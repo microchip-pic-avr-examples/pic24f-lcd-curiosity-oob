@@ -13,11 +13,11 @@
   @Description
     This header file provides implementations for driver APIs for UART1.
     Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
+        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
         Device            :  PIC24FJ128GL306
     The generated drivers are tested against the following:
-        Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.40
+        Compiler          :  XC16 v1.70
+        MPLAB             :  MPLAB X v5.50
 */
 
 /*
@@ -65,8 +65,6 @@ void UART1_Initialize(void)
     U1STA = 0x00;
     // BaudRate = 9600; Frequency = 16000000 Hz; U1BRG 416; 
     U1BRG = 0x1A0;
-    // ADMADDR 0; ADMMASK 0; 
-    U1ADMD = 0x00;
     
     U1MODEbits.UARTEN = 1;   // enabling UART ON bit
     U1STAbits.UTXEN = 1;
