@@ -49,9 +49,6 @@
 
 #include "bsp/power.h"
 #include "application/usb_operational_mode.h"
-#include "mcc_generated_files/red_led.h"
-#include "mcc_generated_files/blue_led.h"
-#include "mcc_generated_files/green_led.h"
 #include "application/battery_operational_mode.h"
 #include "mcc_generated_files/rtcc.h"
 #include "bsp/power.h"
@@ -59,7 +56,6 @@
 #include "bsp/build_time.h"
 #include "mcc_generated_files/system.h"
 #include "mcc_generated_files/lcd_segments.h"
-#include "mcc_generated_files/serial.h"
 
 static void SwitchOperatoinalMode(enum POWER_SOURCE new_source);
 
@@ -92,10 +88,6 @@ int main(void)
     enum POWER_SOURCE new_source;
     
     SYSTEM_Initialize();
-    SERIAL_Initialize();
-    RED_LED_Initialize();
-    GREEN_LED_Initialize();
-    BLUE_LED_Initialize();
     
     LCD_MICROCHIP1_On();
     BUILDTIME_Get(&build_time);
