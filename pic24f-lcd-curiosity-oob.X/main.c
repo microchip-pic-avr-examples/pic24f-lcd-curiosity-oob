@@ -45,22 +45,108 @@
 /**
   Section: Included Files
 */
-#include "mcc_generated_files/system.h"
+#include <stddef.h>
 
-/*
-                         Main application
- */
+#include "bsp/power.h"
+#include "application/usb_operational_mode.h"
+#include "mcc_generated_files/red_led.h"
+#include "mcc_generated_files/blue_led.h"
+#include "mcc_generated_files/green_led.h"
+#include "application/battery_operational_mode.h"
+#include "mcc_generated_files/rtcc.h"
+#include "bsp/power.h"
+#include "application/lcd_demo.h"
+#include "bsp/build_time.h"
+#include "mcc_generated_files/system.h"
+#include "mcc_generated_files/lcd_segments.h"
+#include "mcc_generated_files/serial.h"
+
+static void SwitchOperatoinalMode(enum POWER_SOURCE new_source);
+
+static enum POWER_SOURCE current_source;
+static const struct OPERATIONAL_MODE *operational_mode;
+
+/*******************************************************************************
+  GETTING STARTED
+  -----------------------------------------------------------------------------
+  To run this demo, please refer to the readme.txt file that is provided with
+  this project.  You can find this file attached to the project in the 
+  "Documentation" logical folder in the project view in the IDE.
+  
+  You can also locate the readme.txt file on next to the project folder where
+  this demo was extracted.  
+  
+  The readme.txt contains the details of how to run the demo.
+  
+  There is an additional hardware.txt file also in the "Documentation" logical
+  folder in the project that summarizes the hardware connections of the board.
+  For a more detailed hardware description, please refer to the boards user's 
+  guide for a full schematic at the board website:
+  www.microchip.com/pic24flcdcuriosity 
+ ******************************************************************************/
+
 int main(void)
 {
-    // initialize the device
+    struct tm build_time;
+    
+    enum POWER_SOURCE new_source;
+    
     SYSTEM_Initialize();
-
-    while (1)
+    SERIAL_Initialize();
+    RED_LED_Initialize();
+    GREEN_LED_Initialize();
+    BLUE_LED_Initialize();
+    
+    LCD_MICROCHIP1_On();
+    BUILDTIME_Get(&build_time);
+    RTCC_TimeSet(&build_time);
+    
+    operational_mode = NULL;
+    current_source = POWER_SOURCE_UNKNOWN;
+    new_source = POWER_GetSource();
+    
+    while(1)
     {
-        // Add your application code
+        if(new_source != current_source)
+        {
+            current_source = new_source;
+            SwitchOperatoinalMode(new_source);
+        }
+        do
+        {
+            operational_mode->Tasks();
+            new_source = POWER_GetSource();
+            
+        } while( current_source == new_source );
     }
+    
+    return 0;
+}
 
-    return 1;
+static void SwitchOperatoinalMode(enum POWER_SOURCE new_source)
+{
+    if(operational_mode != NULL)
+    {
+        operational_mode->Deinitialize();
+    }
+    
+    switch(new_source)
+    {
+        case POWER_SOURCE_USB:
+            operational_mode = &usb_operational_mode;
+            break;
+
+        case POWER_SOURCE_BATTERY:
+            operational_mode = &battery_operational_mode;
+            break;
+            
+        default:
+            break;
+    }
+    if(operational_mode != NULL)
+    {
+        operational_mode->Initialize();
+    }
 }
 /**
  End of File
